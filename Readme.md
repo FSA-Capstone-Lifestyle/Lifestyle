@@ -1,9 +1,18 @@
-# NativeBase Expo Template
+# Lifestyle
 
-The official NativeBase template for [Expo](https://docs.expo.io/)
+A fitness tracker app
 
-## Usage
+## Tech Stack
 
-```sh
-expo init my-app --template @native-base/expo-template
-```
+#### Frontend
+
+- [Expo](https://docs.expo.io/)
+- [React Native](https://reactnative.dev/)
+- [NativeBase](https://nativebase.io/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+
+#### Backend
+
+- [Express](https://expressjs.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Sequlize](https://sequelize.org/)
