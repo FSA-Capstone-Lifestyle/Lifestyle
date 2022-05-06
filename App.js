@@ -1,15 +1,15 @@
 // import 'react-native-gesture-handler';
 
 // Import React and Component
-import React from 'react';
+import React from "react";
 
 // Import Navigators from React Navigation
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import { NativeBaseProvider, Text, Box } from 'native-base';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NativeBaseProvider, Text, Box } from "native-base";
 // Import Screens
-import LoginScreen from './components/LoginScreen';
-import RegisterScreen from './components/RegisterScreen';
+import LoginScreen from "./frontend/components/LoginScreen";
+import RegisterScreen from "./frontend/components/RegisterScreen";
 // import LoginScreen from './Screen/LoginScreen';
 // import RegisterScreen from './Screen/RegisterScreen';
 // import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
@@ -23,19 +23,19 @@ const Auth = () => {
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="RegisterScreen"
         component={RegisterScreen}
         options={{
-          title: 'Register', //Set Header Title
+          title: "Register", //Set Header Title
           headerStyle: {
-            backgroundColor: '#307ecc', //Set Header color
+            backgroundColor: "#307ecc", //Set Header color
           },
-          headerTintColor: '#fff', //Set Header text color
+          headerTintColor: "#fff", //Set Header text color
           headerTitleStyle: {
-            fontWeight: 'bold', //Set Header text style
+            fontWeight: "bold", //Set Header text style
           },
         }}
       />
@@ -46,16 +46,16 @@ const Auth = () => {
 const App = () => {
   return (
     <NativeBaseProvider>
-    <NavigationContainer>
-      <Stack.Navigator >
-        {/* Auth Navigator: Include Login and Signup */}
-        <Stack.Screen
-          name="Auth"
-          component={Auth}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {/* Auth Navigator: Include Login and Signup */}
+          <Stack.Screen
+            name="Auth"
+            component={Auth}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </NativeBaseProvider>
   );
 };
