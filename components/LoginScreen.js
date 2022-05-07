@@ -1,18 +1,11 @@
 import React from 'react';
-import { Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, Center,Image,View } from "native-base";
+import { Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, Center,Image,View,Icon} from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
 function LoginScreen({navigation}) {
-  return <Center w="100%">
+  const [show, setShow] = React.useState(false);
+  return <Center w="100%" h="100%" bg='white'>
       <Box safeArea p="2" py="8" w="90%" maxW="290">
-        <Heading size="lg" fontWeight="600" color="coolGray.800" _dark={{
-        color: "warmGray.50"
-      }}>
-          Welcome
-        </Heading>
-        <Heading mt="1" _dark={{
-        color: "warmGray.200"
-      }} color="coolGray.600" fontWeight="medium" size="xs">
-          Sign in to continue!
-        </Heading>
+
         <View style={{alignItems: 'center'}}>
               <Image
                 alt="description of image"
@@ -26,14 +19,14 @@ function LoginScreen({navigation}) {
               />
             </View>
 
-        <VStack space={3} mt="5">
+        <VStack space={3} mt="2">
           <FormControl>
-            <FormControl.Label>Email ID</FormControl.Label>
-            <Input />
+            <FormControl.Label>Email</FormControl.Label>
+            <Input InputLeftElement={<Icon as={<MaterialIcons name="email" />} size={5} ml="2" color="muted.400" />}/>
           </FormControl>
           <FormControl>
             <FormControl.Label>Password</FormControl.Label>
-            <Input type="password" />
+            <Input  type={show ? "text" : "password"} InputRightElement={<Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" onPress={() => setShow(!show)} />} />
             <Link _text={{
             fontSize: "xs",
             fontWeight: "500",
