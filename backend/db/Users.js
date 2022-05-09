@@ -39,6 +39,11 @@ const User = db.define("user", {
     defaultValue:
       "https://i1.wp.com/suiteplugins.com/wp-content/uploads/2019/10/blank-avatar.jpg?ssl=1",
   },
+
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
 User.beforeCreate((user, option) => {
@@ -46,7 +51,7 @@ User.beforeCreate((user, option) => {
   user.setDataValue("password", hash);
 });
 
-User.byToken = async (token) => {
+User.findbyToken = async (token) => {
   try {
     const payload = jwt.verify(token, process.env.JWT);
     const user = await User.findByPk(payload.userId);
