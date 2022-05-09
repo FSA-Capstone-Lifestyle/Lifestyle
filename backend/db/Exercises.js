@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("./database");
 
-const Workout = db.define("workout", {
+const Exercise = db.define("exercise", {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -9,11 +9,12 @@ const Workout = db.define("workout", {
       notEmpty: true,
     },
   },
-  progress: {
-    type: Sequelize.ENUM,
-    values: ["To do", "In progress", "Completed"],
-    defaultValue: "To do",
+  reps: {
+    type: Sequelize.INTEGER,
+  },
+  sets: {
+    type: Sequelize.INTEGER,
   },
 });
 
-module.exports = Workout;
+module.exports = Exercise;
