@@ -18,8 +18,9 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/drawer": "^6.4.1",
+    "@react-navigation/native": "^6.0.10",
     "@react-navigation/stack": "^6.2.1",
     "@reduxjs/toolkit": "^1.8.1",
     "bcrypt": "^5.0.1",
@@ -33,11 +34,11 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
-    "react-native-gesture-handler": "^1.10.2",
-    "react-native-reanimated": "^2.8.0",
-    "react-native-safe-area-context": "^3.2.0",
-    "react-native-screens": "^3.0.0",
-    "react-native-svg": "^12.1.0",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-reanimated": "2.1.0",
+    "react-native-safe-area-context": "3.2.0",
+    "react-native-screens": "~3.0.0",
+    "react-native-svg": "12.1.0",
     "react-native-web": "^0.17.7",
     "sequelize": "^6.19.0"
   },
