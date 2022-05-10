@@ -39,10 +39,10 @@ export const Calendar = () => {
   return (
     <View>
       <View>
-        <Button onPress={showDatepicker} title="Show date picker!" />
+        <Button onPress={showDatepicker} title="Show date" />
       </View>
       <View>
-        <Button onPress={showTimepicker} title="Show time picker!" />
+        <Button onPress={showTimepicker} title="Show time" />
       </View>
       <Text>selected: {date.toLocaleString()}</Text>
       {show && (
