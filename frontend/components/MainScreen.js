@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { Calendar } from "./Calendar";
+import Calendar from "./Calendar";
 
 const MainScreen = () => {
   return (

@@ -2,7 +2,7 @@ import { DateTimePicker } from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { Text, View, Button } from "react-native";
 
-export const Calendar = () => {
+export default Calendar = () => {
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
