@@ -64,13 +64,22 @@ router.put(":/id", requireToken, async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/signin", async (req, res, next) => {
   try {
-    res.status(201).send(await User.create(req.body));
+    res.send({ token: await User.authenticate(req.body) });
   } catch (error) {
     next(error);
   }
 });
+
+// Create user (signup)
+// router.post("/", async (req, res, next) => {
+//   try {
+//     res.status(201).send(await User.create(req.body));
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 router.delete("/:id", requireToken, async (req, res, next) => {
   try {
