@@ -26,6 +26,7 @@
     "@reduxjs/toolkit": "^1.8.1",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "expo": "^41.0.1",
     "expo-cli": "^5.4.3",
     "expo-status-bar": "~1.0.4",
@@ -45,6 +46,7 @@
     "react-native-screens": "~3.0.0",
     "react-native-svg": "12.1.0",
     "react-native-web": "^0.17.7",
+    "react-redux": "^8.0.1",
     "sequelize": "^6.19.0"
   },
   "devDependencies": {

@@ -10,15 +10,18 @@ import { NativeBaseProvider, Text, Box } from "native-base";
 import AuthStack from "./frontend/components/Navigation/AuthStack";
 import AppStack from "./frontend/components/Navigation/AppStack";
 import store from "./frontend/store";
+import { Provider } from "react-redux";
 // Import Screens
 
 const App = () => {
   return (
-    <NativeBaseProvider store={store}>
-      <NavigationContainer>
-        <AppStack />
-        {/* <AuthStack/> */}
-      </NavigationContainer>
+    <NativeBaseProvider>
+      <Provider store={store}>
+        <NavigationContainer>
+          <AppStack />
+          {/* <AuthStack/> */}
+        </NavigationContainer>
+      </Provider>
     </NativeBaseProvider>
   );
 };
