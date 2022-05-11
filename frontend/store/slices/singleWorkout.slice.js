@@ -30,7 +30,7 @@ const workoutSlice = createSlice({
       state.isLoading = true;
     },
     [fetchWorkout.fulfilled]: (state, action) => {
-      state.user = action.payload;
+      state.workout = action.payload;
       state.isSuccess = true;
     },
     [fetchWorkout.rejected]: (state) => {
