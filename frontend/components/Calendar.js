@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { getWeekDaysThunk } from "../store/calendarStore";
+import { getWeekDaysThunk } from "../store/slices/calendarStore.slice";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { isSameDay } from "date-fns";
+import { useSelector } from "react-redux";
 
 const Calendar = (props) => {
   const [week, setWeek] = useState([]);
+  const dispatch = useDispatch();
 
   let date = new Date();
 
   useEffect(() => {
-    props.fetchWeek(date);
-    setWeek(props.week);
+    const { week } = useSelector((state) => state.calendar);
+    dispatch(getWeekDaysThunk(date));
+    setWeek(week);
   }, [date]);
 
   return (
@@ -72,12 +75,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (reduxState) => ({
-  week: reduxState.week,
-});
+// const mapStateToProps = (reduxState) => ({
+//   week: reduxState.calendar,
+// });
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchWeek: (date) => dispatch(getWeekDaysThunk(date)),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   fetchWeek: (date) => dispatch(getWeekDaysThunk(date)),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
+// export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
+
+export default Calendar;
