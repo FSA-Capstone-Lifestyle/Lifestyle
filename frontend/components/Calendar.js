@@ -1,59 +1,83 @@
-import { DateTimePicker } from "@react-native-community/datetimepicker";
-import React, { useState } from "react";
-import { Text, View, Button } from "react-native";
+import React, { useEffect, useState } from "react";
+import { getWeekDaysThunk } from "../store/calendarStore";
+import { StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { isSameDay } from "date-fns";
 
-export default Calendar = () => {
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
-  const [text, setText] = useState(`Empty`);
+const Calendar = (props) => {
+  const [week, setWeek] = useState([]);
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
-    setShow(false);
-    setDate(currentDate);
+  let date = new Date();
 
-    let tempDate = new Date(currentDate);
-    let fDate =
-      tempDate.getDate() +
-      "/" +
-      (tempDate.getMonth() + 1) +
-      "/" +
-      tempDate.getFullYear();
-    setText(fDate);
-  };
-
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode("date");
-  };
-
-  const showTimepicker = () => {
-    showMode("time");
-  };
+  useEffect(() => {
+    props.fetchWeek(date);
+    setWeek(props.week);
+  }, [date]);
 
   return (
-    <View>
-      <View>
-        <Button onPress={showDatepicker} title="Show date" />
-      </View>
-      <View>
-        <Button onPress={showTimepicker} title="Show time" />
-      </View>
-      <Text>selected: {date.toLocaleString()}</Text>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={mode}
-          is24Hour={true}
-          onChange={onChange}
-        />
-      )}
+    <View style={styles.container}>
+      {week.map((weekDay) => {
+        const textStyles = [styles.label];
+        const touchable = [styles.touchable];
+        const sameDay = isSameDay(weekDay.date, date);
+
+        if (sameDay) {
+          textStyles.push(styles.selectedLabel);
+          touchable.push(styles.selectedTouchable);
+        }
+
+        return (
+          <View style={styles.weekDayItem} key={weekDay.formatted}>
+            <Text style={styles.weekDayText}>{weekDay.formatted}</Text>
+            <TouchableOpacity style={touchable}>
+              <Text style={textStyles}>{weekDay.day}</Text>
+            </TouchableOpacity>
+          </View>
+        );
+      })}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 10,
+  },
+  weekDayText: {
+    color: "gray",
+    marginBottom: 5,
+  },
+  label: {
+    fontSize: 14,
+    color: "black",
+    textAlign: "center",
+  },
+  selectedLabel: {
+    color: "green",
+  },
+  touchable: {
+    borderRadius: 20,
+    padding: 7.5,
+    height: 35,
+    width: 35,
+  },
+  selectedTouchable: {
+    backgroundColor: "yellow",
+  },
+  weekDayItem: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
+
+const mapStateToProps = (reduxState) => ({
+  week: reduxState.week,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchWeek: (date) => dispatch(getWeekDaysThunk(date)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
