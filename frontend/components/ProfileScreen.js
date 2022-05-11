@@ -12,7 +12,7 @@ const ProfileScreen = ({navigation}) => {
         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
         <View style={{flexDirection:'row',marginTop:15}}>
           <Avatar.Image source={require('../../assets/profile.jpg')}
-          size={80}/>
+          size={75}/>
 
           <View style={{marginLeft:20}}>
             <Title style={styles.title}>John Doe</Title>

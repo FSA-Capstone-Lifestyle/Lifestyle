@@ -20,7 +20,7 @@ function ProfileStackScreen(){
     <ProfileStack.Navigator initialRouteName="ProfileScreen">
       <ProfileStack.Screen name='ProfileScreen' component={ProfileScreen} options={{headerShown:false}}/>
       <ProfileStack.Screen name='EditProfileScreen' component={EditProfileScreen} options={{
-          title: "",
+          title: " ",
         }} />
     </ProfileStack.Navigator>
 
