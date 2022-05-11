@@ -51,7 +51,7 @@ User.beforeCreate((user, option) => {
   user.setDataValue("password", hash);
 });
 
-User.findbyToken = async (token) => {
+User.findByToken = async (token) => {
   try {
     const payload = jwt.verify(token, process.env.JWT);
     const user = await User.findByPk(payload.userId);

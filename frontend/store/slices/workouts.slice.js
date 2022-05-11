@@ -12,7 +12,7 @@ export const fetchWorkouts = createAsyncThunk(
   "workouts/fetchWorkouts",
   async (id = null, { rejectWithValue }) => {
     try {
-      const response = await axios.get("/api/workouts");
+      const response = await axios.get("http://localhost:1337/api/workouts");
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);

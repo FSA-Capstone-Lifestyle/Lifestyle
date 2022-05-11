@@ -1,4 +1,4 @@
-const router = require("express");
+const router = require("express").Router();
 const User = require("../db/Users");
 
 const requireToken = async (req, res, next) => {
@@ -86,4 +86,4 @@ router.delete("/:id", requireToken, async (req, res, next) => {
   }
 });
 
-router.module.exports = router;
+module.exports = router;
