@@ -38,7 +38,7 @@ export const updateWorkout = createAsyncThunk(
     try {
       const { formData, workout } = formInfo;
       const { id } = workout;
-      const res = await axios.put(`/api/workoutss/${id}`, formData);
+      const res = await axios.put(`/api/workouts/${id}`, formData);
       return res.data;
     } catch (error) {
       console.log("Can't update workout", error);
