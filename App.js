@@ -15,14 +15,6 @@ import { Provider } from "react-redux";
 
 const App = () => {
   return (
-<<<<<<< HEAD
-    <NativeBaseProvider store={store}>
-      <NavigationContainer>
-        <AppStack />
-        {/* <AuthStack/> */}
-      </NavigationContainer>
-
-=======
     <NativeBaseProvider>
       <Provider store={store}>
         <NavigationContainer>
@@ -30,7 +22,6 @@ const App = () => {
           {/* <AuthStack/> */}
         </NavigationContainer>
       </Provider>
->>>>>>> ea5921264d0a759b6ac8294a8fcb602ada3d659c
     </NativeBaseProvider>
   );
 };
