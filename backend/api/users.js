@@ -1,4 +1,4 @@
-const router = require("express");
+const router = require("express").Router();
 const User = require("../db/Users");
 
 const requireToken = async (req, res, next) => {
@@ -64,23 +64,6 @@ router.put(":/id", requireToken, async (req, res, next) => {
   }
 });
 
-router.post("/signin", async (req, res, next) => {
-  try {
-    res.send({ token: await User.authenticate(req.body) });
-  } catch (error) {
-    next(error);
-  }
-});
-
-// Create user (signup)
-// router.post("/", async (req, res, next) => {
-//   try {
-//     res.status(201).send(await User.create(req.body));
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
 router.delete("/:id", requireToken, async (req, res, next) => {
   try {
     if (req.user.id == req.params.id || req.user.dataValues.isAdmin) {
@@ -95,4 +78,4 @@ router.delete("/:id", requireToken, async (req, res, next) => {
   }
 });
 
-router.module.exports = router;
+module.exports = router;

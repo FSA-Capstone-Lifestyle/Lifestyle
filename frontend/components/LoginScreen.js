@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Text,
@@ -15,28 +15,24 @@ import {
   View,
   Icon,
 } from "native-base";
+import { TextInput } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { authenticate, me } from "../store/slices/auth.slice";
 function LoginScreen({ navigation }) {
   const [show, setShow] = React.useState(false);
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
   const [errortext, setErrortext] = useState("");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(me());
+  }, []);
 
-  const handleSubmit = (credentials) => {
-    // console.log(userEmail,userPassword)
-    axios
-      .post("/api/users/signin", credentials)
-      .then((response) => {
-        console.log(response.data);
-        const result = response.data;
-
-        navigation.navigate("MainScreen", { ...response.data });
-      })
-      .catch((error) => {
-        console.log(error.JSON());
-        displayErrors(error);
-      });
+  const handleSubmit = () => {
+    dispatch(authenticate({ email, password }));
   };
   const displayErrors = (error) => {
     //return errortext.map((error,index) =><p key={index}>{error.message}</p>)
@@ -63,7 +59,7 @@ function LoginScreen({ navigation }) {
         <VStack space={3} mt="2">
           <FormControl>
             <FormControl.Label>Email</FormControl.Label>
-            <Input
+            <TextInput
               size="md"
               InputLeftElement={
                 <Icon
@@ -73,12 +69,14 @@ function LoginScreen({ navigation }) {
                   color="muted.400"
                 />
               }
-              onChangeText={(e) => setUserEmail(e)}
+              onChangeText={(e) =>
+                setUserData((prevState) => ({ ...prevState, email: e }))
+              }
             />
           </FormControl>
           <FormControl>
             <FormControl.Label>Password</FormControl.Label>
-            <Input
+            <TextInput
               size="md"
               type={show ? "text" : "password"}
               InputRightElement={
@@ -94,7 +92,9 @@ function LoginScreen({ navigation }) {
                   onPress={() => setShow(!show)}
                 />
               }
-              onChangeText={(e) => setUserPassword(e)}
+              onChangeText={(e) =>
+                setUserData((prevState) => ({ ...prevState, password: e }))
+              }
             />
             {errortext != "" ? (
               <FormControl.ErrorMessage
@@ -117,9 +117,11 @@ function LoginScreen({ navigation }) {
           </FormControl>
 
           <Button
+            onClick={() => {
+              handleSubmit;
+            }}
             mt="2"
             colorScheme="indigo"
-            onPress={() => handleSubmit({ userEmail, userPassword })}
           >
             Sign in
           </Button>

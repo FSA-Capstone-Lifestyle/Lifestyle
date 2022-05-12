@@ -1,17 +1,24 @@
 const path = require("path");
 const express = require("express");
+const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
 module.exports = app;
 
 // logging middleware
 app.use(morgan("dev"));
-
+app.use(cors());
 // body parsing middleware
 app.use(express.json());
 
+app.get("/", function (req, res, next) {
+  res.json({ msg: "This is CORS-enabled for all origins!" });
+});
+
 // auth and api routes
+app.use("/api/user", require("./api/users"));
 app.use("/api/workouts", require("./api/workoutRoutes"));
+app.use("/auth", require("./api/auth"));
 
 app.get("/", (req, res) =>
   res.sendFile(path.join(__dirname, "..", "public/index.html"))
