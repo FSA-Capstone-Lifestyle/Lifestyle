@@ -1,25 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { getWeekDaysThunk } from "../store/slices/calendarStore.slice";
-import { StyleSheet, View } from "react-native";
+// import { setWeek } from "../store/slices/calendarStore.slice";
+import { StyleSheet, View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { isSameDay } from "date-fns";
 import { useSelector, useDispatch } from "react-redux";
+import { startOfWeek, addDays, getDate, format } from "date-fns";
 
 const Calendar = (props) => {
   // const [week, setWeek] = useState([]);
   const dispatch = useDispatch();
-  const { week } = useSelector((state) => state.calendar);
+  //const { week } = useSelector((state) => state.calendar);
 
-  let date = new Date();
+  const week = [];
 
-  useEffect(() => {
-    dispatch(getWeekDaysThunk(date));
-    // setWeek(week);
-  }, [date]);
+  for (let i = 0; i < 7; i++) {
+    let date = new Date();
+    const start = startOfWeek(date, { weekStartsOn: 1 });
+    date = addDays(start, i);
+    week.push({
+      formatted: format(date, "EEE"),
+      date,
+      day: getDate(date),
+    });
+  }
+
+  // useEffect(() => {
+  //   dispatch(setWeek(date));
+  //   // setWeek(week);
+  // }, [date]);
 
   return (
     <View style={styles.container}>
       {week.map((weekDay) => {
+        let date = new Date();
         const textStyles = [styles.label];
         const touchable = [styles.touchable];
         const sameDay = isSameDay(weekDay.date, date);

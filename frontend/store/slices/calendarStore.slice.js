@@ -29,7 +29,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // export const getWeekDaysThunk = (date) => {
 //   return function (dispatch) {
-//     const start = startOfWeek(date, { weekStartsOn: 1 });
+// const start = startOfWeek(date, { weekStartsOn: 1 });
 
 //     const final = [];
 
@@ -55,21 +55,21 @@ import { createSlice } from "@reduxjs/toolkit";
 //   }
 // }
 
-export const getWeekDaysThunk = (date) => {
-  const start = startOfWeek(date, { weekStartsOn: 1 });
+// export const getWeekDaysThunk = (date) => {
+//   const start = startOfWeek(date, { weekStartsOn: 1 });
 
-  const final = [];
+//   const final = [];
 
-  for (let i = 0; i < 7; i++) {
-    const date = addDays(start, i);
-    final.push({
-      formatted: format(date, "EEE"),
-      date,
-      day: getDate(date),
-    });
-    return final;
-  }
-};
+//   for (let i = 0; i < 7; i++) {
+//     const date = addDays(start, i);
+//     final.push({
+//       formatted: format(date, "EEE"),
+//       date,
+//       day: getDate(date),
+//     });
+//     return final;
+//   }
+// };
 
 const initialState = {
   week: [],
@@ -79,10 +79,29 @@ const calendarSlice = createSlice({
   name: "calendar",
   initialState,
   reducers: {
-    setWeek: (state, action) => {
-      state.week = action.payload;
+    setWeek: {
+      reducer: (state, action) => {
+        state.week = action.payload;
+      },
+      prepare: (date) => {
+        const start = startOfWeek(date, { weekStartsOn: 1 });
+
+        const final = [];
+
+        for (let i = 0; i < 7; i++) {
+          const date = addDays(start, i);
+          final.push({
+            formatted: format(date, "EEE"),
+            date,
+            day: getDate(date),
+          });
+          console.log(final);
+          return { payload: final };
+        }
+      },
     },
   },
 });
 
 export const calendarReducer = calendarSlice.reducer;
+export const { setWeek } = calendarSlice.actions;
