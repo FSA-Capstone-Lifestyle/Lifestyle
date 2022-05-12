@@ -9,11 +9,11 @@ const EditProfileScreen = () => {
                                    email: '',
                                    phoneNumber: '',})
   const [errortext,setErrortext] = useState([]);
-  console.log(userData,errortext);
+
 
   const handleSubmit = ({firstName,lastName,email,phoneNumber}) => {
     setErrortext([])
-    console.log('handleSubmit',firstName,lastName,email,phoneNumber)
+
     if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
       {
         setErrortext([{message : 'You have entered an invalid email address! \n'}])
