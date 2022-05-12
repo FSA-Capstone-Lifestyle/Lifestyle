@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import logger from "redux-logger";
 import { authReducer } from "./slices/auth.slice";
 import { userReducer } from "./slices/singleUser.slice";
 import { workoutReducer } from "./slices/singleWorkout.slice";
@@ -15,7 +16,7 @@ const reducer = {
 
 const store = configureStore({
   reducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(logger),
 });
 
 export default store;

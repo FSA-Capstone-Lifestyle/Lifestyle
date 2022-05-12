@@ -2,9 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 
-const TOKEN = async function save(key, value) {
-  await SecureStore.setItemAsync(key, value);
-};
+// const TOKEN = async function save(key, value) {
+//   await SecureStore.setItemAsync(key, value);
+// };
+
+const TOKEN = "token";
 
 const initialState = {
   user: {},
@@ -34,15 +36,16 @@ export const register = createAsyncThunk(
 );
 
 export const authenticate = createAsyncThunk(
-  "auth/signin",
+  "auth/authenticate",
   async (formInfo, { dispatch, rejectWithValue }) => {
     try {
       const { email, password } = formInfo;
-      const res = await axios.post(`/auth/signin`, {
+      const res = await axios.post(`http://localhost:1337/auth/signin`, {
         email,
         password,
       });
-      SecureStore.setItemAsync(TOKEN, res.data.token);
+      await SecureStore.setItemAsync(TOKEN, JSON.stringify(res.data.token));
+
       return dispatch(me());
     } catch (error) {
       console.error(error);
@@ -52,7 +55,8 @@ export const authenticate = createAsyncThunk(
 );
 
 export const me = createAsyncThunk("auth/me", async () => {
-  const token = SecureStore.getItemAsync(TOKEN);
+  const token = await SecureStore.getItemAsync(TOKEN);
+  console.log("this is the token", token);
   if (token) {
     const res = await axios.get("/auth/me", {
       headers: {

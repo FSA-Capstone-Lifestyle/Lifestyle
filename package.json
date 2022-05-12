@@ -11,7 +11,7 @@
   "license": "MIT",
   "scripts": {
     "start": "expo start",
-    "start:server": "nodemon backend",
+    "start:server": "JWT=somewherekey nodemon backend",
     "seed": "node seed.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -54,6 +54,7 @@
     "react-native-svg": "12.1.0",
     "react-native-web": "^0.17.7",
     "react-redux": "^8.0.1",
+    "redux-logger": "^3.0.6",
     "sequelize": "^6.19.0"
   },
   "devDependencies": {

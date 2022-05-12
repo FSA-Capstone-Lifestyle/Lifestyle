@@ -32,7 +32,9 @@ function LoginScreen({ navigation }) {
   }, []);
 
   const handleSubmit = () => {
-    dispatch(authenticate({ email, password }));
+    dispatch(
+      authenticate({ email: userData.email, password: userData.password })
+    );
   };
   const displayErrors = (error) => {
     //return errortext.map((error,index) =><p key={index}>{error.message}</p>)
@@ -117,8 +119,8 @@ function LoginScreen({ navigation }) {
           </FormControl>
 
           <Button
-            onClick={() => {
-              handleSubmit;
+            onPress={() => {
+              handleSubmit();
             }}
             mt="2"
             colorScheme="indigo"
