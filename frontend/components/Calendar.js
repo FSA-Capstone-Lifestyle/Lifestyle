@@ -3,18 +3,18 @@ import { getWeekDaysThunk } from "../store/slices/calendarStore.slice";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { isSameDay } from "date-fns";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const Calendar = (props) => {
-  const [week, setWeek] = useState([]);
+  // const [week, setWeek] = useState([]);
   const dispatch = useDispatch();
+  const { week } = useSelector((state) => state.calendar);
 
   let date = new Date();
 
   useEffect(() => {
-    const { week } = useSelector((state) => state.calendar);
     dispatch(getWeekDaysThunk(date));
-    setWeek(week);
+    // setWeek(week);
   }, [date]);
 
   return (
