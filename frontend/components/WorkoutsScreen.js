@@ -14,7 +14,7 @@ const WorkoutsScreen = () => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       {workouts.map((workout) => (
-        <Text>Workout: {workout.name}</Text>
+        <Text key={workout.id}>Workout: {workout.name}</Text>
       ))}
     </View>
   );
