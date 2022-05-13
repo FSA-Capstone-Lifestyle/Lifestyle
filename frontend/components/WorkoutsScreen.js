@@ -11,8 +11,10 @@ const WorkoutsScreen = () => {
   }, []);
 
   const { workouts } = useSelector((state) => state.workouts);
+  console.log(workouts)
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+
       {workouts.map((workout) => (
         <Text>Workout: {workout.name}</Text>
       ))}
