@@ -65,7 +65,7 @@ function RegisterScreen() {
           Sign up to continue!
         </Heading>
         <VStack space={3} mt="5">
-          <Form onSubmit={handleSubmit}>
+
             <FormControl>
               <FormControl.Label>First Name</FormControl.Label>
               <Input
@@ -153,10 +153,10 @@ function RegisterScreen() {
                 name="password"
               />
             </FormControl>
-            <Button type="submit" mt="2" colorScheme="indigo">
+            <Button  mt="2" colorScheme="indigo">
               Sign up
             </Button>
-          </Form>
+
         </VStack>
       </Box>
     </Center>

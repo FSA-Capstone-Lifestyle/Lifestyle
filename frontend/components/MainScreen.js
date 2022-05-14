@@ -19,8 +19,8 @@ const MainScreen = () => {
         <Calendar />
       </View>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        {workouts.map((workout) => (
-          <Text>Workout: {workout.name}</Text>
+        {workouts.map((workout,index) => (
+          <Text key={index}>Workout: {workout.name}</Text>
         ))}
       </View>
     </View>
