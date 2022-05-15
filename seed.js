@@ -2,6 +2,8 @@ const { db } = require("./backend/db");
 const User = require("./backend/db/Users");
 const Workout = require("./backend/db/Workouts");
 const Exercise = require("./backend/db/Exercises");
+const Diet = require("./backend/db/Diets");
+const Meal = require("./backend/db/Meals");
 
 const users = [
   {
@@ -45,6 +47,32 @@ const exercises = [
   { name: "sit-ups", sets: 4, reps: 10, workoutId: 2 },
 ];
 
+const diets = [
+  {
+    name: "mediterranean plan",
+  },
+  {
+    name: "ketogenic plan",
+  },
+];
+
+const meals = [
+  {
+    mealType: "Breakfast",
+    name: "Greek yogurt with strawberries and chia seeds",
+    ingredients: "1 Cup Greek Yogurt, 1/3 Cup Strawberries, 2 Tbsp Chia Seeds",
+    prepTime: "5 Minutes",
+  },
+  {
+    mealType: "Lunch",
+    name: "salmon with asparagus cooked in butter",
+    ingredients: "4-6 oz Salmon, 1 Cup Asparagus, 2 Tbsp Butter",
+    instructions:
+      "preheat oven to 425 degrees, coat salmon with butter, cook for 20 minutes",
+    prepTime: "30 Minutes",
+  },
+];
+
 const seed = async () => {
   try {
     await db.sync({ force: true });
@@ -64,6 +92,18 @@ const seed = async () => {
     await Promise.all(
       exercises.map((exercise) => {
         return Exercise.create(exercise);
+      })
+    );
+
+    await Promise.all(
+      diets.map((diet) => {
+        return Diet.create(diet);
+      })
+    );
+
+    await Promise.all(
+      meals.map((meal) => {
+        return Meal.create(meal);
       })
     );
     console.log("Seeding Successful!");

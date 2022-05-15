@@ -19,7 +19,7 @@ const App = () => {
       <Provider store={store}>
         <NavigationContainer>
           <AppStack />
-          {/* <AuthStack/> */}
+          {/*<AuthStack />*/}
         </NavigationContainer>
       </Provider>
     </NativeBaseProvider>
