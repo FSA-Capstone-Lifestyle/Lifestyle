@@ -1,61 +1,61 @@
 const router = require("express").Router();
 const { Workout, Exercise } = require("../db");
 
-// GET /api/workouts
+// GET /api/exercises
 router.get("/", async (req, res, next) => {
   try {
-    const workouts = await Workout.findAll();
-    res.json(workouts);
+    const exercises = await Exercise.findAll();
+    res.json(exercises);
   } catch (err) {
     next(err);
   }
 });
 
-// GET /api/workouts/:id
+// GET /api/exercises/:id
 router.get("/:id", async (req, res, next) => {
   try {
-    const workout = await Workout.findByPk(req.params.id);
-    res.json(workout);
+    const exercise = await Exercise.findByPk(req.params.id);
+    res.json(exercise);
   } catch (err) {
     next(err);
   }
 });
 
-// POST /api/workouts
+// POST /api/exercises
 router.post("/:id", async (req, res, next) => {
   try {
-    const workout = await Workout.create(req.body);
-    res.status(201).json(workout);
+    const exercise = await Exercise.create(req.body);
+    res.status(201).json(exercise);
   } catch (err) {
     next(err);
   }
 });
 
-// PUT /api/workouts/:id
+// PUT /api/exercises/:id
 router.put("/:id", async (req, res, next) => {
   try {
-    const workout = await Workout.findOne({
+    const exercise = await Exercise.findOne({
       where: {
         id: req.params.id,
       },
-      include: Exercise,
+      include: Workout,
     });
-    res.send(await workout.update(req.body));
+    res.send(await exercise.update(req.body));
   } catch (err) {
     next(err);
   }
 });
 
-// DELETE /api/workouts/:id
+// DELETE /api/exercises/:id
 router.delete("/:id", async (req, res, next) => {
   try {
-    const workout = await Workout.findOne({
+    const exercise = await Exercise.findOne({
       where: {
         id: req.params.id,
       },
     });
-    await workout.destroy();
-    res.send(workout);
+    await exercise.destroy();
+    res.send(exercise);
   } catch (err) {
     next(err);
   }
