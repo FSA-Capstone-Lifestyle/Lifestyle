@@ -4,6 +4,7 @@ const Workout = require("../db/Workouts");
 // GET /api/workouts
 router.get("/", async (req, res, next) => {
   try {
+    console.log('workout routeee')
     const workouts = await Workout.findAll();
     res.json(workouts);
   } catch (err) {

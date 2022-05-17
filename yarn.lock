@@ -5760,6 +5760,11 @@
   dependencies:
     "mimic-response" "^3.1.0"
 
+"deep-diff@^0.3.5":
+  "integrity" "sha1-wB3mPvsO7JeYgB1Ax+Da4ltYLIQ="
+  "resolved" "https://registry.npmjs.org/deep-diff/-/deep-diff-0.3.8.tgz"
+  "version" "0.3.8"
+
 "deep-equal@^1.0.1":
   "integrity" "sha512-yd9c5AdiqVcR+JjcwUQb9DkhJc8ngNr0MahEBGvDiJw8puWab2yZlh+nkasOnZP+EGTAP6rRp2JzJhJZzvNF8g=="
   "resolved" "https://registry.npmjs.org/deep-equal/-/deep-equal-1.1.1.tgz"
@@ -6550,6 +6555,19 @@
     "find-up" "^5.0.0"
     "fs-extra" "^9.1.0"
 
+"expo-modules-core@^0.9.2":
+  "integrity" "sha512-p/C0GJxFIIDGwmrWi70Q0ggfsgeUFS25ZkkBgoaHT7MVgiMjlKA/DCC3D6ZUkHl/JlzUm0aTftIGS8LWXsnZBw=="
+  "resolved" "https://registry.npmjs.org/expo-modules-core/-/expo-modules-core-0.9.2.tgz"
+  "version" "0.9.2"
+  dependencies:
+    "compare-versions" "^3.4.0"
+    "invariant" "^2.2.4"
+
+"expo-modules@^0.0.0":
+  "integrity" "sha512-RsXPsVjxeLIr2AKE9YWIcVhuDvA446DaUP8J9yoQ2VA7DfcgNQdx2ZNpXfy3CI45AFJjtEqFKJ46Vnb3asM/OQ=="
+  "resolved" "https://registry.npmjs.org/expo-modules/-/expo-modules-0.0.0.tgz"
+  "version" "0.0.0"
+
 "expo-pwa@0.0.118":
   "integrity" "sha512-zm8QDDty+AzVkYHfzox/jk/97XdYlxFBOx3Lw6zprjlnZcZgOR+VR/uuek+kgEWRo7Oxhr+4al3rNgEurIsAzw=="
   "resolved" "https://registry.npmjs.org/expo-pwa/-/expo-pwa-0.0.118.tgz"
@@ -6561,12 +6579,17 @@
     "commander" "2.20.0"
     "update-check" "1.5.3"
 
+"expo-secure-store@^11.2.0":
+  "integrity" "sha512-PlmDplx9QNqaTVKNLgqSurRhzYf6YbVTTiSKX5JlEMWgOiBTz77Nh6mpMMjI1jwrvtz9grD+CT2AlDEGXe+Ovg=="
+  "resolved" "https://registry.npmjs.org/expo-secure-store/-/expo-secure-store-11.2.0.tgz"
+  "version" "11.2.0"
+
 "expo-status-bar@~1.0.4":
   "integrity" "sha512-s7nc496D/Zn1NGiMJ5wu6HyIdXxbgGtmZZtbHm7rpbcmLdf28GmMSNHDx7M0t00BMhky7VAurTCUo+BJs8ugsw=="
   "resolved" "https://registry.npmjs.org/expo-status-bar/-/expo-status-bar-1.0.4.tgz"
   "version" "1.0.4"
 
-"expo@^41.0.1":
+"expo@*", "expo@^41.0.1":
   "integrity" "sha512-Lk4Xdst+OfsLgBNeu89hxk0qFrZnHwwXFmBbJkYLlZkdC3tvNJ8jgGHsKg6jYpsnal/z0uVc+uk2ev91qXQykg=="
   "resolved" "https://registry.npmjs.org/expo/-/expo-41.0.1.tgz"
   "version" "41.0.1"
@@ -11991,6 +12014,13 @@
   "version" "2.2.2"
   dependencies:
     "minimatch" "3.0.4"
+
+"redux-logger@^3.0.6":
+  "integrity" "sha1-91VZZvMJjzyIYExEnPC69XeCdL8="
+  "resolved" "https://registry.npmjs.org/redux-logger/-/redux-logger-3.0.6.tgz"
+  "version" "3.0.6"
+  dependencies:
+    "deep-diff" "^0.3.5"
 
 "redux-thunk@^2.4.1":
   "integrity" "sha512-OOYGNY5Jy2TWvTL1KgAlVy6dcx3siPJ1wTq741EPyUKfn6W6nChdICjZwCd0p8AZBs5kWpZlbkXW2nE/zjUa+Q=="
