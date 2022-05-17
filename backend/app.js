@@ -18,7 +18,7 @@ app.get("/", function (req, res, next) {
 // auth and api routes
 app.use("/api/user", require("./api/users"));
 app.use("/api/workouts", require("./api/workoutRoutes"));
-app.use("api/diets", require("./api/diets"));
+app.use("/api/diets", require("./api/diets"));
 
 app.get("/", (req, res) =>
   res.sendFile(path.join(__dirname, "..", "public/index.html"))

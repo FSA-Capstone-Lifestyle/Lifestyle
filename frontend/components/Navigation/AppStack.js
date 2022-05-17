@@ -74,7 +74,7 @@ const AppStack = () => {
         }}
       />
       <Drawer.Screen
-        name="My Diet Plan"
+        name="Diet Plans"
         component={DietPlanScreen}
         options={{
           headerShown: false,

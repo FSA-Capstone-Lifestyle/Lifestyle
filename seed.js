@@ -49,10 +49,28 @@ const exercises = [
 
 const diets = [
   {
-    name: "mediterranean plan",
+    name: "The Rock's Iron Nutrition",
   },
   {
-    name: "ketogenic plan",
+    name: "Chris Hemsworth's Daily Meals",
+  },
+  {
+    name: "John Doe's Unique Recipes",
+  },
+  {
+    name: "The Titanium Gut Plan",
+  },
+  {
+    name: "Vegan Dishes You'll Love",
+  },
+  {
+    name: "The Krusty Krab's Secret Formulas",
+  },
+  {
+    name: "Delicious Keto Recipes",
+  },
+  {
+    name: "Healthy Desserts",
   },
 ];
 
@@ -106,7 +124,6 @@ const seed = async () => {
         return Meal.create(meal);
       })
     );
-    console.log("Seeding Successful!");
   } catch (err) {
     console.log(err);
   }
@@ -120,11 +137,11 @@ module.exports = seed;
 if (require.main === module) {
   seed()
     .then(() => {
-      console.log(green("Seeding success!"));
+      console.log("Seeding Successful!");
       db.close();
     })
     .catch((err) => {
-      console.error(red("Oh noes! Something went wrong!"));
+      console.error("Oh noes! Something went wrong!");
       console.error(err);
       db.close();
     });
