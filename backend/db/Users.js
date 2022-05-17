@@ -51,16 +51,19 @@ User.beforeCreate((user, option) => {
   user.setDataValue("password", hash);
 });
 
+User.prototype.generateToken = function() {
+  return jwt.sign({userId: this.id}, process.env.JWT)
+}
+
 User.findByToken = async (token) => {
   try {
-    const payload = jwt.verify(token, process.env.JWT);
-    const user = await User.findByPk(payload.userId);
+    console.log(token)
+    const { userId } = await jwt.verify(token, process.env.JWT);
+
+    const user = await User.findByPk(userId);
     if (user) {
       return user;
     }
-    const error = Error("bad credentials");
-    error.status = 401;
-    throw error;
   } catch (ex) {
     const error = Error("bad credentials");
     error.status = 401;
@@ -75,18 +78,30 @@ User.authenticate = async ({ email, password }) => {
     },
   });
 
-  const user = await User.findOne({
-    where: {
-      email,
-      password: bcrypt.compare(password, hash.password) ? hash.password : null,
-    },
-  });
-  if (user) {
-    return jwt.sign({ userId: user.id }, process.env.JWT);
+  if (!hash) {
+    const error = Error("bad credentials email");
+    error.status = 401;
+    throw error;
+  } else {
+    const user = await User.findOne({
+      where: {
+        password: (await bcrypt.compare(password, hash.password))
+          ? hash.password
+          : null,
+      },
+    });
+    if (user) {
+      return jwt.sign(
+        { userId: user.id, userEmail: user.email },
+        process.env.JWT
+      );
+    } else {
+      const error = Error("bad credentials password");
+      error.status = 401;
+
+      throw error;
+    }
   }
-  const error = Error("bad credentials");
-  error.status = 401;
-  throw error;
 };
 
 module.exports = User;
