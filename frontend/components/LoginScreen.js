@@ -25,21 +25,31 @@ function LoginScreen({ navigation }) {
     email: "",
     password: "",
   });
+
   const [errortext, setErrortext] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
+    setErrortext('');
     dispatch(me());
   }, []);
+  console.log(errortext)
+  const handleSubmit = async () => {
 
-  const handleSubmit = () => {
-    dispatch(
+    const data = await dispatch(
       authenticate({ email: userData.email, password: userData.password })
     );
+
+    if(data.payload === 'Invalid username or password'){
+      displayErrors('! Invalid username or password')
+    }else{
+      navigation.replace('AppStack')
+    }
+
   };
   const displayErrors = (error) => {
     //return errortext.map((error,index) =><p key={index}>{error.message}</p>)
     setErrortext(error);
-    return errortext;
+
   };
 
   return (
@@ -50,10 +60,11 @@ function LoginScreen({ navigation }) {
             alt="description of image"
             source={require("../../assets/logo.png")}
             style={{
-              width: "70%",
+              marginLeft:15,
+              width: "80%",
               height: 200,
               resizeMode: "cover",
-              margin: 30,
+
             }}
           />
         </View>
@@ -61,7 +72,7 @@ function LoginScreen({ navigation }) {
         <VStack space={3} mt="2">
           <FormControl>
             <FormControl.Label>Email</FormControl.Label>
-            <TextInput
+            <Input
               size="md"
               InputLeftElement={
                 <Icon
@@ -78,9 +89,10 @@ function LoginScreen({ navigation }) {
           </FormControl>
           <FormControl>
             <FormControl.Label>Password</FormControl.Label>
-            <TextInput
+            <Input
               size="md"
               type={show ? "text" : "password"}
+              on
               InputRightElement={
                 <Icon
                   as={
@@ -98,13 +110,7 @@ function LoginScreen({ navigation }) {
                 setUserData((prevState) => ({ ...prevState, password: e }))
               }
             />
-            {errortext != "" ? (
-              <FormControl.ErrorMessage
-                leftIcon={<WarningOutlineIcon size="xs" />}
-              >
-                {displayErrors()}
-              </FormControl.ErrorMessage>
-            ) : null}
+
             <Link
               _text={{
                 fontSize: "xs",
@@ -116,7 +122,13 @@ function LoginScreen({ navigation }) {
             >
               Forget Password?
             </Link>
+            {errortext !== "" ? (
+              <Text style={{color:'red'}}>
+                {errortext}
+              </Text>
+            ) : null}
           </FormControl>
+
 
           <Button
             onPress={() => {

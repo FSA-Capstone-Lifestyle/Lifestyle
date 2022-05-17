@@ -17,29 +17,55 @@ import {
   Form,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
+import { FontAwesome } from '@expo/vector-icons';
 import { register, me } from "../store/slices/auth.slice";
-function RegisterScreen() {
+function RegisterScreen({navigation}) {
   const [show, setShow] = React.useState(false);
-  const [errortext, setErrortext] = useState("");
+  const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
+  const [formData, setData] = React.useState({});
+  const userInfo = useSelector((state) => state.auth)
 
-  useEffect(() => {
-    dispatch(me());
-  }, []);
+  console.log(userInfo)
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const firstName = event.target.firstName.value;
-    const lastName = event.target.lastName.value;
-    const email = event.target.email.value;
-    const password = event.target.password.value;
-    dispatch(register({ firstName, lastName, email, password }));
+  // if(userInfo.user){
+  //   navigation.replace('LoginScreen')
+  // }
+
+
+
+  const validate = () => {
+    setErrors({})
+
+    if (formData.firstName === undefined) {
+      setErrors({ ...errors,
+        firstName: 'firstName is required'
+      });
+      return false;
+    } else if (formData.lastName === undefined) {
+      setErrors({ ...errors,
+        lastName: 'lastName is required'
+      });
+      return false;
+    } else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formData.email))) {
+      setErrors({ ...errors,
+        email: 'You have entered an invalid email address!'
+      });
+      return false;
+    }else if (formData.password !== formData.confirmPassword) {
+      setErrors({ ...errors,
+        confirmPassword: 'Passwords should match !'
+      });
+      return false;
+    }
+    return true;
   };
 
-  const displayErrors = () => {
-    //return errortext.map((error,index) =><p key={index}>{error.message}</p>)
-  };
+
+  const onSubmit = () => {
+    validate() ? dispatch(register( formData )) : console.log('Validation Failed');
+  }
   return (
     <Center w="100%">
       <Box safeArea p="2" w="90%" maxW="290" py="8">
@@ -66,40 +92,47 @@ function RegisterScreen() {
         </Heading>
         <VStack space={3} mt="5">
 
-            <FormControl>
+            <FormControl  isInvalid={'firstName' in errors}>
               <FormControl.Label>First Name</FormControl.Label>
               <Input
-                size="md"
+                size="sm"
                 InputLeftElement={
                   <Icon
-                    as={<MaterialIcons name="firstName" />}
+                    as={<FontAwesome name="user-o" size={24} color="black" />}
                     size={5}
                     ml="2"
                     color="muted.400"
                   />
                 }
-                name="firstName"
+                onChangeText={value => setData({ ...formData,
+                  firstName: value
+                })}
               />
+              {'firstName' in errors ? <FormControl.ErrorMessage>{errors.firstName}</FormControl.ErrorMessage> : null}
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={'lastName' in errors}>
               <FormControl.Label>Last Name</FormControl.Label>
               <Input
-                size="md"
+                size="sm"
                 InputLeftElement={
                   <Icon
-                    as={<MaterialIcons name="lastName" />}
+                    as={<FontAwesome name="user-o" size={24} color="black" />}
                     size={5}
                     ml="2"
                     color="muted.400"
                   />
                 }
-                name="lastName"
+                onChangeText={value => setData({ ...formData,
+                  lastName: value
+                })}
+
               />
+              {'lastName' in errors ? <FormControl.ErrorMessage>{errors.lastName}</FormControl.ErrorMessage> : null}
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={'email' in errors}>
               <FormControl.Label>Email</FormControl.Label>
               <Input
-                size="md"
+                size="sm"
                 InputLeftElement={
                   <Icon
                     as={<MaterialIcons name="email" />}
@@ -108,13 +141,16 @@ function RegisterScreen() {
                     color="muted.400"
                   />
                 }
-                name="email"
+                onChangeText={value => setData({ ...formData,
+                  email: value
+                })}
               />
+              {'email' in errors ? <FormControl.ErrorMessage>{errors.email}</FormControl.ErrorMessage> : null}
             </FormControl>
             <FormControl>
               <FormControl.Label>Password</FormControl.Label>
               <Input
-                size="md"
+                size="sm"
                 type={show ? "text" : "password"}
                 InputRightElement={
                   <Icon
@@ -129,13 +165,15 @@ function RegisterScreen() {
                     onPress={() => setShow(!show)}
                   />
                 }
-                name="password"
+                onChangeText={value => setData({ ...formData,
+                  password: value
+                })}
               />
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={'confirmPassword' in errors}>
               <FormControl.Label>Confirm Password</FormControl.Label>
               <Input
-                size="md"
+                size="sm"
                 type={show ? "text" : "password"}
                 InputRightElement={
                   <Icon
@@ -150,10 +188,13 @@ function RegisterScreen() {
                     onPress={() => setShow(!show)}
                   />
                 }
-                name="password"
+                onChangeText={value => setData({ ...formData,
+                  confirmPassword: value
+                })}
               />
+              {'confirmPassword' in errors ? <FormControl.ErrorMessage>{errors.confirmPassword}</FormControl.ErrorMessage> : null}
             </FormControl>
-            <Button  mt="2" colorScheme="indigo">
+            <Button  mt="2" colorScheme="indigo" onPress={onSubmit}>
               Sign up
             </Button>
 

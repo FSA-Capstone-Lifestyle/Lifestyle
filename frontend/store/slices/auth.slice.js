@@ -20,16 +20,17 @@ export const register = createAsyncThunk(
   async (formInfo, { dispatch, rejectWithValue }) => {
     try {
       const { firstName, lastName, password, email } = formInfo;
-      const res = await axios.post(`/auth/signup`, {
+
+      const res = await axios.post(`http://localhost:1337/auth/signup`, {
         firstName,
         lastName,
         password,
         email,
       });
+
       SecureStore.setItemAsync(TOKEN, res.data.token);
       dispatch(me());
     } catch (error) {
-      console.error(error);
       return rejectWithValue(error);
     }
   }
@@ -44,27 +45,43 @@ export const authenticate = createAsyncThunk(
         email,
         password,
       });
-      await SecureStore.setItemAsync(TOKEN, JSON.stringify(res.data.token));
+
+      if (res.data === "Invalid username or password") {
+        return "Invalid username or password";
+      }
+
+      await SecureStore.setItemAsync(TOKEN, res.data.token);
 
       return dispatch(me());
     } catch (error) {
-      console.error(error);
+      console.log("error catch", error);
       return rejectWithValue(error);
     }
   }
 );
 
 export const me = createAsyncThunk("auth/me", async () => {
-  const token = await SecureStore.getItemAsync(TOKEN);
-  console.log("this is the token", token);
-  if (token) {
-    const res = await axios.get("/auth/me", {
-      headers: {
-        authorization: token,
-      },
-    });
-    return res.data;
+  try {
+    const token = await SecureStore.getItemAsync(TOKEN);
+
+    if (token) {
+      const res = await axios.get("http://localhost:1337/auth/me", {
+        headers: {
+          authorization: token,
+        },
+      });
+
+      return res.data;
+    }
+  } catch (err) {
+    console.log(err);
   }
+});
+
+export const logout = createAsyncThunk("auth/logout", async () => {
+  const token = await SecureStore.deleteItemAsync(TOKEN);
+  console.log("this is the token deleted", token);
+  return {};
 });
 
 const authSlice = createSlice({
@@ -72,7 +89,20 @@ const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    [me.pending]: (state) => {
+      state.loading = true;
+      state.success = false;
+    },
+    [me.rejected]: (state) => {
+      state.error = true;
+    },
     [me.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.user = action.payload;
+
+    },
+    [logout.fulfilled]: (state, action) => {
       state.user = action.payload;
     },
     [register.fulfilled]: (state, action) => {

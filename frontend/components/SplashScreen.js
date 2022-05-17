@@ -9,12 +9,20 @@ export default function SplashScreen({ navigation }) {
   useEffect(() => {
     setTimeout(() => {
       setAnimating(false);
-      //Check if user_id is set or not
-      //If not then send for Authentication
-      //else send to Home Screen
-      const token = dispatch(me());
-      navigation.navigate(token === null ? 'LoginScreen' : 'AppStack')
-    }, 5000);
+      async function getToken(){
+        const token = await dispatch(me());
+
+        if(!token.payload){
+          console.log( 'ifteyizzz')
+          navigation.navigate('AuthStack')
+        }else{
+          console.log('elsedeyiz')
+          navigation.navigate('AppStack')
+        }
+      }
+
+      getToken()
+    }, 3000);
   }, []);
 
   return (
