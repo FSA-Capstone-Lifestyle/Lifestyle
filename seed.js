@@ -1,6 +1,7 @@
 const { db } = require("./backend/db");
 const User = require("./backend/db/Users");
 const Workout = require("./backend/db/Workouts");
+const Exercise = require("./backend/db/Exercises");
 
 const users = [
   {
@@ -30,19 +31,18 @@ const users = [
 const workouts = [
   {
     name: "Legs",
-    exercises: [
-      { name: "squats", sets: 4, reps: 10, videoUrl: "e" },
-      { name: "push-ups", sets: 3, reps: 15, videoUrl: "e" },
-      { name: "pull-ups", sets: 2, reps: 12, videoUrl: "e" },
-    ],
   },
   {
     name: "Back",
-    exercises: [
-      { name: "deadlifts", sets: 4, reps: 10, videoUrl: "e" },
-      { name: "sit-ups", sets: 4, reps: 10, videoUrl: "e" },
-    ],
   },
+];
+
+const exercises = [
+  { name: "squats", sets: 4, reps: 10, workoutId: 1 },
+  { name: "push-ups", sets: 3, reps: 15, workoutId: 1 },
+  { name: "pull-ups", sets: 2, reps: 12, workoutId: 1 },
+  { name: "deadlifts", sets: 4, reps: 10, workoutId: 2 },
+  { name: "sit-ups", sets: 4, reps: 10, workoutId: 2 },
 ];
 
 const seed = async () => {
@@ -58,6 +58,12 @@ const seed = async () => {
     await Promise.all(
       workouts.map((workout) => {
         return Workout.create(workout);
+      })
+    );
+
+    await Promise.all(
+      exercises.map((exercise) => {
+        return Exercise.create(exercise);
       })
     );
     console.log("Seeding Successful!");
