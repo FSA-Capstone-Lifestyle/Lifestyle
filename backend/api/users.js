@@ -64,14 +64,6 @@ router.put(":/id", requireToken, async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
-  try {
-    res.status(201).send(await User.create(req.body));
-  } catch (error) {
-    next(error);
-  }
-});
-
 router.delete("/:id", requireToken, async (req, res, next) => {
   try {
     if (req.user.id == req.params.id || req.user.dataValues.isAdmin) {
