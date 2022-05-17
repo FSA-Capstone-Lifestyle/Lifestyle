@@ -45,21 +45,21 @@ const Calendar = () => {
               dayWorkout.push(workout);
             }
           });
-          dayWorkout.map((workout) => {
-            if (workout.progress === "To do") {
-              workout.skips += 1;
-            } else if (workout.progress === "Completed") {
-              workout.completions += 1;
-              workout.progress = "To do";
-            }
-          });
+          // dayWorkout.map((workout) => {
+          //   if (workout.progress === "To do") {
+          //     workout.skips += 1;
+          //   } else if (workout.progress === "Completed") {
+          //     workout.completions += 1;
+          //     workout.progress = "To do";
+          //   }
+          // });
           textStyles.push(styles.selectedLabel);
           touchable.push(styles.selectedTouchable);
         }
 
         return (
-          <View>
-            <View style={styles.weekDayItem} key={weekDay.formatted}>
+          <View key={weekDay.formatted}>
+            <View style={styles.weekDayItem}>
               <Text style={styles.weekDayText}>{weekDay.formatted}</Text>
               <TouchableOpacity style={touchable}>
                 <Text style={textStyles}>{weekDay.day}</Text>
