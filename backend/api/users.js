@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Workout, User, WorkoutPlan } = require("../db");
+const { Workout, User, Workout_Plan } = require("../db");
 
 const requireToken = async (req, res, next) => {
   try {
@@ -47,7 +47,8 @@ router.get("/:id", requireToken, async (req, res, next) => {
   }
 });
 
-router.put(":/id", requireToken, async (req, res, next) => {
+//Update User
+router.put("/:id", requireToken, async (req, res, next) => {
   try {
     if (req.user.id == req.params.id) {
       await User.update(req.body, {
@@ -64,9 +65,69 @@ router.put(":/id", requireToken, async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+//Fetch All User Workouts "/api/user/:id/workouts"
+router.get("/:id/workouts", requireToken, async (req, res, next) => {
   try {
-    res.status(201).send(await User.create(req.body));
+    let workouts = await Workout_Plan.findAll({
+      where: {
+        userId: req.params.id,
+      },
+      include: {
+        model: workouts,
+      },
+    });
+    res.send(workouts);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//Get User Workout
+router.get("/:id/:workoutId", async (req, res, next) => {
+  try {
+    let workout = await Workout_Plan.findOne({
+      where: {
+        userId: req.params.id,
+        workoutId: req.params.workoutId,
+      },
+    });
+    res.send(workout);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//Completed User Workout
+router.put("/:id/:workoutId/completed", async (req, res, next) => {
+  try {
+    let workout = await Workout_Plan.findOne({
+      where: {
+        userId: req.params.id,
+        workoutId: req.params.workoutId,
+      },
+    });
+    await workout.update({
+      progress: "To Do",
+      completions: req.body.completions,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//Skipped User Workout
+router.put("/:id/:workoutId/skipped", async (req, res, next) => {
+  try {
+    let workout = await Workout_Plan.findOne({
+      where: {
+        userId: req.params.id,
+        workoutId: req.params.workoutId,
+      },
+    });
+    await workout.update({
+      progress: "To Do",
+      skips: req.body.skips,
+    });
   } catch (error) {
     next(error);
   }

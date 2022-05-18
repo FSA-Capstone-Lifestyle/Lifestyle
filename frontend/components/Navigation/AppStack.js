@@ -5,11 +5,34 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MainScreen from "../MainScreen.js";
 import ProfileScreen from "../ProfileScreen.js";
-import WorkoutsScreen from "../Workout/WorkoutsScreen";
+import WorkoutsScreen from "../WorkoutsScreen.js";
 import SettingsScreen from "../SettingsScreen.js";
+import EditProfileScreen from "../EditProfileScreen";
 import CustomDrawer from "../CustomDrawer.js";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { createStackNavigator } from "@react-navigation/stack";
+
+const ProfileStack = createStackNavigator();
+
+function ProfileStackScreen() {
+  return (
+    <ProfileStack.Navigator initialRouteName="ProfileScreen">
+      <ProfileStack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name="EditProfileScreen"
+        component={EditProfileScreen}
+        options={{
+          title: " ",
+        }}
+      />
+    </ProfileStack.Navigator>
+  );
+}
 
 const Drawer = createDrawerNavigator();
 const AppStack = () => {
@@ -42,7 +65,7 @@ const AppStack = () => {
       />
       <Drawer.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileStackScreen}
         options={{
           headerShown: false,
           drawerIcon: ({ color }) => {

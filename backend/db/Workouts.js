@@ -9,10 +9,10 @@ const Workout = db.define("workout", {
       notEmpty: true,
     },
   },
-  progress: {
+  daysOfWeek: {
     type: Sequelize.ENUM,
-    values: ["To do", "In progress", "Completed"],
-    defaultValue: "To do",
+    values: ["Mon, Wed, Fri", "All", "Tue, Thur"],
+    defaultValue: "All",
   },
 });
 

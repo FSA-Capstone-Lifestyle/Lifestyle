@@ -19,6 +19,7 @@ app.get("/", function (req, res, next) {
 app.use("/api/users", require("./api/users"));
 app.use("/api/workouts", require("./api/workoutRoutes"));
 app.use("/api/exercises", require("./api/exerciseRoutes"));
+app.use("/auth", require("./api/auth"));
 
 app.get("/", (req, res) =>
   res.sendFile(path.join(__dirname, "..", "public/index.html"))

@@ -23,6 +23,64 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+// Get User Workouts
+export const fetchUserWorkouts = createAsyncThunk(
+  "user/fetchUserWorkouts",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:1337/api/user/${id}/workouts`
+      );
+      console.log("fetchuserworkouts", id, res);
+      return res.data;
+    } catch (error) {
+      console.log("Cant find this workout", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// User Completed Workout
+export const setComplete = createAsyncThunk(
+  "user/completed",
+  async (data, { rejectWithValue }) => {
+    try {
+      const userId = data.userId;
+      const workoutId = data.workoutId;
+      const userWorkout = await axios.get(`/api/users/${userId}/${workoutId}`);
+      await axios.put(`/api/users/${userId}/${workoutId}/completed`, {
+        completions: userWorkout.completions++,
+      });
+
+      const res = await axios.get(`/api/users/${userId}/workouts`);
+      return res.data;
+    } catch (error) {
+      console.log("Cant find this workout", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// User Skipped Workout
+export const setSkip = createAsyncThunk(
+  "user/completed",
+  async (data, { rejectWithValue }) => {
+    try {
+      const { userId } = data;
+      const { workoutId } = data;
+      const userWorkout = await axios.get(`/api/users/${userId}/${workoutId}`);
+      await axios.put(`/api/users/${userId}/${workoutId}/completed`, {
+        skips: userWorkout.skips++,
+      });
+      const res = await axios.get(`/api/users/${userId}/workouts`);
+      return res.data;
+    } catch (error) {
+      console.log("Cant find this workout", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
 // Slice reducer - action creators and types are generated here
 const userSlice = createSlice({
   name: "user",
@@ -37,6 +95,39 @@ const userSlice = createSlice({
       state.isSuccess = true;
     },
     [fetchUser.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [fetchUserWorkouts.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchUserWorkouts.fulfilled]: (state, action) => {
+      state.workouts = action.payload;
+      state.isSuccess = true;
+    },
+    [fetchUserWorkouts.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [setComplete.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [setComplete.fulfilled]: (state, action) => {
+      state.workouts = action.payload;
+      state.isSuccess = true;
+    },
+    [setComplete.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [setSkip.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [setSkip.fulfilled]: (state, action) => {
+      state.workouts = action.payload;
+      state.isSuccess = true;
+    },
+    [setSkip.rejected]: (state) => {
       state.isLoading = false;
       state.isError = true;
     },
