@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { isSameDay } from "date-fns";
 import { startOfWeek, addDays, getDate, format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWorkouts } from "../store/slices/workouts.slice";
+import { fetchUserWorkouts } from "../store/slices/singleUser.slice";
 
 const Calendar = () => {
   const week = [];
@@ -20,14 +20,25 @@ const Calendar = () => {
     });
   }
 
+  const { id } = useSelector((state) => state.auth.user);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchWorkouts());
+    dispatch(fetchUserWorkouts(id));
   }, []);
 
-  const { workouts } = useSelector((state) => state.workouts);
+  const { workouts } = useSelector((state) => state.user);
 
+  console.log("from calendar", workouts, id);
+
+  if (!workouts) {
+    return (
+      <View style={styles.boxAdd}>
+        <Text style={styles.weekDayText}>Add workouts to get started</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       {week.map((weekDay) => {
@@ -36,7 +47,6 @@ const Calendar = () => {
         const touchable = [styles.touchable];
         const sameDay = isSameDay(weekDay.date, date);
         const dayWorkout = [];
-
         if (sameDay) {
           workouts.map((workout) => {
             if (workout.daysOfWeek === "All") {
@@ -90,6 +100,11 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     paddingVertical: 10,
+  },
+  boxAdd: {
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    paddingVertical: 50,
   },
   weekDayText: {
     color: "gray",

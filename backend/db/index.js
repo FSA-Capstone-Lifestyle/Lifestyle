@@ -1,5 +1,6 @@
 const db = require("./database");
 const User = require("./Users");
+const WorkoutPlan = require("./WorkoutPlan");
 const Workout = require("./Workouts");
 const Exercise = require("./Exercises");
 const Diet = require("./Diets");
@@ -23,7 +24,8 @@ const Workout_Plan = db.define("Workout_Plan", {
 });
 
 User.belongsToMany(Workout, { through: "Workout_Plan" });
-Workout.belongsToMany(User, { through: "Workout_Plan" });
+//this should give workout method .setAthlete
+Workout.belongsToMany(User, { through: "Workout_Plan", as: "athlete" });
 
 Workout.hasMany(Exercise);
 Exercise.belongsTo(Workout);
@@ -37,6 +39,7 @@ Meal.belongsTo(Diet);
 module.exports = {
   db,
   User,
+  WorkoutPlan,
   Workout,
   Exercise,
   Diet,

@@ -5,10 +5,16 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MainScreen from "../MainScreen.js";
 import ProfileScreen from "../ProfileScreen.js";
+<<<<<<< HEAD
 import WorkoutsScreen from "../WorkoutsScreen.js";
 import SettingsScreen from "../SettingsScreen.js";
 import EditProfileScreen from "../EditProfileScreen";
 import DietPlanScreen from "../DietPlanScreen.js";
+=======
+import WorkoutsScreen from "../../components/Workout/WorkoutsScreen";
+import SettingsScreen from "../SettingsScreen.js";
+import EditProfileScreen from "../EditProfileScreen";
+>>>>>>> origin/workoutsAndPlans
 import CustomDrawer from "../CustomDrawer.js";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -35,6 +41,7 @@ function ProfileStackScreen() {
       />
     </ProfileStack.Navigator>
   );
+<<<<<<< HEAD
 }
 
 function DietPlanStackScreen() {
@@ -54,6 +61,8 @@ function DietPlanStackScreen() {
       />
     </DietPlanStack.Navigator>
   );
+=======
+>>>>>>> origin/workoutsAndPlans
 }
 
 const Drawer = createDrawerNavigator();
@@ -116,6 +125,7 @@ const AppStack = () => {
             );
           },
         }}
+<<<<<<< HEAD
       />
       <Drawer.Screen
         name="Diet Plans"
@@ -132,6 +142,8 @@ const AppStack = () => {
             );
           },
         }}
+=======
+>>>>>>> origin/workoutsAndPlans
       />
       <Drawer.Screen
         name="Settings"
