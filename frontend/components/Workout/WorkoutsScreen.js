@@ -7,15 +7,29 @@ import {
   Icon,
   Divider,
   SimpleGrid,
-  Center,
+  Box,
+  Input,
+  Button,
 } from "native-base";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWorkouts } from "../store/slices/workouts.slice";
+import {
+  createWorkout,
+  fetchWorkouts,
+} from "../../store/slices/workouts.slice";
 
 const WorkoutsScreen = () => {
   const dispatch = useDispatch();
   const { workouts } = useSelector((state) => state.workouts);
+
+  const [name, setName] = useState("");
+
+  const handleChange = (text) => setName(text);
+
+  const handlePress = (data) => (e) => {
+    e.preventDefault();
+    dispatch(createWorkout(data));
+  };
 
   useEffect(() => {
     dispatch(fetchWorkouts());
@@ -30,14 +44,29 @@ const WorkoutsScreen = () => {
         {workouts.map((workout) => (
           <VStack key={workout.id} space={3} divider={<Divider />} w="90%">
             <HStack justifyContent="space-between">
-              <Center w="20" bg="primary.300" rounded="md" shadow={3}>
+              <Button bg="primary.300" borderRadius="pill">
                 {workout.name}
-              </Center>
+              </Button>
               <Icon name="arrow-forward" />
             </HStack>
           </VStack>
         ))}
       </SimpleGrid>
+      <Box m={4}>
+        <Heading size="sm">Create your own workout:</Heading>
+        <Box alignItems="center">
+          <Input
+            mx="3"
+            placeholder="Workout name"
+            w="100%"
+            value={name}
+            onChangeText={handleChange}
+          />
+          <Button mt="2" colorScheme="indigo" onPress={handlePress({ name })}>
+            Submit
+          </Button>
+        </Box>
+      </Box>
     </View>
   );
 };

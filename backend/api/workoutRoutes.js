@@ -22,7 +22,7 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // POST /api/workouts
-router.post("/:id", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const workout = await Workout.create(req.body);
     res.status(201).json(workout);

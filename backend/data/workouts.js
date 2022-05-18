@@ -8,6 +8,15 @@ const workouts = [
   {
     name: "Chest",
   },
+  {
+    name: "Biceps",
+  },
+  {
+    name: "Triceps",
+  },
+  {
+    name: "Shoulders",
+  },
 ];
 
 module.exports = workouts;
