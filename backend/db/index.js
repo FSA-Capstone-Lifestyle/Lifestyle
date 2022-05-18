@@ -28,8 +28,8 @@ Workout.belongsToMany(User, { through: "Workout_Plan" });
 Workout.hasMany(Exercise);
 Exercise.belongsTo(Workout);
 
-User.belongsToMany(Diet, { through: "diet_plan" });
-Diet.belongsToMany(User, { through: "diet_plan" });
+User.belongsToMany(Diet, { through: "Diet_Plan" });
+Diet.belongsToMany(User, { through: "Diet_Plan" });
 
 Diet.hasMany(Meal);
 Meal.belongsTo(Diet);
@@ -42,4 +42,5 @@ module.exports = {
   Diet,
   Meal,
   Workout_Plan,
+  Diet_Plan,
 };

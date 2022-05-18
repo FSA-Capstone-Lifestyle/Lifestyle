@@ -19,14 +19,14 @@ const SingleDietPlanScreen = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchDiet(props.id));
+    dispatch(fetchDiet(props.route.params.id));
   }, []);
 
   const handleEdit = () => {
     console.log("hello diet edit page");
   };
   const handleDelete = async (id) => {
-    // await dispatch(removeDiet(id));
+    await dispatch(removeDiet(id));
     console.log("diet deleted!");
   };
 

@@ -23,7 +23,7 @@ const DietPlanScreen = ({ navigation }) => {
 
   const handleClick = (id) => {
     console.log("hello singe diet page", id);
-    navigation.navigate("SingleDietPlanScreen", { id });
+    navigation.navigate("SingleDietPlanScreen", { id: id });
   };
 
   const handleCreate = () => {
@@ -32,7 +32,7 @@ const DietPlanScreen = ({ navigation }) => {
 
   const { diets } = useSelector((state) => state.diets);
   return (
-    <SafeAreaView>
+    <SafeAreaView backgroundColor="#FAF0E6">
       <Heading textAlign="center" fontSize={30} marginTop={10} marginBottom={5}>
         Diet Plans
       </Heading>
