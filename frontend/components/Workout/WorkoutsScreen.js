@@ -44,7 +44,7 @@ const WorkoutsScreen = () => {
         {workouts.map((workout) => (
           <VStack key={workout.id} space={3} divider={<Divider />} w="90%">
             <HStack justifyContent="space-between">
-              <Button bg="primary.300" borderRadius="pill">
+              <Button width="60%" bg="primary.300">
                 {workout.name}
               </Button>
               <Icon name="arrow-forward" />

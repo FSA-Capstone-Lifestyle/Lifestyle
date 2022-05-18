@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const User = require("../db/Users");
+const { Workout, User, WorkoutPlan } = require("../db");
 
 const requireToken = async (req, res, next) => {
   try {
@@ -69,6 +69,34 @@ router.post("/", async (req, res, next) => {
     res.status(201).send(await User.create(req.body));
   } catch (error) {
     next(error);
+  }
+});
+
+// PUT /api/users/:id/plan
+router.post("/:id/plan", async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    const workout = await Workout.findOne({
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    const plan = await WorkoutPlan.create({
+      where: {
+        userId: user.userId,
+        workoutId: workout.workoutId,
+      },
+    });
+
+    res.status(201).json(plan);
+  } catch (err) {
+    next(err);
   }
 });
 

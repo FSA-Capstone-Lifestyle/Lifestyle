@@ -16,7 +16,7 @@ app.get("/", function (req, res, next) {
 });
 
 // auth and api routes
-app.use("/api/user", require("./api/users"));
+app.use("/api/users", require("./api/users"));
 app.use("/api/workouts", require("./api/workoutRoutes"));
 app.use("/api/exercises", require("./api/exerciseRoutes"));
 
