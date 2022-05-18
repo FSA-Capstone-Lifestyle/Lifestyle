@@ -30,7 +30,7 @@ const Calendar = () => {
 
   const { workouts } = useSelector((state) => state.user);
 
-  console.log("from calendar", workouts, id);
+  // console.log("from calendar", workouts, id);
 
   if (!workouts) {
     return (
