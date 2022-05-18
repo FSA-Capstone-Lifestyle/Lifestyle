@@ -5,7 +5,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MainScreen from "../MainScreen.js";
 import ProfileScreen from "../ProfileScreen.js";
-import WorkoutsScreen from "../WorkoutsScreen.js";
+import WorkoutsScreen from "../../components/Workout/WorkoutsScreen";
 import SettingsScreen from "../SettingsScreen.js";
 import EditProfileScreen from "../EditProfileScreen";
 import CustomDrawer from "../CustomDrawer.js";
