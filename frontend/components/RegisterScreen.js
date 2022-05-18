@@ -29,9 +29,13 @@ function RegisterScreen({navigation}) {
 
   console.log(userInfo)
 
-  // if(userInfo.user){
-  //   navigation.replace('LoginScreen')
-  // }
+  useEffect(() => {
+
+    dispatch(me());
+  }, []);
+  if(userInfo.user){
+    navigation.navigate('LoginScreen')
+  }
 
 
 
