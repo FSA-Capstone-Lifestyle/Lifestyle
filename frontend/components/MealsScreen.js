@@ -12,29 +12,29 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Dimensions } from "react-native";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDiets } from "../store/slices/diets.slice.js";
+import { fetchMeals } from "../store/slices/meals.slice";
 
-const DietPlanScreen = ({ navigation }) => {
+const MealsScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchDiets());
+    dispatch(fetchMeals());
   }, []);
 
   const handleClick = (id) => {
-    console.log("hello singe diet page", id);
-    navigation.navigate("SingleDietPlanScreen", { id });
+    console.log("hello singe meal page", id);
+    navigation.navigate("SingleMealScreen", { id });
   };
 
   const handleCreate = () => {
-    console.log("create diet plan page!");
+    console.log("create meal page!");
   };
 
-  const { diets } = useSelector((state) => state.diets);
+  const { meals } = useSelector((state) => state.meals);
   return (
     <SafeAreaView>
       <Heading textAlign="center" fontSize={30} marginTop={10} marginBottom={5}>
-        Diet Plans
+        Meals
       </Heading>
       <Button
         alignSelf="center"
@@ -46,17 +46,17 @@ const DietPlanScreen = ({ navigation }) => {
           handleCreate();
         }}
       >
-        Create Diet Plan
+        Create A Meal
       </Button>
 
       <ScrollView maxH={Math.floor(Dimensions.get("window").height) - 180}>
         <Flex justifyContent="center" flexDirection="row" flexWrap="wrap">
-          {diets.map((diet) => {
+          {meals.map((meal) => {
             return (
               <Pressable
-                key={diet.id}
+                key={meal.id}
                 onPress={() => {
-                  handleClick(diet.id);
+                  handleClick(meal.id);
                 }}
               >
                 {({ isPressed }) => {
@@ -81,7 +81,7 @@ const DietPlanScreen = ({ navigation }) => {
                         fontWeight="bold"
                         fontSize="18"
                       >
-                        {diet.name}
+                        {meal.name}
                       </Text>
                     </Box>
                   );
@@ -95,4 +95,4 @@ const DietPlanScreen = ({ navigation }) => {
   );
 };
 
-export default DietPlanScreen;
+export default MealsScreen;
