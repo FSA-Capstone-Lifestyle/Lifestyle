@@ -5,12 +5,6 @@ const Exercise = require("./backend/db/Exercises");
 
 const users = [
   {
-    firstName: "John",
-    lastName: "Doe",
-    password: "hello123",
-    email: "johndoe@fitness.com",
-  },
-  {
     firstName: "Tom",
     lastName: "Holland",
     password: "tonystark123",
@@ -28,6 +22,15 @@ const users = [
   },
 ];
 
+const userWithWorkouts = {
+  firstName: "John",
+  lastName: "Doe",
+  password: "hello123",
+  email: "johndoe@fitness.com",
+  image:
+    "https://www.cheatsheet.com/wp-content/uploads/2019/04/Tom-Holland-2-939x1024.jpg",
+};
+
 const workouts = [
   {
     name: "Legs",
@@ -36,6 +39,8 @@ const workouts = [
     name: "Back",
   },
 ];
+
+const usersWorkout = { name: "johns leg day" };
 
 const exercises = [
   { name: "squats", sets: 4, reps: 10, workoutId: 1 },
@@ -54,6 +59,11 @@ const seed = async () => {
         return User.create(user);
       })
     );
+
+    const johnDoe = await User.create(userWithWorkouts);
+    const johnsWorkout = await Workout.create(usersWorkout);
+
+    await johnsWorkout.setAthlete(johnDoe);
 
     await Promise.all(
       workouts.map((workout) => {

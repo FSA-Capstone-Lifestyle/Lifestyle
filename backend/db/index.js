@@ -21,7 +21,8 @@ const Workout_Plan = db.define("Workout_Plan", {
 });
 
 User.belongsToMany(Workout, { through: "Workout_Plan" });
-Workout.belongsToMany(User, { through: "Workout_Plan" });
+//this should give workout method .setAthlete
+Workout.belongsToMany(User, { through: "Workout_Plan", as: "athlete" });
 
 Workout.hasMany(Exercise);
 Exercise.belongsTo(Workout);
