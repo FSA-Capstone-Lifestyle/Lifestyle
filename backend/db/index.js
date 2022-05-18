@@ -4,9 +4,26 @@ const Workout = require("./Workouts");
 const Exercise = require("./Exercises");
 const Diet = require("./Diets");
 const Meal = require("./Meals");
+const Sequelize = require("sequelize");
 
-User.belongsToMany(Workout, { through: "workout_plan" });
-Workout.belongsToMany(User, { through: "workout_plan" });
+const Workout_Plan = db.define("Workout_Plan", {
+  progress: {
+    type: Sequelize.ENUM,
+    values: ["To do", "In progress", "Completed"],
+    defaultValue: "To do",
+  },
+  completions: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+  },
+  skips: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+  },
+});
+
+User.belongsToMany(Workout, { through: "Workout_Plan" });
+Workout.belongsToMany(User, { through: "Workout_Plan" });
 
 Workout.hasMany(Exercise);
 Exercise.belongsTo(Workout);
@@ -24,4 +41,5 @@ module.exports = {
   Exercise,
   Diet,
   Meal,
+  Workout_Plan,
 };

@@ -7,10 +7,54 @@ import MainScreen from "../MainScreen.js";
 import ProfileScreen from "../ProfileScreen.js";
 import WorkoutsScreen from "../WorkoutsScreen.js";
 import SettingsScreen from "../SettingsScreen.js";
+import EditProfileScreen from "../EditProfileScreen";
 import DietPlanScreen from "../DietPlanScreen.js";
 import CustomDrawer from "../CustomDrawer.js";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { createStackNavigator } from "@react-navigation/stack";
+import SingleDietPlanScreen from "../SingleDietPlanScreen.js";
+
+const ProfileStack = createStackNavigator();
+const DietPlanStack = createStackNavigator();
+
+function ProfileStackScreen() {
+  return (
+    <ProfileStack.Navigator initialRouteName="ProfileScreen">
+      <ProfileStack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name="EditProfileScreen"
+        component={EditProfileScreen}
+        options={{
+          title: " ",
+        }}
+      />
+    </ProfileStack.Navigator>
+  );
+}
+
+function DietPlanStackScreen() {
+  return (
+    <DietPlanStack.Navigator initialRouteName="DietPlanScreen">
+      <DietPlanStack.Screen
+        name="DietPlanScreen"
+        component={DietPlanScreen}
+        options={{ headerShown: false }}
+      />
+      <DietPlanStack.Screen
+        name="SingleDietPlanScreen"
+        component={SingleDietPlanScreen}
+        options={{
+          title: " ",
+        }}
+      />
+    </DietPlanStack.Navigator>
+  );
+}
 
 const Drawer = createDrawerNavigator();
 const AppStack = () => {
@@ -43,7 +87,7 @@ const AppStack = () => {
       />
       <Drawer.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileStackScreen}
         options={{
           headerShown: false,
           drawerIcon: ({ color }) => {
@@ -75,7 +119,7 @@ const AppStack = () => {
       />
       <Drawer.Screen
         name="Diet Plans"
-        component={DietPlanScreen}
+        component={DietPlanStackScreen}
         options={{
           headerShown: false,
           drawerIcon: ({ color }) => {

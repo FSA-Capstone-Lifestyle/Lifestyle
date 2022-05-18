@@ -6,6 +6,7 @@ import {
   Text,
   ScrollView,
   Link,
+  Button,
 } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Dimensions } from "react-native";
@@ -19,13 +20,13 @@ const SingleDietPlanScreen = (props) => {
 
   useEffect(() => {
     dispatch(fetchDiet(props.id));
-  }, {});
+  }, []);
 
   const handleEdit = () => {
     console.log("hello diet edit page");
   };
-  const handleDelete = (id) => {
-    await dispatch(removeDiet(id));
+  const handleDelete = async (id) => {
+    // await dispatch(removeDiet(id));
     console.log("diet deleted!");
   };
 

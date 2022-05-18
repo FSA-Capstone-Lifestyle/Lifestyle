@@ -41,7 +41,7 @@ export const removeDiet = createAsyncThunk(
   "diets/removeDiet",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.delete(`/api/diets/${id}`);
+      const res = await axios.delete(`http://localhost:1337/api/diets/${id}`);
       return res.data;
     } catch (error) {
       console.log("Can't delete diet", error);
@@ -95,9 +95,7 @@ const dietsSlice = createSlice({
     //   state.isError = true;
     // },
     [removeDiet.fulfilled]: (state, action) => {
-      state.workouts = state.diets.filter(
-        (diet) => diet.id !== action.payload.id
-      );
+      state.diets = state.diets.filter((diet) => diet.id !== action.payload.id);
     },
   },
 });

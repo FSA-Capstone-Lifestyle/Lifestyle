@@ -64,7 +64,7 @@ router.delete("/:id", async (req, res, next) => {
       },
     });
     await dietDeleted.destroy();
-    res.send(diet);
+    res.send(dietDeleted);
   } catch (err) {
     next(err);
   }

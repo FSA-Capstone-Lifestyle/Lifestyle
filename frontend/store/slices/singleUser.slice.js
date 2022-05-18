@@ -23,6 +23,48 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+// User Completed Workout
+export const setComplete = createAsyncThunk(
+  "user/completed",
+  async (userId, workoutId, { rejectWithValue }) => {
+    try {
+      const userWorkout = await axios.get(`/api/users/${userId}/${workoutId}`);
+      const res = await axios.put(
+        `/api/users/${userId}/${workoutId}/completed`,
+        {
+          completions: userWorkout.completions++,
+        }
+      );
+      return res.data;
+    } catch (error) {
+      console.log("Cant find this workout", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// User Skipped Workout
+export const setSkip = createAsyncThunk(
+  "user/completed",
+  async (data, { rejectWithValue }) => {
+    try {
+      const { userId } = data;
+      const { workoutId } = data;
+      const userWorkout = await axios.get(`/api/users/${userId}/${workoutId}`);
+      const res = await axios.put(
+        `/api/users/${userId}/${workoutId}/completed`,
+        {
+          skips: userWorkout.skips++,
+        }
+      );
+      return res.data;
+    } catch (error) {
+      console.log("Cant find this workout", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
 // Slice reducer - action creators and types are generated here
 const userSlice = createSlice({
   name: "user",
@@ -37,6 +79,28 @@ const userSlice = createSlice({
       state.isSuccess = true;
     },
     [fetchUser.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [setComplete.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [setComplete.fulfilled]: (state, action) => {
+      state.user.workout = action.payload;
+      state.isSuccess = true;
+    },
+    [setComplete.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [setSkip.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [setSkip.fulfilled]: (state, action) => {
+      state.user.workout = action.payload;
+      state.isSuccess = true;
+    },
+    [setSkip.rejected]: (state) => {
       state.isLoading = false;
       state.isError = true;
     },

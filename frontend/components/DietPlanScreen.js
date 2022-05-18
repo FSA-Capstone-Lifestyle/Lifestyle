@@ -23,7 +23,7 @@ const DietPlanScreen = ({ navigation }) => {
 
   const handleClick = (id) => {
     console.log("hello singe diet page", id);
-    //navigation.navigate("SingleDietPlanScreen", { id });
+    navigation.navigate("SingleDietPlanScreen", { id });
   };
 
   const handleCreate = () => {
