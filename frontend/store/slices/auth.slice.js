@@ -21,7 +21,7 @@ export const register = createAsyncThunk(
     try {
       const { firstName, lastName, password, email } = formInfo;
 
-      const res = await axios.post(`http://localhost:1337/auth/signup`, {
+      const res = await axios.post(`http://192.168.1.155:1337/auth/signup`, {
         firstName,
         lastName,
         password,
@@ -41,7 +41,7 @@ export const authenticate = createAsyncThunk(
   async (formInfo, { dispatch, rejectWithValue }) => {
     try {
       const { email, password } = formInfo;
-      const res = await axios.post(`http://localhost:1337/auth/signin`, {
+      const res = await axios.post(`http://192.168.1.155:1337/auth/signin`, {
         email,
         password,
       });
@@ -65,7 +65,7 @@ export const me = createAsyncThunk("auth/me", async () => {
     const token = await SecureStore.getItemAsync(TOKEN);
 
     if (token) {
-      const res = await axios.get("http://localhost:1337/auth/me", {
+      const res = await axios.get("http://192.168.1.155:1337/auth/me", {
         headers: {
           authorization: token,
         },
@@ -100,7 +100,6 @@ const authSlice = createSlice({
       state.loading = false;
       state.success = true;
       state.user = action.payload;
-
     },
     [logout.fulfilled]: (state, action) => {
       state.user = action.payload;

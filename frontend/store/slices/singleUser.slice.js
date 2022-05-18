@@ -14,7 +14,7 @@ export const fetchUser = createAsyncThunk(
   "user/fetchUser",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`/api/users/${id}`);
+      const res = await axios.get(`http://192.168.1.155:1337/api/users/${id}`);
       return res.data;
     } catch (error) {
       console.log("Can't find this user", error);
@@ -29,7 +29,7 @@ export const fetchUserWorkouts = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `http://localhost:1337/api/user/${id}/workouts`
+        `http://192.168.1.155:1337/api/user/${id}/workouts`
       );
       console.log("fetchuserworkouts", id, res);
       return res.data;
