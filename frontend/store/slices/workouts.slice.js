@@ -12,7 +12,9 @@ export const fetchWorkouts = createAsyncThunk(
   "workouts/fetchWorkouts",
   async (id = null, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:1337/api/workouts");
+      const response = await axios.get(
+        "http://192.168.1.155:1337/api/workouts"
+      );
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -24,7 +26,10 @@ export const createWorkout = createAsyncThunk(
   "workouts/createWorkout",
   async (formInfo, { rejectWithValue }) => {
     try {
-      const res = await axios.post("/api/workouts", formInfo);
+      const res = await axios.post(
+        "http://192.168.1.155:1337/api/workouts",
+        formInfo
+      );
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -38,7 +43,10 @@ export const updateWorkout = createAsyncThunk(
     try {
       const { formData, workout } = formInfo;
       const { id } = workout;
-      const res = await axios.put(`/api/workouts/${id}`, formData);
+      const res = await axios.put(
+        `http://192.168.1.155:1337/api/workouts/${id}`,
+        formData
+      );
       return res.data;
     } catch (error) {
       console.log("Can't update workout", error);
@@ -51,7 +59,9 @@ export const removeWorkout = createAsyncThunk(
   "workouts/removeWorkout",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.delete(`/api/workouts/${id}`);
+      const res = await axios.delete(
+        `http://192.168.1.155:1337/api/workouts/${id}`
+      );
       return res.data;
     } catch (error) {
       console.log("Can't delete workout", error);

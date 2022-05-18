@@ -1,5 +1,6 @@
 const db = require("./database");
 const User = require("./Users");
+const WorkoutPlan = require("./WorkoutPlan");
 const Workout = require("./Workouts");
 const Exercise = require("./Exercises");
 const Sequelize = require("sequelize");
@@ -30,6 +31,7 @@ Exercise.belongsTo(Workout);
 module.exports = {
   db,
   User,
+  WorkoutPlan,
   Workout,
   Exercise,
   Workout_Plan,
