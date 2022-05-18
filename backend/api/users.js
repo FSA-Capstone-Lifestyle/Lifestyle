@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Workout_Plan } = require("../db");
+const { Workout_Plan, Workout } = require("../db");
 const User = require("../db/Users");
 
 const requireToken = async (req, res, next) => {
@@ -66,8 +66,25 @@ router.put("/:id", requireToken, async (req, res, next) => {
   }
 });
 
+//Fetch All User Workouts "/api/user/:id/workouts"
+router.get("/:id/workouts", requireToken, async (req, res, next) => {
+  try {
+    let workouts = await Workout_Plan.findAll({
+      where: {
+        userId: req.params.id,
+      },
+      include: {
+        model: workouts,
+      },
+    });
+    res.send(workouts);
+  } catch (error) {
+    next(error);
+  }
+});
+
 //Get User Workout
-router.put("/:id/:workoutId", async (req, res, next) => {
+router.get("/:id/:workoutId", async (req, res, next) => {
   try {
     let workout = await Workout_Plan.findOne({
       where: {
