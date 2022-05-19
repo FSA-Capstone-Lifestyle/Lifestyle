@@ -4,7 +4,7 @@ const { Workout, Exercise } = require("../db");
 // GET /api/workouts
 router.get("/", async (req, res, next) => {
   try {
-    console.log('workout routeee')
+    console.log("workout routeee");
     const workouts = await Workout.findAll();
     res.json(workouts);
   } catch (err) {
@@ -15,7 +15,12 @@ router.get("/", async (req, res, next) => {
 // GET /api/workouts/:id
 router.get("/:id", async (req, res, next) => {
   try {
-    const workout = await Workout.findByPk(req.params.id);
+    const workout = await Workout.findOne({
+      where: {
+        id: req.params.id,
+      },
+      include: Exercise,
+    });
     res.json(workout);
   } catch (err) {
     next(err);

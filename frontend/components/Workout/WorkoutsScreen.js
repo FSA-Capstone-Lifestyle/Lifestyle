@@ -18,13 +18,17 @@ import {
   fetchWorkouts,
 } from "../../store/slices/workouts.slice";
 
-const WorkoutsScreen = () => {
+const WorkoutsScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const { workouts } = useSelector((state) => state.workouts);
 
   const [name, setName] = useState("");
 
   const handleChange = (text) => setName(text);
+
+  const handleClick = (id) => {
+    navigation.navigate("SingleWorkoutScreen", { id: id });
+  };
 
   const handlePress = (data) => (e) => {
     e.preventDefault();
@@ -44,7 +48,13 @@ const WorkoutsScreen = () => {
         {workouts.map((workout) => (
           <VStack key={workout.id} space={3} divider={<Divider />} w="90%">
             <HStack justifyContent="space-between">
-              <Button width="60%" bg="primary.300">
+              <Button
+                width="60%"
+                bg="primary.300"
+                onPress={() => {
+                  handleClick(workout.id);
+                }}
+              >
                 {workout.name}
               </Button>
               <Icon name="arrow-forward" />
