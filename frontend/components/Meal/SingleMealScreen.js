@@ -35,13 +35,13 @@ const SingleMealScreen = (props) => {
 
   const { meal } = useSelector((state) => state.meal);
   return (
-    <ScrollView marginBottom={2}>
+    <ScrollView>
       <Image
         alignSelf="center"
         size={200}
         borderRadius={100}
         source={{ uri: meal.imageUrl }}
-        alt={meal.name}
+        alt={("picture of", meal.name)}
         marginTop={3}
         marginBottom={3}
       />
@@ -76,24 +76,24 @@ const SingleMealScreen = (props) => {
         <Text fontSize={18} fontWeight="bold">
           Prep Time:
         </Text>
-        <Text fontSize={16} marginTop={2} marginBottom={5}>
+        <Text fontSize={16} marginTop={1} marginBottom={5}>
           {meal.prepTime}
         </Text>
         <Text fontSize={18} fontWeight="bold">
           Ingredients:
         </Text>
-        <Text fontSize={16} marginTop={2} marginBottom={5}>
+        <Text fontSize={16} marginTop={1} marginBottom={5}>
           {meal.ingredients}
         </Text>
         <Text fontSize={18} fontWeight="bold">
           Instructions:
         </Text>
-        <Text fontSize={16} marginTop={2} marginBottom={5}>
+        <Text fontSize={16} marginTop={1} marginBottom={5}>
           {meal.instructions}
         </Text>
       </Container>
 
-      <Flex direction="row" justifyContent="center">
+      <Flex marginBottom={4} direction="row" justifyContent="center">
         <Button
           backgroundColor="#7B68EE"
           minWidth="90"

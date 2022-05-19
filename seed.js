@@ -138,6 +138,53 @@ const meals = [
     calories: 530,
     prepTime: "25 Minutes",
   },
+  {
+    mealType: "Lunch",
+    name: "Krabby Patty",
+    ingredients: "You'll never get me secret formula!",
+    instructions:
+      "Grab a patty from the freezer, and set the grill to medium-high. Once cooked, place the patty on a bun, with lettuce, cheese, onions, tomatoes, ketchup, mustard, pickles, and top bun together in that order!",
+    imageUrl:
+      "https://vignette.wikia.nocookie.net/spongebob/images/7/7d/Mermaid_Man_vs._SpongeBob_126.png/revision/latest?cb=20200106222204",
+    calories: 300,
+    prepTime: "10 Minutes",
+  },
+  {
+    mealType: "Lunch",
+    name: "Tofu Burrito Bowl",
+    ingredients:
+      "1 Pack of Extra-Firm Tofu, 3 Tbsp Olive Oil, 1 Tsp Garlic Powder, 1 Tsp Onion Powder, 1/4 Cup Cilantro, 1 Sliced Avocado, 2 Jalapeno Peppers, 2 Chopped Tomatoes",
+    instructions:
+      "Preheat a large skillet over medium-high heat. Break tofu apart, sprinkle with salt and pepper, then cook until tofu browns.",
+    imageUrl:
+      "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F4306820.jpg",
+    calories: 480,
+    prepTime: "15 Minutes",
+  },
+  {
+    mealType: "Dinner",
+    name: "Gourmet Sweet Potato Casserole",
+    ingredients:
+      "5 Sweet Potatoes, 2 Eggs, 1 Tsp Vanilla Extract, 1/2 Pecans, 1/2 Tsp Ground Cinnamon, 2 Tbsp Heavy Cream",
+    instructions:
+      "heat oven to 350 degrees, bake potatoes for 35 minutes, mash potatoes in a large bowl and mix ingredients together, bake for another 30 minutes",
+    imageUrl:
+      "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F303240.jpg",
+    calories: 410,
+    prepTime: "1 Hour 25 Minutes",
+  },
+  {
+    mealType: "Dinner",
+    name: "The Best Lasagna",
+    ingredients:
+      "1 Pound Beef, 2 Tbsp Olive Oil, 24 oz Tomato Sauce, 1/2 Pound Dry Lasagna Noodles, 15 oz Ricotta Cheese, 16 oz Mozzarella Cheese",
+    instructions:
+      "Heat water in bowl, insert pasta once water is boiling. Brown the ground beef, combine beef with sauce. Spread beef onto pasta and bake at 375 degrees for 45 Minutes",
+    imageUrl:
+      "https://www.simplyrecipes.com/thmb/5rjeoB4rTMos5kKupwB599MGk9E=/720x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Simply-Recipes-Best-Classic-Lasagna-Lead-7-48433ed3fa71405b967e77d09c494a74.jpg",
+    calories: 826,
+    prepTime: "90 Minutes",
+  },
 ];
 
 const seed = async () => {

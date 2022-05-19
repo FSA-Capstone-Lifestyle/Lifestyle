@@ -48,8 +48,13 @@ const AllMealScreen = ({ navigation }) => {
         Create A Meal
       </Button>
 
-      <ScrollView maxH={Math.floor(Dimensions.get("window").height) - 180}>
-        <Flex justifyContent="center" flexDirection="row" flexWrap="wrap">
+      <ScrollView>
+        <Flex
+          marginBottom={5}
+          justifyContent="center"
+          flexDirection="row"
+          flexWrap="wrap"
+        >
           {meals.map((meal) => {
             return (
               <Pressable
