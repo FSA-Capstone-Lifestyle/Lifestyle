@@ -20,7 +20,10 @@ const Calendar = () => {
     });
   }
 
+  const { user } = useSelector((state) => state.user);
+
   const { id } = useSelector((state) => state.auth.user);
+  const { workouts } = user;
 
   const dispatch = useDispatch();
 
@@ -28,9 +31,13 @@ const Calendar = () => {
     dispatch(fetchUserWorkouts(id));
   }, []);
 
+<<<<<<< HEAD
   const { workouts } = useSelector((state) => state.user);
 
   // console.log("from calendar", workouts, id);
+=======
+  console.log("from calendar", workouts, id);
+>>>>>>> origin/main
 
   if (!workouts) {
     return (

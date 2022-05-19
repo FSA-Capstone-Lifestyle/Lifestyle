@@ -15,7 +15,7 @@ import {
   View,
   Icon,
 } from "native-base";
-import { TextInput } from "react-native";
+
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { authenticate, me } from "../store/slices/auth.slice";

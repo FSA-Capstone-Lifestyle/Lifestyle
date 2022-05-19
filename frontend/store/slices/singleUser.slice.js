@@ -27,11 +27,12 @@ export const fetchUser = createAsyncThunk(
 export const fetchUserWorkouts = createAsyncThunk(
   "user/fetchUserWorkouts",
   async (id, { rejectWithValue }) => {
+    console.log("fetchworkouts", id);
     try {
       const res = await axios.get(
-        `http://localhost:1337/api/user/${id}/workouts`
+        `http://localhost:1337/api/users/${id}/workouts`
       );
-      console.log("fetchuserworkouts", id, res);
+      console.log("fetchuserworkouts", id, res.data);
       return res.data;
     } catch (error) {
       console.log("Cant find this workout", error);
@@ -102,7 +103,8 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [fetchUserWorkouts.fulfilled]: (state, action) => {
-      state.workouts = action.payload;
+      state.user = action.payload[0];
+      console.log("state.user", state.user);
       state.isSuccess = true;
     },
     [fetchUserWorkouts.rejected]: (state) => {

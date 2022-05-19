@@ -65,15 +65,15 @@ router.put("/:id", requireToken, async (req, res, next) => {
   }
 });
 
-//Fetch All User Workouts "/api/user/:id/workouts"
-router.get("/:id/workouts", requireToken, async (req, res, next) => {
+//Fetch All User Workouts "/api/users/:id/workouts"
+router.get("/:id/workouts", async (req, res, next) => {
   try {
-    let workouts = await Workout_Plan.findAll({
+    let workouts = await User.findAll({
       where: {
-        userId: req.params.id,
+        id: req.params.id,
       },
       include: {
-        model: workouts,
+        model: Workout,
       },
     });
     res.send(workouts);
@@ -107,7 +107,7 @@ router.put("/:id/:workoutId/completed", async (req, res, next) => {
       },
     });
     await workout.update({
-      progress: "To Do",
+      progress: "To do",
       completions: req.body.completions,
     });
   } catch (error) {

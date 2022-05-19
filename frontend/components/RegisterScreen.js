@@ -27,15 +27,6 @@ function RegisterScreen({ navigation }) {
   const [formData, setData] = React.useState({});
   const userInfo = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    dispatch(me());
-  }, []);
-  console.log(userInfo);
-
-  if (userInfo.user) {
-    navigation.replace("LoginScreen");
-  }
-
   const validate = () => {
     setErrors({});
 
@@ -57,13 +48,20 @@ function RegisterScreen({ navigation }) {
       setErrors({ ...errors, confirmPassword: "Passwords should match !" });
       return false;
     }
+
     return true;
   };
 
   const onSubmit = () => {
-    validate()
-      ? dispatch(register(formData))
-      : console.log("Validation Failed");
+    if (validate()) {
+      dispatch(register(formData)).then((value) =>
+        value.meta.requestStatus === "fulfilled"
+          ? navigation.navigate("LoginScreen")
+          : console.log("rejected")
+      );
+    } else {
+      console.log("Validation Failed");
+    }
   };
   return (
     <Center w="100%">
@@ -205,7 +203,7 @@ function RegisterScreen({ navigation }) {
               </FormControl.ErrorMessage>
             ) : null}
           </FormControl>
-          <Button mt="2" colorScheme="indigo" onPress={onSubmit}>
+          <Button mt="2" colorScheme="indigo" onPress={() => onSubmit()}>
             Sign up
           </Button>
         </VStack>
