@@ -30,7 +30,7 @@ const SingleMealScreen = (props) => {
   };
   const handleDelete = async (id) => {
     await dispatch(removeMeal(id));
-    props.navigation.navigate.goBack();
+    // await props.navigation.navigate.goBack();
   };
 
   const { meal } = useSelector((state) => state.meal);
@@ -97,6 +97,7 @@ const SingleMealScreen = (props) => {
         <Button
           backgroundColor="#7B68EE"
           minWidth="90"
+          shadow={1}
           minHeight="10"
           rounded={8}
           marginX={3}
@@ -111,6 +112,7 @@ const SingleMealScreen = (props) => {
 
         <Button
           backgroundColor="#e80000"
+          shadow={1}
           minWidth="90"
           minHeight="10"
           marginX={3}
