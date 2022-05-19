@@ -27,14 +27,6 @@ function RegisterScreen({navigation}) {
   const [formData, setData] = React.useState({});
   const userInfo = useSelector((state) => state.auth)
 
-  console.log(userInfo)
-
-  // if(userInfo.user){
-  //   navigation.replace('LoginScreen')
-  // }
-
-
-
   const validate = () => {
     setErrors({})
 
@@ -59,12 +51,18 @@ function RegisterScreen({navigation}) {
       });
       return false;
     }
+
     return true;
   };
 
 
   const onSubmit = () => {
-    validate() ? dispatch(register( formData )) : console.log('Validation Failed');
+    if(validate()){
+      dispatch(register( formData )).then(value => value.meta.requestStatus ===  "fulfilled" ? navigation.navigate('LoginScreen') : console.log('rejected'))
+
+    }else{
+      console.log('Validation Failed');
+    }
   }
   return (
     <Center w="100%">
@@ -194,7 +192,7 @@ function RegisterScreen({navigation}) {
               />
               {'confirmPassword' in errors ? <FormControl.ErrorMessage>{errors.confirmPassword}</FormControl.ErrorMessage> : null}
             </FormControl>
-            <Button  mt="2" colorScheme="indigo" onPress={onSubmit}>
+            <Button  mt="2" colorScheme="indigo" onPress={() => onSubmit()}>
               Sign up
             </Button>
 
