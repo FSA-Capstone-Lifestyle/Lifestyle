@@ -30,8 +30,8 @@ export const fetchUserWorkouts = createAsyncThunk(
     console.log("fetchworkouts", id);
     try {
       const res = await axios.get(
-        `http://192.168.1.155:1337/api/user/${id}/workouts`
-        // `http://localhost:1337/api/users/${id}/workouts`
+        // `http://192.168.1.155:1337/api/user/${id}/workouts`
+        `http://localhost:1337/api/users/${id}/workouts`
       );
       console.log("fetchuserworkouts", id, res.data);
       return res.data;
