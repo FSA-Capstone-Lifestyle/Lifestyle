@@ -8,7 +8,8 @@ import ProfileScreen from "../ProfileScreen.js";
 import WorkoutsScreen from "../../components/Workout/WorkoutsScreen";
 import SettingsScreen from "../SettingsScreen.js";
 import EditProfileScreen from "../EditProfileScreen";
-import DietPlanScreen from "../DietPlanScreen.js";
+import AllMealScreen from "../Meal/AllMealScreen.js";
+import SingleMealScreen from "../Meal/SingleMealScreen";
 import CustomDrawer from "../CustomDrawer.js";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -16,7 +17,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SingleDietPlanScreen from "../SingleDietPlanScreen.js";
 
 const ProfileStack = createStackNavigator();
-const DietPlanStack = createStackNavigator();
+const MealStack = createStackNavigator();
 
 function ProfileStackScreen() {
   return (
@@ -37,22 +38,22 @@ function ProfileStackScreen() {
   );
 }
 
-function DietPlanStackScreen() {
+function MealStackScreen() {
   return (
-    <DietPlanStack.Navigator initialRouteName="DietPlanScreen">
-      <DietPlanStack.Screen
-        name="DietPlanScreen"
-        component={DietPlanScreen}
+    <MealStack.Navigator initialRouteName="AllMealScreen">
+      <MealStack.Screen
+        name="AllMealScreen"
+        component={AllMealScreen}
         options={{ headerShown: false }}
       />
-      <DietPlanStack.Screen
-        name="SingleDietPlanScreen"
-        component={SingleDietPlanScreen}
+      <MealStack.Screen
+        name="SingleMealScreen"
+        component={SingleMealScreen}
         options={{
           title: " ",
         }}
       />
-    </DietPlanStack.Navigator>
+    </MealStack.Navigator>
   );
 }
 
@@ -118,8 +119,8 @@ const AppStack = () => {
         }}
       />
       <Drawer.Screen
-        name="Diet Plans"
-        component={DietPlanStackScreen}
+        name="Meals"
+        component={MealStackScreen}
         options={{
           headerShown: false,
           drawerIcon: ({ color }) => {

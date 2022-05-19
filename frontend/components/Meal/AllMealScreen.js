@@ -29,7 +29,7 @@ const AllMealScreen = ({ navigation }) => {
     console.log("create meal page!");
   };
 
-  const { meals } = useSelector((state) => state.diets);
+  const { meals } = useSelector((state) => state.meals);
   return (
     <SafeAreaView>
       <Heading textAlign="center" fontSize={30} marginTop={10} marginBottom={5}>

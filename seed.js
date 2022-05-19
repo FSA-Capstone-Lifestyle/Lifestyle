@@ -93,18 +93,50 @@ const diets = [
 const meals = [
   {
     mealType: "Breakfast",
-    name: "Greek yogurt with strawberries and chia seeds",
-    ingredients: "1 Cup Greek Yogurt, 1/3 Cup Strawberries, 2 Tbsp Chia Seeds",
+    name: "Sweet Greek Yogurt",
+    ingredients:
+      "1/2 Cup Greek Yogurt, 2 Tbsp Strawberries, 2 Tbsp Blueberries",
     prepTime: "5 Minutes",
+    calories: 150,
+    imageUrl:
+      "https://www.littlebroken.com/wp-content/uploads/2016/03/Vanilla-Greek-Yogurt-Chia-Seed-Pudding-3.jpg",
     dietId: 1,
   },
   {
+    mealType: "Breakfast",
+    name: "Whole Wheat Waffles",
+    ingredients:
+      "2 Whole Wheat Waffles, 2 Tbsp Strawberries, 2 Tbsp Blueberries, 1 Tbsp Butter, 1 Banana",
+    instructions:
+      "Put waffles in the toaster, place fruits on the waffles, dazzle waffles with some maple syrup",
+    imageUrl:
+      "https://inquiringchef.com/wp-content/uploads/2019/08/Whole-Wheat-Waffles_01.jpg",
+    calories: 250,
+    prepTime: "10 Minutes",
+  },
+  {
     mealType: "Lunch",
-    name: "salmon with asparagus cooked in butter",
-    ingredients: "4-6 oz Salmon, 1 Cup Asparagus, 2 Tbsp Butter",
+    name: "Spicy Salmon",
+    ingredients:
+      "4-6 oz Salmon, 1 Cup Asparagus, 2 Tbsp Butter, 2 tsp red pepper flakes",
     instructions:
       "preheat oven to 425 degrees, coat salmon with butter, cook for 20 minutes",
+    imageUrl:
+      "https://www.metabolicliving.com/blog/wp-content/uploads/2020/04/Garlic-Butter-Salmon-with-Lemon-Asparagus-Skillet.jpg",
+    calories: 640,
     prepTime: "30 Minutes",
+  },
+  {
+    mealType: "Lunch",
+    name: "Organic Lamb Burger",
+    ingredients:
+      "1 Pound Ground Lamb, 2 Burger Buns, 2 Tsp Dried Oregano, 1/4 Tsp Salt",
+    instructions:
+      "Combine the ground lamb with oregano, sprinkle salt on the patty, grill on medium-high heat, put cooked burger in the buns",
+    imageUrl:
+      "https://data.thefeedfeed.com/static/2020/05/11/15892448525eb9f3b40230b.jpg",
+    calories: 530,
+    prepTime: "25 Minutes",
   },
 ];
 
