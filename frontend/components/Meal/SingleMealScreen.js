@@ -8,6 +8,8 @@ import {
   Link,
   Button,
   Image,
+  Divider,
+  Container,
 } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Dimensions } from "react-native";
@@ -33,30 +35,96 @@ const SingleMealScreen = (props) => {
 
   const { meal } = useSelector((state) => state.meal);
   return (
-    <SafeAreaView>
+    <ScrollView marginBottom={2}>
       <Image
         alignSelf="center"
         size={200}
         borderRadius={100}
         source={{ uri: meal.imageUrl }}
         alt={meal.name}
+        marginTop={3}
         marginBottom={3}
       />
-      <Box backgroundColor="#008B8B" alignSelf="center" rounded={8}>
-        <Text fontWeight="bold" color="#FFFFFF" padding={2}>
-          Calories: {meal.calories}
-        </Text>
-      </Box>
 
-      <Button
-        backgroundColor="#DC143C"
-        onPress={() => {
-          handleDelete(meal.id);
-        }}
-      >
-        Delete Meal
-      </Button>
-    </SafeAreaView>
+      <Text marginBottom={2} fontWeight="bold" fontSize={28} textAlign="center">
+        {meal.name}
+      </Text>
+
+      <Flex direction="row" justifyContent="center">
+        <Box marginX={2} backgroundColor="#008B8B" rounded={8}>
+          <Text fontWeight="bold" color="#FFFFFF" padding={2}>
+            {meal.mealType}
+          </Text>
+        </Box>
+
+        <Box marginX={2} backgroundColor="#008B8B" rounded={8}>
+          <Text fontWeight="bold" color="#FFFFFF" padding={2}>
+            Calories: {meal.calories}
+          </Text>
+        </Box>
+      </Flex>
+
+      <Divider
+        thickness={2}
+        maxWidth="325"
+        alignSelf="center"
+        marginTop={3}
+        marginBottom={5}
+      />
+
+      <Container alignSelf="center">
+        <Text fontSize={18} fontWeight="bold">
+          Prep Time:
+        </Text>
+        <Text fontSize={16} marginTop={2} marginBottom={5}>
+          {meal.prepTime}
+        </Text>
+        <Text fontSize={18} fontWeight="bold">
+          Ingredients:
+        </Text>
+        <Text fontSize={16} marginTop={2} marginBottom={5}>
+          {meal.ingredients}
+        </Text>
+        <Text fontSize={18} fontWeight="bold">
+          Instructions:
+        </Text>
+        <Text fontSize={16} marginTop={2} marginBottom={5}>
+          {meal.instructions}
+        </Text>
+      </Container>
+
+      <Flex direction="row" justifyContent="center">
+        <Button
+          backgroundColor="#7B68EE"
+          minWidth="90"
+          minHeight="10"
+          rounded={8}
+          marginX={3}
+          onPress={() => {
+            handleDelete(meal.id);
+          }}
+        >
+          <Text fontWeight="bold" color="#ffffff">
+            Add to Diet Plan
+          </Text>
+        </Button>
+
+        <Button
+          backgroundColor="#e80000"
+          minWidth="90"
+          minHeight="10"
+          marginX={3}
+          rounded={8}
+          onPress={() => {
+            handleDelete(meal.id);
+          }}
+        >
+          <Text fontWeight="bold" color="#ffffff">
+            Delete Meal
+          </Text>
+        </Button>
+      </Flex>
+    </ScrollView>
   );
 };
 
