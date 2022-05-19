@@ -7,6 +7,7 @@ import {
   ScrollView,
   Link,
   Button,
+  Image,
 } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Dimensions } from "react-native";
@@ -33,8 +34,22 @@ const SingleMealScreen = (props) => {
   const { meal } = useSelector((state) => state.meal);
   return (
     <SafeAreaView>
-      <Text>Hello {meal.name}</Text>
+      <Image
+        alignSelf="center"
+        size={200}
+        borderRadius={100}
+        source={{ uri: meal.imageUrl }}
+        alt={meal.name}
+        marginBottom={3}
+      />
+      <Box backgroundColor="#008B8B" alignSelf="center" rounded={8}>
+        <Text fontWeight="bold" color="#FFFFFF" padding={2}>
+          Calories: {meal.calories}
+        </Text>
+      </Box>
+
       <Button
+        backgroundColor="#DC143C"
         onPress={() => {
           handleDelete(meal.id);
         }}
