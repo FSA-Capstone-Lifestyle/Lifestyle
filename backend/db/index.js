@@ -3,6 +3,8 @@ const User = require("./Users");
 const WorkoutPlan = require("./WorkoutPlan");
 const Workout = require("./Workouts");
 const Exercise = require("./Exercises");
+const Diet = require("./Diets");
+const Meal = require("./Meals");
 const Sequelize = require("sequelize");
 
 const Workout_Plan = db.define("Workout_Plan", {
@@ -28,11 +30,19 @@ Workout.belongsToMany(User, { through: "Workout_Plan", as: "athlete" });
 Workout.hasMany(Exercise);
 Exercise.belongsTo(Workout);
 
+User.belongsToMany(Diet, { through: "Diet_Plan" });
+Diet.belongsToMany(User, { through: "Diet_Plan", as: "user" });
+
+Diet.hasMany(Meal);
+Meal.belongsTo(Diet);
+
 module.exports = {
   db,
   User,
   WorkoutPlan,
   Workout,
   Exercise,
+  Diet,
+  Meal,
   Workout_Plan,
 };

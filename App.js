@@ -19,28 +19,28 @@ const App = () => {
     <NativeBaseProvider>
       <Provider store={store}>
         <NavigationContainer>
-        <Stack.Navigator initialRouteName="SplashScreen">
-        {/* SplashScreen which will come once for 5 Seconds */}
-        <Stack.Screen
-          name="SplashScreen"
-          component={SplashScreen}
-          // Hiding header for Splash Screen
-          options={{headerShown: false}}
-        />
-        {/* Auth Navigator: Include Login and Signup */}
-        <Stack.Screen
-          name="AuthStack"
-          component={AuthStack}
-          options={{headerShown: false}}
-        />
-        {/* Navigation Drawer as a landing page */}
-        <Stack.Screen
-          name="AppStack"
-          component={AppStack}
-          // Hiding header for Navigation Drawer
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
+          <Stack.Navigator initialRouteName="SplashScreen">
+            {/* SplashScreen which will come once for 5 Seconds */}
+            <Stack.Screen
+              name="SplashScreen"
+              component={SplashScreen}
+              // Hiding header for Splash Screen
+              options={{ headerShown: false }}
+            />
+            {/* Auth Navigator: Include Login and Signup */}
+            <Stack.Screen
+              name="AuthStack"
+              component={AuthStack}
+              options={{ headerShown: false }}
+            />
+            {/* Navigation Drawer as a landing page */}
+            <Stack.Screen
+              name="AppStack"
+              component={AppStack}
+              // Hiding header for Navigation Drawer
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
         </NavigationContainer>
       </Provider>
     </NativeBaseProvider>

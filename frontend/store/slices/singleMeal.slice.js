@@ -2,19 +2,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  workout: {},
+  meal: {},
   isSuccess: false,
   isError: false,
   isLoading: false,
 };
 
-export const fetchWorkout = createAsyncThunk(
-  "workout/fetchWorkout",
+export const fetchMeal = createAsyncThunk(
+  "meal/fetchMeal",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `http://localhost:1337/api/workouts/${id}`
-      );
+      const response = await axios.get(`http://localhost:1337/api/meals/${id}`);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -22,24 +20,23 @@ export const fetchWorkout = createAsyncThunk(
   }
 );
 
-// Slice reducer - action creators and types are generated here
-const workoutSlice = createSlice({
-  name: "workout",
+const mealSlice = createSlice({
+  name: "meal",
   initialState,
   reducers: {},
   extraReducers: {
-    [fetchWorkout.pending]: (state) => {
+    [fetchMeal.pending]: (state) => {
       state.isLoading = true;
     },
-    [fetchWorkout.fulfilled]: (state, action) => {
-      state.workout = action.payload;
+    [fetchMeal.fulfilled]: (state, action) => {
+      state.meal = action.payload;
       state.isSuccess = true;
     },
-    [fetchWorkout.rejected]: (state) => {
+    [fetchMeal.rejected]: (state) => {
       state.isLoading = false;
       state.isError = true;
     },
   },
 });
 
-export const workoutReducer = workoutSlice.reducer;
+export const mealReducer = mealSlice.reducer;

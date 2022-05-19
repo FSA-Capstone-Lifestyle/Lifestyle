@@ -31,7 +31,13 @@ const Calendar = () => {
     dispatch(fetchUserWorkouts(id));
   }, []);
 
+<<<<<<< HEAD
+  const { workouts } = useSelector((state) => state.user);
+
+  // console.log("from calendar", workouts, id);
+=======
   console.log("from calendar", workouts, id);
+>>>>>>> origin/main
 
   if (!workouts) {
     return (

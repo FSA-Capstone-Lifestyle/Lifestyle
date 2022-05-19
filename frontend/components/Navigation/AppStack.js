@@ -8,12 +8,16 @@ import ProfileScreen from "../ProfileScreen.js";
 import WorkoutsScreen from "../../components/Workout/WorkoutsScreen";
 import SettingsScreen from "../SettingsScreen.js";
 import EditProfileScreen from "../EditProfileScreen";
+import AllMealScreen from "../Meal/AllMealScreen.js";
+import SingleMealScreen from "../Meal/SingleMealScreen";
 import CustomDrawer from "../CustomDrawer.js";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
+import SingleDietPlanScreen from "../SingleDietPlanScreen.js";
 
 const ProfileStack = createStackNavigator();
+const MealStack = createStackNavigator();
 
 function ProfileStackScreen() {
   return (
@@ -31,6 +35,25 @@ function ProfileStackScreen() {
         }}
       />
     </ProfileStack.Navigator>
+  );
+}
+
+function MealStackScreen() {
+  return (
+    <MealStack.Navigator initialRouteName="AllMealScreen">
+      <MealStack.Screen
+        name="AllMealScreen"
+        component={AllMealScreen}
+        options={{ headerShown: false }}
+      />
+      <MealStack.Screen
+        name="SingleMealScreen"
+        component={SingleMealScreen}
+        options={{
+          title: " ",
+        }}
+      />
+    </MealStack.Navigator>
   );
 }
 
@@ -90,6 +113,22 @@ const AppStack = () => {
                 color={color}
                 size="6"
                 as={<FontAwesome5 name="running" size={6} />}
+              />
+            );
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="Meals"
+        component={MealStackScreen}
+        options={{
+          headerShown: false,
+          drawerIcon: ({ color }) => {
+            return (
+              <Icon
+                color={color}
+                size="5"
+                as={<FontAwesome5 name="carrot" size={5} />}
               />
             );
           },
