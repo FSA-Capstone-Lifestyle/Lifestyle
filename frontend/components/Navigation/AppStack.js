@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { Icon } from "native-base";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -6,6 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MainScreen from "../MainScreen.js";
 import ProfileScreen from "../ProfileScreen.js";
 import WorkoutsScreen from "../../components/Workout/WorkoutsScreen";
+import SingleWorkoutScreen from "../Workout/SingleWorkoutScreen.js";
 import SettingsScreen from "../SettingsScreen.js";
 import EditProfileScreen from "../EditProfileScreen";
 import AllMealScreen from "../Meal/AllMealScreen.js";
@@ -17,6 +17,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SingleDietPlanScreen from "../SingleDietPlanScreen.js";
 
 const ProfileStack = createStackNavigator();
+const WorkoutStack = createStackNavigator();
 const MealStack = createStackNavigator();
 
 function ProfileStackScreen() {
@@ -38,6 +39,21 @@ function ProfileStackScreen() {
   );
 }
 
+function WorkoutStackScreen() {
+  return (
+    <WorkoutStack.Navigator initialRouteName="WorkoutsScreen">
+      <WorkoutStack.Screen
+        name="WorkoutsScreen"
+        component={WorkoutsScreen}
+        options={{ headerShown: false }}
+      />
+      <WorkoutStack.Screen
+        name="SingleWorkoutScreen"
+        component={SingleWorkoutScreen}
+      />
+    </WorkoutStack.Navigator>
+  );
+}
 function MealStackScreen() {
   return (
     <MealStack.Navigator initialRouteName="AllMealScreen">
@@ -104,7 +120,7 @@ const AppStack = () => {
       />
       <Drawer.Screen
         name="My Workouts"
-        component={WorkoutsScreen}
+        component={WorkoutStackScreen}
         options={{
           headerShown: false,
           drawerIcon: ({ color }) => {

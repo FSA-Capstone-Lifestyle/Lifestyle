@@ -1,3 +1,4 @@
+require("dotenv").config();
 const Sequelize = require("sequelize");
 const db = require("./database");
 const jwt = require("jsonwebtoken");
@@ -51,13 +52,13 @@ User.beforeCreate((user, option) => {
   user.setDataValue("password", hash);
 });
 
-User.prototype.generateToken = function() {
-  return jwt.sign({userId: this.id}, process.env.JWT)
-}
+User.prototype.generateToken = function () {
+  return jwt.sign({ userId: this.id }, process.env.JWT);
+};
 
 User.findByToken = async (token) => {
   try {
-    console.log(token)
+    console.log(token);
     const { userId } = await jwt.verify(token, process.env.JWT);
 
     const user = await User.findByPk(userId);
