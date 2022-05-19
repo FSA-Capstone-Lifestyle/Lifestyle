@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { Icon } from "native-base";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -9,13 +8,17 @@ import WorkoutsScreen from "../../components/Workout/WorkoutsScreen";
 import SingleWorkoutScreen from "../Workout/SingleWorkoutScreen.js";
 import SettingsScreen from "../SettingsScreen.js";
 import EditProfileScreen from "../EditProfileScreen";
+import AllMealScreen from "../Meal/AllMealScreen.js";
+import SingleMealScreen from "../Meal/SingleMealScreen";
 import CustomDrawer from "../CustomDrawer.js";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
+import SingleDietPlanScreen from "../SingleDietPlanScreen.js";
 
 const ProfileStack = createStackNavigator();
 const WorkoutStack = createStackNavigator();
+const MealStack = createStackNavigator();
 
 function ProfileStackScreen() {
   return (
@@ -47,11 +50,26 @@ function WorkoutStackScreen() {
       <WorkoutStack.Screen
         name="SingleWorkoutScreen"
         component={SingleWorkoutScreen}
+      />
+    </WorkoutStack.Navigator>
+  );
+}
+function MealStackScreen() {
+  return (
+    <MealStack.Navigator initialRouteName="AllMealScreen">
+      <MealStack.Screen
+        name="AllMealScreen"
+        component={AllMealScreen}
+        options={{ headerShown: false }}
+      />
+      <MealStack.Screen
+        name="SingleMealScreen"
+        component={SingleMealScreen}
         options={{
           title: " ",
         }}
       />
-    </WorkoutStack.Navigator>
+    </MealStack.Navigator>
   );
 }
 
@@ -111,6 +129,22 @@ const AppStack = () => {
                 color={color}
                 size="6"
                 as={<FontAwesome5 name="running" size={6} />}
+              />
+            );
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="Meals"
+        component={MealStackScreen}
+        options={{
+          headerShown: false,
+          drawerIcon: ({ color }) => {
+            return (
+              <Icon
+                color={color}
+                size="5"
+                as={<FontAwesome5 name="carrot" size={5} />}
               />
             );
           },

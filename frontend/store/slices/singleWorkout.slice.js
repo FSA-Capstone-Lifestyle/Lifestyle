@@ -14,6 +14,7 @@ export const fetchWorkout = createAsyncThunk(
     try {
       const response = await axios.get(
         `http://192.168.1.155:1337/api/workouts/${id}`
+        // `http://localhost:1337/api/workouts/${id}`
       );
       return response.data;
     } catch (err) {
