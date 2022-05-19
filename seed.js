@@ -52,6 +52,17 @@ const exercises = [
   { name: "sit-ups", sets: 4, reps: 10, workoutId: 2 },
 ];
 
+const userWithDiets = {
+  firstName: "Miguel",
+  lastName: "Diaz",
+  password: "cobrakai123",
+  email: "migueldiaz@fitness.com",
+  image:
+    "https://yankeetv.com/wiki/wp-content/uploads/2019/06/Xolo-Mariduena-e1610789028308.jpg",
+};
+
+const usersDiet = { name: "Miguel's Diet Plan" };
+
 const diets = [
   {
     name: "The Rock's Iron Nutrition",
@@ -85,6 +96,7 @@ const meals = [
     name: "Greek yogurt with strawberries and chia seeds",
     ingredients: "1 Cup Greek Yogurt, 1/3 Cup Strawberries, 2 Tbsp Chia Seeds",
     prepTime: "5 Minutes",
+    dietId: 1,
   },
   {
     mealType: "Lunch",
@@ -122,6 +134,10 @@ const seed = async () => {
         return Exercise.create(exercise);
       })
     );
+
+    const miguelDiaz = await User.create(userWithDiets);
+    const miguelsDiet = await Diet.create(usersDiet);
+    await miguelsDiet.setUser(miguelDiaz);
 
     await Promise.all(
       diets.map((diet) => {

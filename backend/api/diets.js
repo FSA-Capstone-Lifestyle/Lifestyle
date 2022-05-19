@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Diet = require("../db/Diets");
+const Meal = require("../db/Meals");
 
 // const requireToken = async (req, res, next) => {
 //     try {
@@ -24,7 +25,9 @@ router.get("/", async (req, res, next) => {
 // GET /api/diets/:id
 router.get("/:id", async (req, res, next) => {
   try {
-    const diet = await Diet.findByPk(req.params.id);
+    const diet = await Diet.findByPk(req.params.id, {
+      include: Meal,
+    });
     res.json(diet);
   } catch (err) {
     next(err);
