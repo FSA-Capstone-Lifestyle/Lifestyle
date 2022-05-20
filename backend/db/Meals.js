@@ -25,6 +25,7 @@ const Meal = db.define("meal", {
   },
   instructions: {
     type: Sequelize.STRING,
+    defaultValue: "None",
   },
   prepTime: {
     type: Sequelize.STRING,

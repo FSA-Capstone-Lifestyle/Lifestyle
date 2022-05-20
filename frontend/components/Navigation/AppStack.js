@@ -10,6 +10,8 @@ import SettingsScreen from "../SettingsScreen.js";
 import EditProfileScreen from "../EditProfileScreen";
 import AllMealScreen from "../Meal/AllMealScreen.js";
 import SingleMealScreen from "../Meal/SingleMealScreen";
+import EditMealScreen from "../Meal/EditMealScreen.js";
+import CreateMealScreen from "../Meal/CreateMealScreen.js";
 import CustomDrawer from "../CustomDrawer.js";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -63,8 +65,22 @@ function MealStackScreen() {
         options={{ headerShown: false }}
       />
       <MealStack.Screen
+        name="CreateMealScreen"
+        component={CreateMealScreen}
+        options={{
+          title: " ",
+        }}
+      />
+      <MealStack.Screen
         name="SingleMealScreen"
         component={SingleMealScreen}
+        options={{
+          title: " ",
+        }}
+      />
+      <MealStack.Screen
+        name="EditMealScreen"
+        component={EditMealScreen}
         options={{
           title: " ",
         }}
