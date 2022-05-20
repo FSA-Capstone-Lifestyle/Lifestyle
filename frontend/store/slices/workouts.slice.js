@@ -24,7 +24,10 @@ export const createWorkout = createAsyncThunk(
   "workouts/createWorkout",
   async (formInfo, { rejectWithValue }) => {
     try {
-      const res = await axios.post("/api/workouts", formInfo);
+      const res = await axios.post(
+        "http://localhost:1337/api/workouts",
+        formInfo
+      );
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -38,7 +41,10 @@ export const updateWorkout = createAsyncThunk(
     try {
       const { formData, workout } = formInfo;
       const { id } = workout;
-      const res = await axios.put(`/api/workouts/${id}`, formData);
+      const res = await axios.put(
+        `http://localhost:1337/api/workouts/${id}`,
+        formData
+      );
       return res.data;
     } catch (error) {
       console.log("Can't update workout", error);
@@ -51,7 +57,9 @@ export const removeWorkout = createAsyncThunk(
   "workouts/removeWorkout",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.delete(`/api/workouts/${id}`);
+      const res = await axios.delete(
+        `http://localhost:1337/api/workouts/${id}`
+      );
       return res.data;
     } catch (error) {
       console.log("Can't delete workout", error);

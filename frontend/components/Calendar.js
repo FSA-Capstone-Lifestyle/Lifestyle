@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { isSameDay } from "date-fns";
 import { startOfWeek, addDays, getDate, format } from "date-fns";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserWorkouts } from "../store/slices/singleUser.slice";
 
 const Calendar = () => {
   const week = [];
@@ -18,6 +20,28 @@ const Calendar = () => {
     });
   }
 
+  const { user } = useSelector((state) => state.user);
+
+  const { id } = useSelector((state) => state.auth.user);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUserWorkouts(id));
+  }, []);
+
+  const { workouts } = user;
+
+  // console.log("from calendar", workouts, id);
+  console.log("from calendar", workouts, id);
+
+  if (!workouts) {
+    return (
+      <View style={styles.boxAdd}>
+        <Text style={styles.weekDayText}>Add workouts to get started</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       {week.map((weekDay) => {
@@ -25,18 +49,43 @@ const Calendar = () => {
         const textStyles = [styles.label];
         const touchable = [styles.touchable];
         const sameDay = isSameDay(weekDay.date, date);
-
+        const dayWorkout = [];
         if (sameDay) {
+          workouts.map((workout) => {
+            if (workout.daysOfWeek === "All") {
+              dayWorkout.push(workout);
+            } else if (workout.daysOfWeek.includes(weekDay.formatted)) {
+              dayWorkout.push(workout);
+            }
+          });
+          // dayWorkout.map((workout) => {
+          //   if (workout.progress === "To do") {
+          //     workout.skips += 1;
+          //   } else if (workout.progress === "Completed") {
+          //     workout.completions += 1;
+          //     workout.progress = "To do";
+          //   }
+          // });
           textStyles.push(styles.selectedLabel);
           touchable.push(styles.selectedTouchable);
         }
 
         return (
-          <View style={styles.weekDayItem} key={weekDay.formatted}>
-            <Text style={styles.weekDayText}>{weekDay.formatted}</Text>
-            <TouchableOpacity style={touchable}>
-              <Text style={textStyles}>{weekDay.day}</Text>
-            </TouchableOpacity>
+          <View key={weekDay.formatted}>
+            <View style={styles.weekDayItem}>
+              <Text style={styles.weekDayText}>{weekDay.formatted}</Text>
+              <TouchableOpacity style={touchable}>
+                <Text style={textStyles}>{weekDay.day}</Text>
+              </TouchableOpacity>
+            </View>
+            {dayWorkout.map((workout) => {
+              return (
+                <View style={styles.box} key={workout.id}>
+                  <Text style={textStyles}>{workout.name}:</Text>
+                  <Text style={textStyles}>{workout.progress}</Text>
+                </View>
+              );
+            })}
           </View>
         );
       })}
@@ -47,8 +96,18 @@ const Calendar = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "center",
     paddingVertical: 10,
+  },
+  box: {
+    flexDirection: "column",
+    justifyContent: "center",
+    paddingVertical: 10,
+  },
+  boxAdd: {
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    paddingVertical: 50,
   },
   weekDayText: {
     color: "gray",

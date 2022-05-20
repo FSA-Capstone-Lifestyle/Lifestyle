@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("./database");
 
-const Workout = db.define("workout", {
+const Diet = db.define("diet", {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -9,11 +9,14 @@ const Workout = db.define("workout", {
       notEmpty: true,
     },
   },
-  daysOfWeek: {
-    type: Sequelize.ENUM,
-    values: ["Mon, Wed, Fri", "All", "Tue, Thur"],
-    defaultValue: "All",
+  completions: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+  },
+  skips: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
   },
 });
 
-module.exports = Workout;
+module.exports = Diet;
