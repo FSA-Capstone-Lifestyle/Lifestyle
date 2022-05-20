@@ -76,6 +76,7 @@ const AllMealScreen = ({ navigation }) => {
                       boxSize="150"
                       backgroundColor={isPressed ? "#008b8b" : "#556B2F"}
                       rounded="8"
+                      brightness="40%"
                       style={{
                         transform: [
                           {
@@ -86,6 +87,7 @@ const AllMealScreen = ({ navigation }) => {
                     >
                       <Text
                         textAlign="center"
+                        alignSelf="center"
                         color="#ffffff"
                         fontWeight="bold"
                         fontSize="18"

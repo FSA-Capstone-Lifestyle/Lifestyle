@@ -1,22 +1,20 @@
 import {
   Box,
-  Heading,
   Flex,
   Pressable,
   Text,
   ScrollView,
-  Link,
   Button,
   Image,
   Divider,
   Container,
 } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Dimensions } from "react-native";
 import React, { useEffect } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMeal } from "../../store/slices/singleMeal.slice";
 import { removeMeal } from "../../store/slices/meals.slice";
+import { NavigationHelpersContext } from "@react-navigation/native";
 
 const SingleMealScreen = (props) => {
   const dispatch = useDispatch();
@@ -25,24 +23,41 @@ const SingleMealScreen = (props) => {
     dispatch(fetchMeal(props.route.params.id));
   }, []);
 
-  const handleEdit = () => {
-    console.log("hello meal edit page");
+  const handleAdd = () => {};
+
+  const handleEdit = (id) => {
+    props.navigation.navigate("EditMealScreen", { id: id });
   };
   const handleDelete = async (id) => {
     await dispatch(removeMeal(id));
-    // await props.navigation.navigate.goBack();
+    props.navigation.goBack();
   };
 
   const { meal } = useSelector((state) => state.meal);
   return (
     <ScrollView>
+      <Pressable
+        onPress={() => {
+          handleEdit(meal.id);
+        }}
+      >
+        {({ isPressed }) => {
+          return (
+            <MaterialIcons
+              style={{ marginTop: 20, marginRight: 25, alignSelf: "flex-end" }}
+              name="edit"
+              size={30}
+              color={isPressed ? "#898989" : "black"}
+            />
+          );
+        }}
+      </Pressable>
       <Image
         alignSelf="center"
         size={200}
         borderRadius={100}
-        source={{ uri: meal.imageUrl }}
-        alt={("picture of", meal.name)}
-        marginTop={3}
+        src={meal.imageUrl}
+        alt={meal.name}
         marginBottom={3}
       />
 
@@ -101,8 +116,12 @@ const SingleMealScreen = (props) => {
           minHeight="10"
           rounded={8}
           marginX={3}
+          _pressed={{
+            backgroundColor: "#584aa5",
+            transform: [{ scale: 0.92 }],
+          }}
           onPress={() => {
-            handleDelete(meal.id);
+            console.log("add to user diet");
           }}
         >
           <Text fontWeight="bold" color="#ffffff">
@@ -117,6 +136,10 @@ const SingleMealScreen = (props) => {
           minHeight="10"
           marginX={3}
           rounded={8}
+          _pressed={{
+            backgroundColor: "#9b0000",
+            transform: [{ scale: 0.92 }],
+          }}
           onPress={() => {
             handleDelete(meal.id);
           }}
