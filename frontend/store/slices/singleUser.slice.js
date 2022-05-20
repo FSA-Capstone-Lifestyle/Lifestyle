@@ -14,7 +14,7 @@ export const fetchUser = createAsyncThunk(
   "user/fetchUser",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`http://192.168.1.155:1337/api/users/${id}`);
+      const res = await axios.get(`http://localhost:1337/api/users/${id}`);
       return res.data;
     } catch (error) {
       console.log("Can't find this user", error);
@@ -27,13 +27,11 @@ export const fetchUser = createAsyncThunk(
 export const fetchUserWorkouts = createAsyncThunk(
   "user/fetchUserWorkouts",
   async (id, { rejectWithValue }) => {
-    console.log("fetchworkouts", id);
     try {
       const res = await axios.get(
         // `http://192.168.1.155:1337/api/user/${id}/workouts`
         `http://localhost:1337/api/users/${id}/workouts`
       );
-      console.log("fetchuserworkouts", id, res.data);
       return res.data;
     } catch (error) {
       console.log("Cant find this workout", error);
@@ -44,17 +42,27 @@ export const fetchUserWorkouts = createAsyncThunk(
 
 // User Completed Workout
 export const setComplete = createAsyncThunk(
-  "user/completed",
+  "user/setComplete",
   async (data, { rejectWithValue }) => {
     try {
       const userId = data.userId;
       const workoutId = data.workoutId;
-      const userWorkout = await axios.get(`/api/users/${userId}/${workoutId}`);
-      await axios.put(`/api/users/${userId}/${workoutId}/completed`, {
-        completions: userWorkout.completions++,
-      });
+      const currentDay = data.currentDay;
 
-      const res = await axios.get(`/api/users/${userId}/workouts`);
+      const userWorkout = await axios.get(
+        `http://localhost:1337/api/users/${userId}/${workoutId}`
+      );
+      await axios.put(
+        `http://localhost:1337/api/users/${userId}/${workoutId}/completed`,
+        {
+          completions: userWorkout.Workout_Plan.completions++,
+          currentDay: currentDay,
+        }
+      );
+
+      const res = await axios.get(
+        `http://localhost:1337/api/users/${userId}/workouts`
+      );
       return res.data;
     } catch (error) {
       console.log("Cant find this workout", error);
@@ -65,16 +73,25 @@ export const setComplete = createAsyncThunk(
 
 // User Skipped Workout
 export const setSkip = createAsyncThunk(
-  "user/completed",
+  "user/setSkip",
   async (data, { rejectWithValue }) => {
     try {
       const { userId } = data;
       const { workoutId } = data;
-      const userWorkout = await axios.get(`/api/users/${userId}/${workoutId}`);
-      await axios.put(`/api/users/${userId}/${workoutId}/completed`, {
-        skips: userWorkout.skips++,
-      });
-      const res = await axios.get(`/api/users/${userId}/workouts`);
+      const { currentDay } = data;
+      const userWorkout = await axios.get(
+        `http://localhost:1337/api/users/${userId}/${workoutId}`
+      );
+      await axios.put(
+        `http://localhost:1337/api/users/${userId}/${workoutId}/completed`,
+        {
+          skips: userWorkout.Workout_Plan.skips++,
+          currentDay: currentDay,
+        }
+      );
+      const res = await axios.get(
+        `http://localhost:1337/api/users/${userId}/workouts`
+      );
       return res.data;
     } catch (error) {
       console.log("Cant find this workout", error);
@@ -116,7 +133,7 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [setComplete.fulfilled]: (state, action) => {
-      state.workouts = action.payload;
+      state.user = action.payload[0];
       state.isSuccess = true;
     },
     [setComplete.rejected]: (state) => {
@@ -127,7 +144,7 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [setSkip.fulfilled]: (state, action) => {
-      state.workouts = action.payload;
+      state.user = action.payload[0];
       state.isSuccess = true;
     },
     [setSkip.rejected]: (state) => {
