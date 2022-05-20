@@ -122,7 +122,7 @@ const userSlice = createSlice({
     },
     [fetchUserWorkouts.fulfilled]: (state, action) => {
       state.user = action.payload[0];
-      console.log("state.user", state.user);
+      // console.log("state.user", state.user);
       state.isSuccess = true;
     },
     [fetchUserWorkouts.rejected]: (state) => {

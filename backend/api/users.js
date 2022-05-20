@@ -68,7 +68,7 @@ router.put("/:id", requireToken, async (req, res, next) => {
 //Fetch All User Workouts "/api/users/:id/workouts"
 router.get("/:id/workouts", async (req, res, next) => {
   try {
-    let workouts = await User.findAll({
+    let userWorkouts = await User.findAll({
       where: {
         id: req.params.id,
       },
@@ -76,7 +76,7 @@ router.get("/:id/workouts", async (req, res, next) => {
         model: Workout,
       },
     });
-    res.send(workouts);
+    res.send(userWorkouts);
   } catch (error) {
     next(error);
   }
@@ -85,18 +85,16 @@ router.get("/:id/workouts", async (req, res, next) => {
 //Get User Workout
 router.get("/:id/:workoutId", async (req, res, next) => {
   try {
-    let workout = await Workout_Plan.findOne({
+    let userWorkout = await Workout_Plan.findOne({
       where: {
         userId: req.params.id,
         workoutId: req.params.workoutId,
       },
+      include: {
+        model: Workout,
+      },
     });
-    // let userWorkout = await Workout.findOne({
-    //   where: {
-    //     id: workout.workoutId,
-    //   },
-    // });
-    res.send(workout);
+    res.send(userWorkout);
   } catch (error) {
     next(error);
   }
@@ -106,7 +104,11 @@ router.get("/:id/:workoutId", async (req, res, next) => {
 router.put("/:id/:workoutId/completed", async (req, res, next) => {
   try {
     await Workout_Plan.update(
-      { completions: req.body.completions, currentDay: req.body.currentDay },
+      {
+        completions: req.body.completions,
+        currentDay: req.body.currentDay,
+        progress: "To do",
+      },
       {
         where: {
           userId: req.params.id,
@@ -122,22 +124,15 @@ router.put("/:id/:workoutId/completed", async (req, res, next) => {
 //Skipped User Workout
 router.put("/:id/:workoutId/skipped", async (req, res, next) => {
   try {
-    let workout = await User.findOne({
-      where: {
-        id: req.params.id,
-        workoutId: req.params.workoutId,
-      },
-      include: {
-        model: Workout,
-      },
-    });
-    await workout.update({
-      Workout_Plan: {
-        progress: "To Do",
-        skips: req.body.skips,
-        currentDay: req.body.currentDay,
-      },
-    });
+    await Workout_Plan.update(
+      { skips: req.body.skips, currentDay: req.body.currentDay },
+      {
+        where: {
+          userId: req.params.id,
+          workoutId: req.params.workoutId,
+        },
+      }
+    );
   } catch (error) {
     next(error);
   }

@@ -46,6 +46,41 @@ const Calendar = () => {
       </View>
     );
   }
+
+  let newDate = new Date();
+
+  console.log(workouts, newDate);
+
+  workouts.map((workout) => {
+    if (workout.Workout_Plan.currentDay !== newDate) {
+      if (workout.Workout_Plan.progress === "To do") {
+        console.log("setSkip");
+        useEffect(() => {
+          dispatch(
+            setSkip({
+              userId: id,
+              workoutId: workout.id,
+              currentDay: newDate,
+            })
+          );
+        }, []);
+      } else if (workout.Workout_Plan.progress === "Complete") {
+        console.log("setComplete");
+        useEffect(() => {
+          dispatch(
+            setComplete({
+              userId: id,
+              workoutId: workout.id,
+              currentDay: newDate,
+            })
+          );
+        }, []);
+      }
+    } else {
+      return;
+    }
+  });
+
   return (
     <View style={styles.container}>
       {week.map((weekDay) => {
@@ -55,15 +90,6 @@ const Calendar = () => {
         const sameDay = isSameDay(weekDay.date, date);
         let dayWorkout = [];
 
-        if (!sameDay) {
-          dayWorkout.map((workout) => {
-            if (workout.Workout_Plan.progress === "To do") {
-              setSkip({ userId: id, workoutId: workout.id });
-            } else if (workout.Workout_Plan.progress === "Complete") {
-              setComplete({ userId: id, workoutId: workout.id });
-            }
-          });
-        }
         if (sameDay) {
           dayWorkout = [];
           workouts.map((workout) => {
@@ -71,25 +97,6 @@ const Calendar = () => {
               dayWorkout.push(workout);
             } else if (workout.daysOfWeek.includes(weekDay.formatted)) {
               dayWorkout.push(workout);
-            }
-          });
-          dayWorkout.map((workout) => {
-            if (workout.Workout_Plan.currentDay == !weekDay.date) {
-              if (workout.Workout_Plan.progress === "To do") {
-                setSkip({
-                  userId: id,
-                  workoutId: workout.id,
-                  currentDay: weekDay.date,
-                });
-              } else if (workout.Workout_Plan.progress === "Complete") {
-                setComplete({
-                  userId: id,
-                  workoutId: workout.id,
-                  currentDay: weekDay.date,
-                });
-              }
-            } else {
-              return;
             }
           });
           textStyles.push(styles.selectedLabel);
