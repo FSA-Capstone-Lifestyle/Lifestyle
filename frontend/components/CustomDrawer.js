@@ -1,12 +1,17 @@
 import { View, Text,ImageBackground,Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React,{useEffect} from 'react'
 import {DrawerContentScrollView,DrawerItemList} from '@react-navigation/drawer'
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { logout } from '../store/slices/auth.slice';
 import { NavigationHelpersContext } from '@react-navigation/native';
+import { me  } from '../store/slices/auth.slice';
 const CustomDrawer = (props) => {
   const dispatch = useDispatch();
+  useEffect(()=>{
+    console.log('drawer use effect')
+    dispatch(me())
+  },[])
   return (
     <View style={{flex:1}}>
     <DrawerContentScrollView {...props} contentContainerStyle={{backgroundColor:'#CEE5D0'}}>

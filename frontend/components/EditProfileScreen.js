@@ -3,13 +3,14 @@ import React,{useState} from 'react'
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Feather } from '@expo/vector-icons';
-const EditProfileScreen = () => {
+const EditProfileScreen = (props) => {
   const [userData,setuserData] = useState({ firstName : '',
                                    lastName : '',
                                    email: '',
                                    phoneNumber: '',})
   const [errortext,setErrortext] = useState([]);
-
+  console.log(props)
+  const user = props.route.params.user
 
   const handleSubmit = ({firstName,lastName,email,phoneNumber}) => {
     setErrortext([])
@@ -56,7 +57,7 @@ const EditProfileScreen = () => {
                 </ImageBackground>
               </View>
             </TouchableOpacity>
-            <Text style={{marginTop:10,fontSize:18,fontWeight:'bold'}}>John Doe</Text>
+            <Text style={{marginTop:10,fontSize:18,fontWeight:'bold'}}>{user.firstName + ' ' + user.lastName}</Text>
         </View>
         <View style={styles.action}>
             <FontAwesome name='user-o' size={20}/>
@@ -76,7 +77,7 @@ const EditProfileScreen = () => {
             autoCorrect={false}
             style={styles.textInput}/>
         </View>
-        <View style={styles.action}>
+        {/* <View style={styles.action}>
         <Feather name="phone" size={20} color="black" />
             <TextInput
             onChangeText={(e) => setuserData(prevState => ({...prevState , phoneNumber : e}))}
@@ -86,7 +87,7 @@ const EditProfileScreen = () => {
             keyboardType='number-pad'
             autoCorrect={false}
             style={styles.textInput}/>
-        </View>
+        </View> */}
         <View style={styles.action}>
             <FontAwesome name='envelope-o' size={20}/>
             <TextInput

@@ -23,6 +23,19 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+// export const updateUser = createAsyncThunk(
+//   "user/updateUser",
+//   async (userData, { rejectWithValue }) => {
+//     try {
+//       const res = await axios.put(`/api/users/${userData.id}`,userData);
+//       return res.data;
+//     } catch (error) {
+//       console.log("Can't find this user", error);
+//       return rejectWithValue(error);
+//     }
+//   }
+// );
+
 // Slice reducer - action creators and types are generated here
 const userSlice = createSlice({
   name: "user",
