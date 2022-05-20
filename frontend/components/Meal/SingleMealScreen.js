@@ -57,7 +57,11 @@ const SingleMealScreen = (props) => {
         alignSelf="center"
         size={200}
         borderRadius={100}
-        src={meal.imageUrl}
+        src={
+          meal.imageUrl
+            ? meal.imageUrl
+            : "http://www.fremontgurdwara.org/wp-content/uploads/2020/06/no-image-icon-2.png"
+        }
         alt={meal.name}
         marginBottom={3}
       />

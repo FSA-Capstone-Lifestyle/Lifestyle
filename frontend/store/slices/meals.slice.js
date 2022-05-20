@@ -24,10 +24,25 @@ export const createMeal = createAsyncThunk(
   "meals/createMeal",
   async (formInfo, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:1337/api/meals",
-        formInfo
-      );
+      const {
+        name,
+        imageUrl,
+        ingredients,
+        instructions,
+        mealType,
+        prepTime,
+        calories,
+      } = formInfo;
+
+      const response = await axios.post("http://localhost:1337/api/meals", {
+        name,
+        imageUrl,
+        ingredients,
+        instructions,
+        mealType,
+        prepTime,
+        calories,
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
