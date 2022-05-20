@@ -1,18 +1,6 @@
-import {
-  Box,
-  Flex,
-  Pressable,
-  Text,
-  ScrollView,
-  Button,
-  Image,
-  Divider,
-  Container,
-  FormControl,
-  Input,
-} from "native-base";
+import { Box, Text, ScrollView, Button, Container, Input } from "native-base";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createMeal } from "../../store/slices/meals.slice";
 
 const CreateMealScreen = (props) => {
@@ -33,7 +21,7 @@ const CreateMealScreen = (props) => {
     if (created.meta.requestStatus !== "rejected") {
       props.navigation.goBack();
     } else {
-      console.log("something bad happened: ");
+      console.log("something bad happened");
     }
   };
   return (

@@ -14,7 +14,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMeal } from "../../store/slices/singleMeal.slice";
 import { removeMeal } from "../../store/slices/meals.slice";
-import { NavigationHelpersContext } from "@react-navigation/native";
 
 const SingleMealScreen = (props) => {
   const dispatch = useDispatch();
@@ -25,8 +24,8 @@ const SingleMealScreen = (props) => {
 
   const handleAdd = () => {};
 
-  const handleEdit = (id) => {
-    props.navigation.navigate("EditMealScreen", { id: id });
+  const handleEdit = (meal) => {
+    props.navigation.navigate("EditMealScreen", { meal: meal });
   };
   const handleDelete = async (id) => {
     await dispatch(removeMeal(id));
@@ -38,7 +37,7 @@ const SingleMealScreen = (props) => {
     <ScrollView>
       <Pressable
         onPress={() => {
-          handleEdit(meal.id);
+          handleEdit(meal);
         }}
       >
         {({ isPressed }) => {
