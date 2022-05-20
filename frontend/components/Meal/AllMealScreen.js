@@ -5,7 +5,6 @@ import {
   Pressable,
   Text,
   ScrollView,
-  Link,
   Button,
 } from "native-base";
 import React, { useEffect } from "react";
@@ -25,7 +24,7 @@ const AllMealScreen = ({ navigation }) => {
   };
 
   const handleCreate = () => {
-    console.log("create meal page!");
+    navigation.navigate("CreateMealScreen");
   };
 
   const { meals } = useSelector((state) => state.meals);
@@ -44,14 +43,20 @@ const AllMealScreen = ({ navigation }) => {
           <Button
             alignSelf="center"
             borderRadius={10}
-            fontWeight="bold"
             width={130}
+            backgroundColor="#20B2AA"
+            _pressed={{
+              backgroundColor: "#008b8b",
+              transform: [{ scale: 0.92 }],
+            }}
             marginBottom={5}
             onPress={() => {
               handleCreate();
             }}
           >
-            Create A Meal
+            <Text fontWeight="bold" color="#ffffff">
+              Create A Meal
+            </Text>
           </Button>
         </Box>
         <Flex
@@ -74,9 +79,8 @@ const AllMealScreen = ({ navigation }) => {
                       shadow={3}
                       margin={2}
                       boxSize="150"
-                      backgroundColor={isPressed ? "#008b8b" : "#556B2F"}
+                      backgroundColor={isPressed ? "#203535" : "#2F4F4F"}
                       rounded="8"
-                      brightness="40%"
                       style={{
                         transform: [
                           {
@@ -86,6 +90,8 @@ const AllMealScreen = ({ navigation }) => {
                       }}
                     >
                       <Text
+                        maxWidth={120}
+                        paddingTop={25}
                         textAlign="center"
                         alignSelf="center"
                         color="#ffffff"

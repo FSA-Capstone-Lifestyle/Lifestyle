@@ -52,6 +52,7 @@ const SingleMealScreen = (props) => {
           );
         }}
       </Pressable>
+
       <Image
         alignSelf="center"
         size={200}
