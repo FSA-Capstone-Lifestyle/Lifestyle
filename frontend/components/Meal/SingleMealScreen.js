@@ -84,7 +84,7 @@ const SingleMealScreen = (props) => {
         thickness={2}
         maxWidth="325"
         alignSelf="center"
-        marginTop={3}
+        marginTop={5}
         marginBottom={5}
       />
 
