@@ -1,24 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { isSameDay } from "date-fns";
 import { startOfWeek, addDays, getDate, format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserWorkouts } from "../store/slices/singleUser.slice";
+import {
+  fetchUserWorkouts,
+  setComplete,
+  setSkip,
+} from "../store/slices/singleUser.slice";
 
 const Calendar = () => {
-  const week = [];
+  const [week, setWeek] = useState([]);
+  const [date, setDate] = useState(new Date());
+  const [skipData, setSkipData] = useState({});
+  const [completeData, setCompleteData] = useState({});
 
-  for (let i = 0; i < 7; i++) {
-    let date = new Date();
-    const start = startOfWeek(date, { weekStartsOn: 1 });
-    date = addDays(start, i);
-    week.push({
-      formatted: format(date, "EEE"),
-      date,
-      day: getDate(date),
-    });
-  }
+  const calendarDates = () => {
+    for (let i = 0; i < 7; i++) {
+      const start = startOfWeek(date, { weekStartsOn: 1 });
+      setDate(addDays(start, i));
+      setWeek({
+        formatted: format(date, "EEE"),
+        date,
+        day: getDate(date),
+      });
+    }
+  };
 
   const { user } = useSelector((state) => state.user);
 
@@ -30,10 +38,18 @@ const Calendar = () => {
     dispatch(fetchUserWorkouts(id));
   }, []);
 
+  useEffect(() => {
+    dispatch(setSkip(skipData));
+  }, []);
+
+  useEffect(() => {
+    dispatch(setComplete(completeData));
+  }, []);
+
   const { workouts } = user;
 
   // console.log("from calendar", workouts, id);
-  console.log("from calendar", workouts, id);
+  // console.log("from calendar", workouts, id);
 
   if (!workouts) {
     return (
@@ -42,6 +58,28 @@ const Calendar = () => {
       </View>
     );
   }
+
+  console.log(workouts, newDate);
+
+  workouts.map((workout) => {
+    if (workout.Workout_Plan.currentDay !== date) {
+      if (workout.Workout_Plan.progress === "To do") {
+        console.log("setSkip");
+        setSkipData({
+          userId: id,
+          workoutId: workout.id,
+          currentDay: date,
+        });
+      } else {
+        setCompleteData({
+          userId: id,
+          workoutId: workout.id,
+          currentDay: date,
+        });
+      }
+    }
+  });
+
   return (
     <View style={styles.container}>
       {week.map((weekDay) => {
@@ -49,8 +87,10 @@ const Calendar = () => {
         const textStyles = [styles.label];
         const touchable = [styles.touchable];
         const sameDay = isSameDay(weekDay.date, date);
-        const dayWorkout = [];
+        let dayWorkout = [];
+
         if (sameDay) {
+          dayWorkout = [];
           workouts.map((workout) => {
             if (workout.daysOfWeek === "All") {
               dayWorkout.push(workout);
@@ -58,14 +98,6 @@ const Calendar = () => {
               dayWorkout.push(workout);
             }
           });
-          // dayWorkout.map((workout) => {
-          //   if (workout.progress === "To do") {
-          //     workout.skips += 1;
-          //   } else if (workout.progress === "Completed") {
-          //     workout.completions += 1;
-          //     workout.progress = "To do";
-          //   }
-          // });
           textStyles.push(styles.selectedLabel);
           touchable.push(styles.selectedTouchable);
         }
@@ -79,10 +111,16 @@ const Calendar = () => {
               </TouchableOpacity>
             </View>
             {dayWorkout.map((workout) => {
+              let compPercentage =
+                workout.Workout_Plan.completions /
+                (workout.Workout_Plan.completions + workout.Workout_Plan.skips);
+              // console.log("compPercentage", compPercentage, workout);
               return (
                 <View style={styles.box} key={workout.id}>
                   <Text style={textStyles}>{workout.name}:</Text>
-                  <Text style={textStyles}>{workout.progress}</Text>
+                  <Text style={textStyles}>
+                    Completion Percentage: {compPercentage * 100}%
+                  </Text>
                 </View>
               );
             })}
@@ -101,8 +139,8 @@ const styles = StyleSheet.create({
   },
   box: {
     flexDirection: "column",
-    justifyContent: "center",
-    paddingVertical: 10,
+    justifyContent: "flex-end",
+    paddingVertical: 20,
   },
   boxAdd: {
     flexDirection: "column",

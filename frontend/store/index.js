@@ -9,6 +9,7 @@ import { dietsReducer } from "./slices/diets.slice";
 import { dietReducer } from "./slices/singleDiet.slice";
 import { mealsReducer } from "./slices/meals.slice";
 import { mealReducer } from "./slices/singleMeal.slice";
+import { exercisesReducer } from "./slices/exercises.slice";
 
 const reducer = {
   calendar: calendarReducer,
@@ -19,6 +20,7 @@ const reducer = {
   diet: dietReducer,
   meals: mealsReducer,
   meal: mealReducer,
+  exercises: exercisesReducer,
   auth: authReducer,
 };
 

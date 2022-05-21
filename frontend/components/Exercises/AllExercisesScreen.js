@@ -7,28 +7,27 @@ import {
   ScrollView,
   Button,
 } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWorkouts } from "../../store/slices/workouts.slice";
+import { fetchExercises } from "../../store/slices/exercises.slice";
 
-const WorkoutsScreen = ({ navigation }) => {
+const AllExercisesScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  const { workouts } = useSelector((state) => state.workouts);
+  useEffect(() => {
+    dispatch(fetchExercises());
+  }, []);
 
   const handleClick = (id) => {
-    navigation.navigate("Single Workout", { id: id });
+    navigation.navigate("SingleExerciseScreen", { id: id });
   };
 
   const handleCreate = () => {
-    navigation.navigate("Create Workout");
+    navigation.navigate("CreateExerciseScreen");
   };
 
-  useEffect(() => {
-    dispatch(fetchWorkouts());
-  }, []);
-
+  const { exercises } = useSelector((state) => state.exercises);
   return (
     <SafeAreaView>
       <ScrollView>
@@ -39,7 +38,7 @@ const WorkoutsScreen = ({ navigation }) => {
             marginTop={10}
             marginBottom={5}
           >
-            Select Workout
+            Select Exercise
           </Heading>
           <Button
             alignSelf="center"
@@ -56,7 +55,7 @@ const WorkoutsScreen = ({ navigation }) => {
             }}
           >
             <Text fontWeight="bold" color="#ffffff">
-              Create A Workout
+              Create A Exercise
             </Text>
           </Button>
         </Box>
@@ -66,12 +65,12 @@ const WorkoutsScreen = ({ navigation }) => {
           flexDirection="row"
           flexWrap="wrap"
         >
-          {workouts.map((workout) => {
+          {exercises.map((exercise) => {
             return (
               <Pressable
-                key={workout.id}
+                key={exercise.id}
                 onPress={() => {
-                  handleClick(workout.id);
+                  handleClick(exercise.id);
                 }}
               >
                 {({ isPressed }) => {
@@ -99,7 +98,7 @@ const WorkoutsScreen = ({ navigation }) => {
                         fontWeight="bold"
                         fontSize="18"
                       >
-                        {workout.name}
+                        {exercise.name}
                       </Text>
                     </Box>
                   );
@@ -113,4 +112,4 @@ const WorkoutsScreen = ({ navigation }) => {
   );
 };
 
-export default WorkoutsScreen;
+export default AllExercisesScreen;

@@ -2,9 +2,13 @@ const router = require("express").Router();
 const { Workout, Exercise } = require("../db");
 
 // GET /api/exercises
-router.get("/", async (req, res, next) => {
+router.get("/:workoutId", async (req, res, next) => {
   try {
-    const exercises = await Exercise.findAll();
+    const exercises = await Exercise.findAll({
+      where: {
+        workoutId: req.params.workoutId,
+      },
+    });
     res.json(exercises);
   } catch (err) {
     next(err);
