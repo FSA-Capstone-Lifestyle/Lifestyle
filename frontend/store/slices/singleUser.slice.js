@@ -48,19 +48,16 @@ export const setComplete = createAsyncThunk(
       const userId = data.userId;
       const workoutId = data.workoutId;
       const currentDay = data.currentDay;
+      const completions = data.completions;
 
-      if (workoutId) {
-        const userWorkout = await axios.get(
-          `http://localhost:1337/api/users/${userId}/${workoutId}`
-        );
-        await axios.put(
-          `http://localhost:1337/api/users/${userId}/${workoutId}/completed`,
-          {
-            completions: userWorkout.completions++,
-            currentDay: currentDay,
-          }
-        );
-      }
+      await axios.put(
+        `http://localhost:1337/api/users/${userId}/${workoutId}/completed`,
+        {
+          completions: completions,
+          currentDay: currentDay,
+        }
+      );
+
       const res = await axios.get(
         `http://localhost:1337/api/users/${userId}/workouts`
       );
@@ -80,19 +77,16 @@ export const setSkip = createAsyncThunk(
       const { userId } = data;
       const { workoutId } = data;
       const { currentDay } = data;
+      const { skips } = data;
       console.log("this is the data", data);
-      if (workoutId) {
-        const userWorkout = await axios.get(
-          `http://localhost:1337/api/users/${userId}/${workoutId}`
-        );
-        await axios.put(
-          `http://localhost:1337/api/users/${userId}/${workoutId}/skipped`,
-          {
-            skips: userWorkout.skips++,
-            currentDay: currentDay,
-          }
-        );
-      }
+
+      await axios.put(
+        `http://localhost:1337/api/users/${userId}/${workoutId}/skipped`,
+        {
+          skips: skips,
+          currentDay: currentDay,
+        }
+      );
       const res = await axios.get(
         `http://localhost:1337/api/users/${userId}/workouts`
       );
@@ -126,7 +120,7 @@ const userSlice = createSlice({
     },
     [fetchUserWorkouts.fulfilled]: (state, action) => {
       state.user = action.payload[0];
-      // console.log("state.user", state.user);
+      console.log("fetchUserWorkouts", state.user);
       state.isSuccess = true;
     },
     [fetchUserWorkouts.rejected]: (state) => {
@@ -148,7 +142,7 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [setSkip.fulfilled]: (state, action) => {
-      console.log("setskip reducer", action.payload[0]);
+      console.log("setSkip reducer", action.payload[0]);
       state.user = action.payload[0];
       state.isSuccess = true;
     },
