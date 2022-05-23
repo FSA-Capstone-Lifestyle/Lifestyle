@@ -35,6 +35,10 @@ const Calendar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    calendarDates();
+  }, []);
+
+  useEffect(() => {
     dispatch(fetchUserWorkouts(id));
   }, []);
 
