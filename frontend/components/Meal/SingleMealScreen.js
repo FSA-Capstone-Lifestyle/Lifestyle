@@ -14,7 +14,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMeal } from "../../store/slices/singleMeal.slice";
 import { removeMeal } from "../../store/slices/meals.slice";
-import { NavigationHelpersContext } from "@react-navigation/native";
 
 const SingleMealScreen = (props) => {
   const dispatch = useDispatch();
@@ -23,10 +22,13 @@ const SingleMealScreen = (props) => {
     dispatch(fetchMeal(props.route.params.id));
   }, []);
 
-  const handleAdd = () => {};
+  const handleAdd = () => {
+    console.log("add to user diet");
+    props.navigation.goBack();
+  };
 
-  const handleEdit = (id) => {
-    props.navigation.navigate("EditMealScreen", { id: id });
+  const handleEdit = (meal) => {
+    props.navigation.navigate("EditMealScreen", { meal: meal });
   };
   const handleDelete = async (id) => {
     await dispatch(removeMeal(id));
@@ -38,7 +40,7 @@ const SingleMealScreen = (props) => {
     <ScrollView>
       <Pressable
         onPress={() => {
-          handleEdit(meal.id);
+          handleEdit(meal);
         }}
       >
         {({ isPressed }) => {
@@ -57,7 +59,11 @@ const SingleMealScreen = (props) => {
         alignSelf="center"
         size={200}
         borderRadius={100}
-        src={meal.imageUrl}
+        src={
+          meal.imageUrl
+            ? meal.imageUrl
+            : "http://www.fremontgurdwara.org/wp-content/uploads/2020/06/no-image-icon-2.png"
+        }
         alt={meal.name}
         marginBottom={3}
       />
@@ -122,7 +128,7 @@ const SingleMealScreen = (props) => {
             transform: [{ scale: 0.92 }],
           }}
           onPress={() => {
-            console.log("add to user diet");
+            handleAdd();
           }}
         >
           <Text fontWeight="bold" color="#ffffff">
