@@ -203,7 +203,7 @@ function RegisterScreen({ navigation }) {
               </FormControl.ErrorMessage>
             ) : null}
           </FormControl>
-          <Button mt="2" colorScheme="indigo" onPress={() => onSubmit()}>
+          <Button mt="2" colorScheme="purple" onPress={() => onSubmit()}>
             Sign up
           </Button>
         </VStack>

@@ -14,7 +14,7 @@ export const fetchUser = createAsyncThunk(
   "user/fetchUser",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`http://192.168.1.155:1337/api/users/${id}`);
+      const res = await axios.get(`http://localhost:1337/api/users/${id}`);
       return res.data;
     } catch (error) {
       console.log("Can't find this user", error);
@@ -23,6 +23,19 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (userData, { rejectWithValue }) => {
+    try {
+      console.log('edit',userData)
+      const res = await axios.put(`http://localhost:1337/api/users/${userData.id}`,userData);
+      return res.data;
+    } catch (error) {
+      console.log("Can't find this user", error);
+      return rejectWithValue(error);
+    }
+  }
+);
 // Get User Workouts
 export const fetchUserWorkouts = createAsyncThunk(
   "user/fetchUserWorkouts",
@@ -30,7 +43,7 @@ export const fetchUserWorkouts = createAsyncThunk(
     console.log("fetchworkouts", id);
     try {
       const res = await axios.get(
-        `http://192.168.1.155:1337/api/user/${id}/workouts`
+        `http://localhost:1337/api/user/${id}/workouts`
         // `http://localhost:1337/api/users/${id}/workouts`
       );
       console.log("fetchuserworkouts", id, res.data);
@@ -100,6 +113,20 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
+
+    [updateUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      state.user = action.payload;
+      state.isSuccess = true;
+    },
+    [updateUser.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+
+
     [fetchUserWorkouts.pending]: (state) => {
       state.isLoading = true;
     },

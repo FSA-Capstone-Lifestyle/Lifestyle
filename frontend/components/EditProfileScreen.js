@@ -1,45 +1,88 @@
 import { StyleSheet, Text, View,TouchableOpacity,ImageBackground,TextInput } from 'react-native'
 import React,{useState} from 'react'
+import { useDispatch } from 'react-redux';
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Feather } from '@expo/vector-icons';
-const EditProfileScreen = () => {
-  const [userData,setuserData] = useState({ firstName : '',
-                                   lastName : '',
-                                   email: '',
-                                   phoneNumber: '',})
+import { updateUser } from '../store/slices/singleUser.slice';
+
+import Animated from 'react-native-reanimated';
+import BottomSheet from 'reanimated-bottom-sheet';
+const EditProfileScreen = (props) => {
+  const user = props.route.params.user
+  const [userData,setuserData] = useState({ firstName : user.firstName,
+                                   lastName : user.lastName,
+                                   email: user.email,
+                                   id : props.route.params.user.id
+                                   })
   const [errortext,setErrortext] = useState([]);
+  const dispatch = useDispatch()
+  bs = React.createRef();
+  fall = new Animated.Value(1)
 
 
-  const handleSubmit = ({firstName,lastName,email,phoneNumber}) => {
+  renderInner = () => (
+    <View style={styles.panel}>
+      <View style={{alignItems:'center'}}>
+        <Text style={styles.panelTitle}> Upload Photo </Text>
+        <Text style={styles.panelSubtitle}> Choose Your Profile Picture </Text>
+      </View>
+      <TouchableOpacity style={styles.panelButton}>
+        <Text style={styles.panelButtonTitle}>Take a Photo</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.panelButton}>
+        <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.panelButton} onPress={() => this.bs.current.snapTo(1)}>
+        <Text style={styles.panelButtonTitle}>Cancel</Text>
+      </TouchableOpacity>
+    </View>
+  )
+
+  renderHeader = () => (
+    <View style={styles.header}>
+      <View style={styles.panelHeader}>
+        <View style={styles.panelHandle}></View>
+      </View>
+    </View>
+  )
+
+
+
+  const handleSubmit = ({firstName,lastName,email}) => {
     setErrortext([])
-
     if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
       {
         setErrortext([{message : 'You have entered an invalid email address! \n'}])
         console.log(errortext);
+        return false;
       }
-    if(!(phoneNumber.match(/^\d{10}$/))){
-      setErrortext(prevState => [...prevState,{message : 'You have entered an invalid phone number! '}])
-        console.log(errortext);
-    }
-
+    console.log(firstName,lastName,email)
+    dispatch(updateUser(userData,user.id))
   }
   const displayErrors = () =>{
     return errortext.map((error,index) =><Text key={index}>{error.message}</Text>)
   }
   return (
     <View style={styles.container}>
+      <BottomSheet
+          ref={this.bs}
+          snapPoints={[330,0]}
+          renderContent={this.renderInner}
+          renderHeader={this.renderHeader}
+          initialSnap={1}
+          callbackNode={this.fall}
+          enabledGestureInteraction={true}
+      />
       <View style={{margin:20}}>
         <View style={{alignItems:'center'}}>
-            <TouchableOpacity onPress={()=>{}}>
+            <TouchableOpacity onPress={()=>this.bs.current.snapTo(0)}>
               <View style={{height:100,
                             width:100,
                             borderRadius:15,
                             justifyContent:'center',
                             alignItems:'center'}}>
 
-                <ImageBackground source={require('../../assets/profile.jpg')}
+                <ImageBackground source={{uri : user.image}}
                                   style={{height:100,width:100}}
                                   imageStyle={{borderRadius:15}}>
 
@@ -56,13 +99,13 @@ const EditProfileScreen = () => {
                 </ImageBackground>
               </View>
             </TouchableOpacity>
-            <Text style={{marginTop:10,fontSize:18,fontWeight:'bold'}}>John Doe</Text>
+            <Text style={{marginTop:10,fontSize:18,fontWeight:'bold'}}>{user.firstName + ' ' + user.lastName}</Text>
         </View>
         <View style={styles.action}>
             <FontAwesome name='user-o' size={20}/>
             <TextInput
             onChangeText={(e) => setuserData(prevState => ({...prevState , firstName : e}))}
-            placeholder='First Name'
+            value={userData.firstName}
             placeholderTextColor='#666666'
             autoCorrect={false}
             style={styles.textInput}/>
@@ -71,12 +114,12 @@ const EditProfileScreen = () => {
             <FontAwesome name='user-o' size={20}/>
             <TextInput
             onChangeText={(e) => setuserData(prevState => ({...prevState , lastName : e}))}
-            placeholder='Last Name'
+            value={userData.lastName}
             placeholderTextColor='#666666'
             autoCorrect={false}
             style={styles.textInput}/>
         </View>
-        <View style={styles.action}>
+        {/* <View style={styles.action}>
         <Feather name="phone" size={20} color="black" />
             <TextInput
             onChangeText={(e) => setuserData(prevState => ({...prevState , phoneNumber : e}))}
@@ -86,12 +129,12 @@ const EditProfileScreen = () => {
             keyboardType='number-pad'
             autoCorrect={false}
             style={styles.textInput}/>
-        </View>
+        </View> */}
         <View style={styles.action}>
             <FontAwesome name='envelope-o' size={20}/>
             <TextInput
             onChangeText={(e) => setuserData(prevState => ({...prevState , email : e}))}
-            placeholder='Email'
+            value={userData.email}
             textContentType='password'
             placeholderTextColor='#666666'
             keyboardType='email-address'
@@ -101,7 +144,7 @@ const EditProfileScreen = () => {
         {errortext != '' ? <Text style={{color:'red'}}>
               {displayErrors()}
             </Text> : null}
-        <TouchableOpacity style={styles.commandButton} onPress={()=>handleSubmit(userData)}>
+      <TouchableOpacity style={styles.commandButton} onPress={()=> handleSubmit(userData)}>
           <Text style={styles.panelButtonTitle}>Submit</Text>
         </TouchableOpacity>
       </View>
@@ -154,7 +197,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#00000040',
     marginBottom: 10,
   },
-
+  panelTitle: {
+    fontSize: 27,
+    height: 35,
+  },
+  panelSubtitle: {
+    fontSize: 14,
+    color: 'gray',
+    height: 30,
+    marginBottom: 10,
+  },
+  panelButton: {
+    padding: 13,
+    borderRadius: 10,
+    backgroundColor: '#FF6347',
+    alignItems: 'center',
+    marginVertical: 7,
+  },
   panelButtonTitle: {
     fontSize: 17,
     fontWeight: 'bold',

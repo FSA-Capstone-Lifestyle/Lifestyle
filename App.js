@@ -19,7 +19,7 @@ const App = () => {
     <NativeBaseProvider>
       <Provider store={store}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="AppStack">
+          <Stack.Navigator initialRouteName="SplashScreen">
             {/* SplashScreen which will come once for 5 Seconds */}
             <Stack.Screen
               name="SplashScreen"
