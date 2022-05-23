@@ -1,6 +1,5 @@
 const router = require("express").Router();
-const { Workout_Plan, Workout } = require("../db");
-const User = require("../db/Users");
+const { Workout, User, Workout_Plan } = require("../db");
 
 const requireToken = async (req, res, next) => {
   try {
@@ -70,7 +69,7 @@ router.put("/:id", async (req, res, next) => {
 //Fetch All User Workouts "/api/users/:id/workouts"
 router.get("/:id/workouts", async (req, res, next) => {
   try {
-    let workouts = await User.findAll({
+    let userWorkouts = await User.findAll({
       where: {
         id: req.params.id,
       },
@@ -78,7 +77,7 @@ router.get("/:id/workouts", async (req, res, next) => {
         model: Workout,
       },
     });
-    res.send(workouts);
+    res.json(userWorkouts);
   } catch (error) {
     next(error);
   }
@@ -87,13 +86,16 @@ router.get("/:id/workouts", async (req, res, next) => {
 //Get User Workout
 router.get("/:id/:workoutId", async (req, res, next) => {
   try {
-    let workout = await Workout_Plan.findOne({
+    let userWorkout = await Workout_Plan.findOne({
       where: {
         userId: req.params.id,
         workoutId: req.params.workoutId,
       },
+      // include: {
+      //   model: Workout,
+      // },
     });
-    res.send(workout);
+    res.json(userWorkout);
   } catch (error) {
     next(error);
   }
@@ -102,16 +104,20 @@ router.get("/:id/:workoutId", async (req, res, next) => {
 //Completed User Workout
 router.put("/:id/:workoutId/completed", async (req, res, next) => {
   try {
-    let workout = await Workout_Plan.findOne({
-      where: {
-        userId: req.params.id,
-        workoutId: req.params.workoutId,
+    const completions = req.body.completions + 1;
+    await Workout_Plan.update(
+      {
+        completions: completions,
+        currentDay: req.body.currentDay,
+        progress: "To do",
       },
-    });
-    await workout.update({
-      progress: "To do",
-      completions: req.body.completions,
-    });
+      {
+        where: {
+          userId: req.params.id,
+          workoutId: req.params.workoutId,
+        },
+      }
+    );
   } catch (error) {
     next(error);
   }
@@ -120,18 +126,54 @@ router.put("/:id/:workoutId/completed", async (req, res, next) => {
 //Skipped User Workout
 router.put("/:id/:workoutId/skipped", async (req, res, next) => {
   try {
-    let workout = await Workout_Plan.findOne({
-      where: {
-        userId: req.params.id,
-        workoutId: req.params.workoutId,
-      },
-    });
-    await workout.update({
-      progress: "To Do",
-      skips: req.body.skips,
-    });
+    const skips = req.body.skips + 1;
+    await Workout_Plan.update(
+      { skips: skips, currentDay: req.body.currentDay },
+      {
+        where: {
+          userId: req.params.id,
+          workoutId: req.params.workoutId,
+        },
+      }
+    );
+    // const userWorkout = await Workout_Plan.findOne({
+    //   where: {
+    //     userId: req.params.id,
+    //     workoutId: req.params.workoutId,
+    //   },
+    // });
+    res.sendStatus(200);
+    // res.send(userWorkout);
   } catch (error) {
     next(error);
+  }
+});
+
+// PUT /api/users/:id/plan
+router.post("/:id/plan", async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    const workout = await Workout.findOne({
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    const plan = await WorkoutPlan.create({
+      where: {
+        userId: user.userId,
+        workoutId: workout.workoutId,
+      },
+    });
+
+    res.status(201).json(plan);
+  } catch (err) {
+    next(err);
   }
 });
 
