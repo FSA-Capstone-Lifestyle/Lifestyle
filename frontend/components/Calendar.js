@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { isSameDay } from "date-fns";
@@ -9,36 +9,46 @@ import {
   setComplete,
   setSkip,
 } from "../store/slices/singleUser.slice";
-
 const Calendar = () => {
-  const week = [];
-
-  for (let i = 0; i < 7; i++) {
-    let date = new Date();
-    const start = startOfWeek(date, { weekStartsOn: 1 });
-    date = addDays(start, i);
-    week.push({
-      formatted: format(date, "EEE"),
-      date,
-      day: getDate(date),
-    });
-  }
-
+  const [week, setWeek] = useState([]);
+  const [date, setDate] = useState(new Date());
+  const [skipData, setSkipData] = useState(null);
+  const [completeData, setCompleteData] = useState(null);
   const { user } = useSelector((state) => state.user);
-
   const { id } = useSelector((state) => state.auth.user);
+  const calendarDates = () => {
+    for (let i = 0; i < 7; i++) {
+      const start = startOfWeek(date, { weekStartsOn: 1 });
+      setDate(addDays(start, i));
+      setWeek({
+        formatted: format(date, "EEE"),
+        date,
+        day: getDate(date),
+      });
+    }
+  };
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(fetchUserWorkouts(id));
   }, []);
+  useEffect(() => {
+    if (!completeData) {
+      dispatch(fetchUserWorkouts(id));
+    } else if (completeData) {
+      dispatch(setComplete(completeData));
+    }
+  }, [completeData]);
+  useEffect(() => {
+    console.log("USE EFFECT SKIP", skipData);
+    // if (!skipData) {
+    //   dispatch(fetchUserWorkouts(id));
+    // } else if (skipData) {
+    //   dispatch(setSkip(skipData));
+    // }
+  }, [skipData]);
 
   const { workouts } = user;
-
-  // console.log("from calendar", workouts, id);
-  // console.log("from calendar", workouts, id);
-
   if (!workouts) {
     return (
       <View style={styles.boxAdd}>
@@ -47,37 +57,23 @@ const Calendar = () => {
     );
   }
 
-  let newDate = new Date();
-
-  console.log(workouts, newDate);
-
   workouts.map((workout) => {
-    if (workout.Workout_Plan.currentDay !== newDate) {
+    if (workout.Workout_Plan.currentDay !== date) {
       if (workout.Workout_Plan.progress === "To do") {
         console.log("setSkip");
-        useEffect(() => {
-          dispatch(
-            setSkip({
-              userId: id,
-              workoutId: workout.id,
-              currentDay: newDate,
-            })
-          );
-        }, []);
-      } else if (workout.Workout_Plan.progress === "Complete") {
-        console.log("setComplete");
-        useEffect(() => {
-          dispatch(
-            setComplete({
-              userId: id,
-              workoutId: workout.id,
-              currentDay: newDate,
-            })
-          );
-        }, []);
+        setSkipData({
+          userId: workout.Workout_Plan.userId,
+          workoutId: workout.id,
+          currentDay: date,
+        });
+        console.log("skipData from calendar", skipData);
+      } else {
+        setCompleteData({
+          userId: workout.Workout_Plan.userId,
+          workoutId: workout.id,
+          currentDay: date,
+        });
       }
-    } else {
-      return;
     }
   });
 
@@ -89,7 +85,25 @@ const Calendar = () => {
         const touchable = [styles.touchable];
         const sameDay = isSameDay(weekDay.date, date);
         let dayWorkout = [];
-
+        // let userWorkouts = workouts.map((workout) => {
+        //   if (workout.Workout_Plan.currentDay !== date) {
+        //     if (workout.Workout_Plan.progress === "To do") {
+        //       console.log("setSkip");
+        //       setSkipData({
+        //         userId: workout.Workout_Plan.userId,
+        //         workoutId: workout.id,
+        //         currentDay: date,
+        //       });
+        //       console.log("skipData from calendar", skipData);
+        //     } else {
+        //       setCompleteData({
+        //         userId: workout.Workout_Plan.userId,
+        //         workoutId: workout.id,
+        //         currentDay: date,
+        //       });
+        //     }
+        //   }
+        // });
         if (sameDay) {
           dayWorkout = [];
           workouts.map((workout) => {
@@ -102,7 +116,6 @@ const Calendar = () => {
           textStyles.push(styles.selectedLabel);
           touchable.push(styles.selectedTouchable);
         }
-
         return (
           <View key={weekDay.formatted}>
             <View style={styles.weekDayItem}>
@@ -131,7 +144,6 @@ const Calendar = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
@@ -174,5 +186,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
 export default Calendar;

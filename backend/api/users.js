@@ -76,7 +76,7 @@ router.get("/:id/workouts", async (req, res, next) => {
         model: Workout,
       },
     });
-    res.send(userWorkouts);
+    res.json(userWorkouts);
   } catch (error) {
     next(error);
   }
@@ -90,11 +90,11 @@ router.get("/:id/:workoutId", async (req, res, next) => {
         userId: req.params.id,
         workoutId: req.params.workoutId,
       },
-      include: {
-        model: Workout,
-      },
+      // include: {
+      //   model: Workout,
+      // },
     });
-    res.send(userWorkout);
+    res.json(userWorkout);
   } catch (error) {
     next(error);
   }
@@ -133,6 +133,14 @@ router.put("/:id/:workoutId/skipped", async (req, res, next) => {
         },
       }
     );
+    const userWorkout = await Workout_Plan.findOne({
+      where: {
+        userId: req.params.id,
+        workoutId: req.params.workoutId,
+      },
+    });
+    res.sendStatus(200);
+    // res.send(userWorkout);
   } catch (error) {
     next(error);
   }

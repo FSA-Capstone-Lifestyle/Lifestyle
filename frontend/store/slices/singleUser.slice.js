@@ -49,17 +49,18 @@ export const setComplete = createAsyncThunk(
       const workoutId = data.workoutId;
       const currentDay = data.currentDay;
 
-      const userWorkout = await axios.get(
-        `http://localhost:1337/api/users/${userId}/${workoutId}`
-      );
-      await axios.put(
-        `http://localhost:1337/api/users/${userId}/${workoutId}/completed`,
-        {
-          completions: userWorkout.Workout_Plan.completions++,
-          currentDay: currentDay,
-        }
-      );
-
+      if (workoutId) {
+        const userWorkout = await axios.get(
+          `http://localhost:1337/api/users/${userId}/${workoutId}`
+        );
+        await axios.put(
+          `http://localhost:1337/api/users/${userId}/${workoutId}/completed`,
+          {
+            completions: userWorkout.completions++,
+            currentDay: currentDay,
+          }
+        );
+      }
       const res = await axios.get(
         `http://localhost:1337/api/users/${userId}/workouts`
       );
@@ -79,16 +80,19 @@ export const setSkip = createAsyncThunk(
       const { userId } = data;
       const { workoutId } = data;
       const { currentDay } = data;
-      const userWorkout = await axios.get(
-        `http://localhost:1337/api/users/${userId}/${workoutId}`
-      );
-      await axios.put(
-        `http://localhost:1337/api/users/${userId}/${workoutId}/completed`,
-        {
-          skips: userWorkout.Workout_Plan.skips++,
-          currentDay: currentDay,
-        }
-      );
+      console.log("this is the data", data);
+      if (workoutId) {
+        const userWorkout = await axios.get(
+          `http://localhost:1337/api/users/${userId}/${workoutId}`
+        );
+        await axios.put(
+          `http://localhost:1337/api/users/${userId}/${workoutId}/skipped`,
+          {
+            skips: userWorkout.skips++,
+            currentDay: currentDay,
+          }
+        );
+      }
       const res = await axios.get(
         `http://localhost:1337/api/users/${userId}/workouts`
       );
@@ -144,6 +148,7 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [setSkip.fulfilled]: (state, action) => {
+      console.log("setskip reducer", action.payload[0]);
       state.user = action.payload[0];
       state.isSuccess = true;
     },
