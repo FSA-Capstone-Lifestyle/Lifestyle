@@ -25,6 +25,7 @@ export const fetchWorkouts = createAsyncThunk(
 export const createWorkout = createAsyncThunk(
   "workouts/createWorkout",
   async (formInfo, { rejectWithValue }) => {
+    console.log(formInfo);
     try {
       const { id, name } = formInfo;
       const res = await axios.post(

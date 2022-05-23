@@ -60,7 +60,7 @@ export const authenticate = createAsyncThunk(
   }
 );
 
-export const me = createAsyncThunk("auth/me", async () => {
+export const me = createAsyncThunk("auth/me", async (rejectWithValue) => {
   try {
     const token = await SecureStore.getItemAsync(TOKEN);
 
@@ -72,16 +72,17 @@ export const me = createAsyncThunk("auth/me", async () => {
       });
 
       return res.data;
+    } else {
+      throw new Error();
     }
   } catch (err) {
-    console.log(err);
+    return rejectWithValue(error);
   }
 });
 
 export const logout = createAsyncThunk("auth/logout", async () => {
   const token = await SecureStore.deleteItemAsync(TOKEN);
   console.log("this is the token deleted", token);
-  return {};
 });
 
 const authSlice = createSlice({
@@ -91,18 +92,18 @@ const authSlice = createSlice({
   extraReducers: {
     [me.pending]: (state) => {
       state.loading = true;
-      state.success = false;
     },
     [me.rejected]: (state) => {
       state.error = true;
+      state.loading = false;
     },
     [me.fulfilled]: (state, action) => {
-      state.loading = false;
       state.success = true;
       state.user = action.payload;
     },
     [logout.fulfilled]: (state, action) => {
-      state.user = action.payload;
+      //state.error = true;
+      state.user = {};
     },
     [register.fulfilled]: (state, action) => {
       state.loading = false;

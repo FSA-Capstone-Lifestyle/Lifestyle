@@ -1,107 +1,142 @@
-import { Box, Text, ScrollView, Button, FormControl, Input } from "native-base";
+import { Box, Text, ScrollView, Button, Container, Input } from "native-base";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createMeal } from "../../store/slices/meals.slice";
 
 const CreateMealScreen = (props) => {
-  const [form, setFormData] = useState({
+  const [mealData, setMealData] = useState({
     name: "",
     mealType: "",
-    calories: "",
-    prepTime: "",
     ingredients: "",
     instructions: "",
+    prepTime: "",
     imageUrl: "",
+    calories: "",
   });
 
   const dispatch = useDispatch();
 
-  const handlePress = (data) => (e) => {
-    e.preventDefault();
-    dispatch(createMeal(data));
+  const handleSubmit = async (mealData) => {
+    const created = await dispatch(createMeal(mealData));
+    if (created.meta.requestStatus !== "rejected") {
+      props.navigation.goBack();
+    } else {
+      console.log("something bad happened");
+    }
   };
-
   return (
     <ScrollView>
       <Text textAlign="center" fontSize={24} fontWeight="bold" marginTop={5}>
         Create New Meal
       </Text>
 
-      <FormControl marginY={5} isRequired>
-        <Box paddingBottom={4}>
-          <Text>Name:</Text>
+      <Box marginY={5}>
+        <Container alignSelf="center" marginBottom={4}>
+          <Text fontSize={18} fontWeight="bold">
+            Name:
+          </Text>
           <Input
             placeholder="(ex: Creamy Mashed Potatoes)"
             onChangeText={(e) =>
-              setFormData((prevState) => ({ ...prevState, name: e }))
+              setMealData((prevState) => ({ ...prevState, name: e }))
             }
-          />
-        </Box>
+          ></Input>
+        </Container>
 
-        <Box paddingBottom={4}>
-          <Text>Meal Type:</Text>
+        <Container alignSelf="center" marginBottom={4}>
+          <Text fontSize={18} fontWeight="bold">
+            Meal Type:
+          </Text>
           <Input
             placeholder="(ex: Breakfast, Lunch, Dinner)"
             onChangeText={(e) =>
-              setFormData((prevState) => ({ ...prevState, mealType: e }))
+              setMealData((prevState) => ({ ...prevState, mealType: e }))
             }
-          />
-        </Box>
+          ></Input>
+        </Container>
 
-        <Box paddingBottom={4}>
-          <Text>Calories:</Text>
+        <Container alignSelf="center" marginBottom={4}>
+          <Text fontSize={18} fontWeight="bold">
+            Calories:
+          </Text>
           <Input
             placeholder="(ex: 320)"
             onChangeText={(e) =>
-              setFormData((prevState) => ({ ...prevState, calories: e }))
+              setMealData((prevState) => ({ ...prevState, calories: e }))
             }
-          />
-        </Box>
+          ></Input>
+        </Container>
 
-        <Box paddingBottom={4}>
-          <Text>Prep Time:</Text>
+        <Container alignSelf="center" marginBottom={4}>
+          <Text fontSize={18} fontWeight="bold">
+            Prep Time:
+          </Text>
           <Input
             placeholder="(ex: 20 Minutes)"
             onChangeText={(e) =>
-              setFormData((prevState) => ({ ...prevState, prepTime: e }))
+              setMealData((prevState) => ({ ...prevState, prepTime: e }))
             }
-          />
-        </Box>
+          ></Input>
+        </Container>
 
-        <Box paddingBottom={4}>
-          <Text>Ingredients:</Text>
+        <Container alignSelf="center" marginBottom={4}>
+          <Text fontSize={18} fontWeight="bold">
+            Ingredients:
+          </Text>
           <Input
             placeholder="(ex: 3 Potatoes, 1 Cup Milk, 2 Tbsp Butter)"
             onChangeText={(e) =>
-              setFormData((prevState) => ({ ...prevState, ingredients: e }))
+              setMealData((prevState) => ({ ...prevState, ingredients: e }))
             }
-          />
-        </Box>
+          ></Input>
+        </Container>
 
-        <Box paddingBottom={4}>
-          <Text>Instructions:</Text>
+        <Container alignSelf="center" marginBottom={4}>
+          <Text fontSize={18} fontWeight="bold">
+            Instructions:
+          </Text>
           <Input
             placeholder="(ex: Boil potatoes and mash, add milk and butter, stir until creamy.)"
             onChangeText={(e) =>
-              setFormData((prevState) => ({ ...prevState, instructions: e }))
+              setMealData((prevState) => ({ ...prevState, instructions: e }))
             }
-          />
-        </Box>
+          ></Input>
+        </Container>
 
-        <Box paddingBottom={4}>
-          <Text>Image:</Text>
+        <Container alignSelf="center" marginBottom={4}>
+          <Text fontSize={18} fontWeight="bold">
+            Image:
+          </Text>
           <Input
             placeholder="(ex: https://anothertablespoon.com/wp-content/DSC02704.jpg)"
             onChangeText={(e) =>
-              setFormData((prevState) => ({ ...prevState, imageUrl: e }))
+              setMealData((prevState) => ({ ...prevState, imageUrl: e }))
             }
-          />
-        </Box>
+          ></Input>
+        </Container>
 
-        <Button type="submit" onPress={handlePress(form)}>
-          Submit
+        <Button
+          minWidth="150"
+          minHeight="15"
+          marginTop={1}
+          shadow={1}
+          alignSelf="center"
+          _pressed={{
+            transform: [
+              {
+                scale: 0.94,
+              },
+            ],
+          }}
+          onPress={() => {
+            handleSubmit(mealData);
+          }}
+        >
+          <Text fontSize={20} fontWeight="bold" color="#ffffff">
+            Submit
+          </Text>
         </Button>
-      </FormControl>
+      </Box>
     </ScrollView>
   );
 };

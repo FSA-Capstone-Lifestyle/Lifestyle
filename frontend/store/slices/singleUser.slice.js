@@ -14,7 +14,7 @@ export const fetchUser = createAsyncThunk(
   "user/fetchUser",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`http://192.168.1.155:1337/api/users/${id}`);
+      const res = await axios.get(`http://localhost:1337/api/users/${id}`);
       return res.data;
     } catch (error) {
       console.log("Can't find this user", error);
@@ -23,14 +23,30 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (userData, { rejectWithValue }) => {
+    try {
+      console.log("edit", userData);
+      const res = await axios.put(
+        `http://localhost:1337/api/users/${userData.id}`,
+        userData
+      );
+      return res.data;
+    } catch (error) {
+      console.log("Can't find this user", error);
+      return rejectWithValue(error);
+    }
+  }
+);
 // Get User Workouts
 export const fetchUserWorkouts = createAsyncThunk(
   "user/fetchUserWorkouts",
   async (id, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        // `http://192.168.1.155:1337/api/user/${id}/workouts`
         `http://192.168.1.155:1337/api/users/${id}/workouts`
+        // `http://localhost:1337/api/users/${id}/workouts`
       );
       return res.data;
     } catch (error) {
@@ -48,20 +64,18 @@ export const setComplete = createAsyncThunk(
       const userId = data.userId;
       const workoutId = data.workoutId;
       const currentDay = data.currentDay;
+      const completions = data.completions;
 
-      const userWorkout = await axios.get(
-        `http://192.168.1.155:1337/api/users/${userId}/${workoutId}`
-      );
       await axios.put(
-        `http://192.168.1.155:1337/api/users/${userId}/${workoutId}/completed`,
+        `http://localhost:1337/api/users/${userId}/${workoutId}/completed`,
         {
-          completions: userWorkout.Workout_Plan.completions++,
+          completions: completions,
           currentDay: currentDay,
         }
       );
 
       const res = await axios.get(
-        `http://192.168.1.155:1337/api/users/${userId}/workouts`
+        `http://localhost:1337/api/users/${userId}/workouts`
       );
       return res.data;
     } catch (error) {
@@ -79,18 +93,18 @@ export const setSkip = createAsyncThunk(
       const { userId } = data;
       const { workoutId } = data;
       const { currentDay } = data;
-      const userWorkout = await axios.get(
-        `http://192.168.1.155:1337/api/users/${userId}/${workoutId}`
-      );
+      const { skips } = data;
+      console.log("this is the data", data);
+
       await axios.put(
-        `http://192.168.1.155:1337/api/users/${userId}/${workoutId}/completed`,
+        `http://localhost:1337/api/users/${userId}/${workoutId}/skipped`,
         {
-          skips: userWorkout.Workout_Plan.skips++,
+          skips: skips,
           currentDay: currentDay,
         }
       );
       const res = await axios.get(
-        `http://192.168.1.155:1337/api/users/${userId}/workouts`
+        `http://localhost:1337/api/users/${userId}/workouts`
       );
       return res.data;
     } catch (error) {
@@ -117,12 +131,25 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
+
+    [updateUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      state.user = action.payload;
+      state.isSuccess = true;
+    },
+    [updateUser.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+
     [fetchUserWorkouts.pending]: (state) => {
       state.isLoading = true;
     },
     [fetchUserWorkouts.fulfilled]: (state, action) => {
       state.user = action.payload[0];
-      // console.log("state.user", state.user);
+      console.log("fetchUserWorkouts", state.user);
       state.isSuccess = true;
     },
     [fetchUserWorkouts.rejected]: (state) => {
@@ -144,6 +171,7 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [setSkip.fulfilled]: (state, action) => {
+      console.log("setSkip reducer", action.payload[0]);
       state.user = action.payload[0];
       state.isSuccess = true;
     },

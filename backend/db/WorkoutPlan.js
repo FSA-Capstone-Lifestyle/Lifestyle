@@ -15,6 +15,9 @@ const Workout_Plan = db.define("Workout_Plan", {
     type: Sequelize.INTEGER,
     defaultValue: 0,
   },
+  currentDay: {
+    type: Sequelize.TEXT,
+  },
 });
 
 module.exports = Workout_Plan;

@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   Text,
-  Heading,
   VStack,
-  WarningOutlineIcon,
   FormControl,
   Input,
   Link,
@@ -30,14 +28,14 @@ function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
   useEffect(() => {
     setErrortext("");
-    dispatch(me());
+    console.log("login");
   }, []);
   console.log(errortext);
   const handleSubmit = async () => {
     const data = await dispatch(
       authenticate({ email: userData.email, password: userData.password })
     );
-
+    console.log("sadfasdfsadf", data);
     if (data.payload === "Invalid username or password") {
       displayErrors("! Invalid username or password");
     } else {
@@ -128,7 +126,7 @@ function LoginScreen({ navigation }) {
               handleSubmit();
             }}
             mt="2"
-            colorScheme="indigo"
+            colorScheme="purple"
           >
             Sign in
           </Button>

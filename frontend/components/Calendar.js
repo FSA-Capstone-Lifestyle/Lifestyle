@@ -9,51 +9,66 @@ import {
   setComplete,
   setSkip,
 } from "../store/slices/singleUser.slice";
-
 const Calendar = () => {
   const [week, setWeek] = useState([]);
   const [date, setDate] = useState(new Date());
-  const [skipData, setSkipData] = useState({});
-  const [completeData, setCompleteData] = useState({});
-
-  const calendarDates = () => {
-    for (let i = 0; i < 7; i++) {
-      const start = startOfWeek(date, { weekStartsOn: 1 });
-      setDate(addDays(start, i));
-      setWeek({
-        formatted: format(date, "EEE"),
-        date,
-        day: getDate(date),
-      });
-    }
-  };
-
+  const [hasWorkouts, setHasWorkouts] = useState(false);
+  const [alreadySet, setAlreadySet] = useState(false);
   const { user } = useSelector((state) => state.user);
-
   const { id } = useSelector((state) => state.auth.user);
 
-  const dispatch = useDispatch();
+  const calendarDates = () => {
+    let dates = [];
+    for (let i = 0; i < 7; i++) {
+      const start = startOfWeek(new Date(), { weekStartsOn: 1 });
+      let currentDay = addDays(start, i);
+      dates.push({
+        formatted: format(currentDay, "EEE"),
+        currentDay,
+        day: getDate(currentDay),
+      });
+    }
+    setWeek(dates);
+  };
 
+  const { workouts } = user;
+
+  const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(fetchUserWorkouts(id));
     calendarDates();
   }, []);
 
   useEffect(() => {
-    dispatch(fetchUserWorkouts(id));
-  }, []);
-
-  useEffect(() => {
-    dispatch(setSkip(skipData));
-  }, []);
-
-  useEffect(() => {
-    dispatch(setComplete(completeData));
-  }, []);
-
-  const { workouts } = user;
-
-  // console.log("from calendar", workouts, id);
-  // console.log("from calendar", workouts, id);
+    if (hasWorkouts === false) {
+      dispatch(fetchUserWorkouts(id));
+    } else {
+      workouts.map((workout) => {
+        if (workout.Workout_Plan.currentDay !== date) {
+          if (workout.Workout_Plan.progress === "To do") {
+            console.log("setSkip");
+            dispatch(
+              setSkip({
+                userId: workout.Workout_Plan.userId,
+                skips: workout.Workout_Plan.skips,
+                workoutId: workout.id,
+                currentDay: date,
+              })
+            );
+          } else {
+            dispatch(
+              setComplete({
+                userId: workout.Workout_Plan.userId,
+                completions: workout.Workout_Plan.completions,
+                workoutId: workout.id,
+                currentDay: date,
+              })
+            );
+          }
+        }
+      });
+    }
+  }, [hasWorkouts]);
 
   if (!workouts) {
     return (
@@ -63,26 +78,12 @@ const Calendar = () => {
     );
   }
 
-  console.log(workouts, newDate);
-
-  workouts.map((workout) => {
-    if (workout.Workout_Plan.currentDay !== date) {
-      if (workout.Workout_Plan.progress === "To do") {
-        console.log("setSkip");
-        setSkipData({
-          userId: id,
-          workoutId: workout.id,
-          currentDay: date,
-        });
-      } else {
-        setCompleteData({
-          userId: id,
-          workoutId: workout.id,
-          currentDay: date,
-        });
-      }
+  if (workouts) {
+    if (alreadySet === false) {
+      setHasWorkouts(true);
+      setAlreadySet(true);
     }
-  });
+  }
 
   return (
     <View style={styles.container}>
@@ -90,7 +91,7 @@ const Calendar = () => {
         let date = new Date();
         const textStyles = [styles.label];
         const touchable = [styles.touchable];
-        const sameDay = isSameDay(weekDay.date, date);
+        const sameDay = isSameDay(weekDay.currentDay, date);
         let dayWorkout = [];
 
         if (sameDay) {
@@ -105,7 +106,6 @@ const Calendar = () => {
           textStyles.push(styles.selectedLabel);
           touchable.push(styles.selectedTouchable);
         }
-
         return (
           <View key={weekDay.formatted}>
             <View style={styles.weekDayItem}>
@@ -118,7 +118,6 @@ const Calendar = () => {
               let compPercentage =
                 workout.Workout_Plan.completions /
                 (workout.Workout_Plan.completions + workout.Workout_Plan.skips);
-              // console.log("compPercentage", compPercentage, workout);
               return (
                 <View style={styles.box} key={workout.id}>
                   <Text style={textStyles}>{workout.name}:</Text>
@@ -177,5 +176,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
 export default Calendar;
