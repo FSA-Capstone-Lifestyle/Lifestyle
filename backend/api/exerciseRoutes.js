@@ -2,9 +2,13 @@ const router = require("express").Router();
 const { Workout, Exercise } = require("../db");
 
 // GET /api/exercises
-router.get("/", async (req, res, next) => {
+router.get("/:workoutId", async (req, res, next) => {
   try {
-    const exercises = await Exercise.findAll();
+    const exercises = await Exercise.findAll({
+      where: {
+        workoutId: req.params.workoutId,
+      },
+    });
     res.json(exercises);
   } catch (err) {
     next(err);
@@ -12,7 +16,7 @@ router.get("/", async (req, res, next) => {
 });
 
 // GET /api/exercises/:id
-router.get("/:id", async (req, res, next) => {
+router.get("/single/:id", async (req, res, next) => {
   try {
     const exercise = await Exercise.findByPk(req.params.id);
     res.json(exercise);
@@ -32,13 +36,12 @@ router.post("/", async (req, res, next) => {
 });
 
 // PUT /api/exercises/:id
-router.put("/:id", async (req, res, next) => {
+router.put("/single/:id", async (req, res, next) => {
   try {
     const exercise = await Exercise.findOne({
       where: {
         id: req.params.id,
       },
-      include: Workout,
     });
     res.send(await exercise.update(req.body));
   } catch (err) {

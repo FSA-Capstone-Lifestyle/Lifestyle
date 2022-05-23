@@ -11,9 +11,15 @@ const Exercise = db.define("exercise", {
   },
   reps: {
     type: Sequelize.INTEGER,
+    defaultValue: 0,
   },
   sets: {
     type: Sequelize.INTEGER,
+    defaultValue: 0,
+  },
+  isCompleted: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   },
 });
 
