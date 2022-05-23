@@ -23,6 +23,22 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (userData, { rejectWithValue }) => {
+    try {
+      console.log("edit", userData);
+      const res = await axios.put(
+        `http://localhost:1337/api/users/${userData.id}`,
+        userData
+      );
+      return res.data;
+    } catch (error) {
+      console.log("Can't find this user", error);
+      return rejectWithValue(error);
+    }
+  }
+);
 // Get User Workouts
 export const fetchUserWorkouts = createAsyncThunk(
   "user/fetchUserWorkouts",
@@ -115,6 +131,19 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
+
+    [updateUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      state.user = action.payload;
+      state.isSuccess = true;
+    },
+    [updateUser.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+
     [fetchUserWorkouts.pending]: (state) => {
       state.isLoading = true;
     },

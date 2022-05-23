@@ -11,7 +11,7 @@ export default function SplashScreen({ navigation }) {
       setAnimating(false);
       async function getToken(){
         const token = await dispatch(me());
-
+        console.log('token',token)
         if(!token.payload){
           console.log( 'ifteyizzz')
           navigation.navigate('AuthStack')

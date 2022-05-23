@@ -48,9 +48,10 @@ router.get("/:id", requireToken, async (req, res, next) => {
 });
 
 //Update User
-router.put("/:id", requireToken, async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
-    if (req.user.id == req.params.id) {
+    console.log(req)
+    if (req.body.id == req.params.id) {
       await User.update(req.body, {
         where: {
           id: req.params.id,

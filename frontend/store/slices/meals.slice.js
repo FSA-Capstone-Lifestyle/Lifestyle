@@ -24,10 +24,25 @@ export const createMeal = createAsyncThunk(
   "meals/createMeal",
   async (formInfo, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:1337/api/meals",
-        formInfo
-      );
+      const {
+        name,
+        imageUrl,
+        ingredients,
+        instructions,
+        mealType,
+        prepTime,
+        calories,
+      } = formInfo;
+
+      const response = await axios.post("http://localhost:1337/api/meals", {
+        name,
+        imageUrl,
+        ingredients,
+        instructions,
+        mealType,
+        prepTime,
+        calories,
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -38,17 +53,16 @@ export const createMeal = createAsyncThunk(
 export const updateMeal = createAsyncThunk(
   "meals/updateMeal",
   async (formInfo, { rejectWithValue }) => {
-    // try {
-    //   const { formData, workout } = formInfo;
-    //   const { id } = workout;
-    //   const res = await axios.put(
-    //     `http://localhost:1337/api/workouts/${id}`,
-    //     formData
-    //   );
-    //   return res.data;
-    // } catch (error) {
-    //   return rejectWithValue(error);
-    // }
+    try {
+      const { id, mealData } = formInfo;
+      const res = await axios.put(
+        `http://localhost:1337/api/meals/${id}`,
+        mealData
+      );
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
 );
 
@@ -92,22 +106,22 @@ const mealsSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
-    // [updateMeal.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [updateMeal.fulfilled]: (state, action) => {
-    //   const index = state.meals.findIndex(
-    //     (diet) => meal.id === action.payload.id
-    //   );
-    //   state.meals[index] = {
-    //     ...state.meals[index],
-    //     ...action.payload,
-    //   };
-    // },
-    // [updateMeal.rejected]: (state) => {
-    //   state.isLoading = false;
-    //   state.isError = true;
-    // },
+    [updateMeal.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateMeal.fulfilled]: (state, action) => {
+      const index = state.meals.findIndex(
+        (meal) => meal.id === action.payload.id
+      );
+      state.meals[index] = {
+        ...state.meals[index],
+        ...action.payload,
+      };
+    },
+    [updateMeal.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
     [removeMeal.fulfilled]: (state, action) => {
       state.meals = state.meals.filter((meal) => meal.id !== action.payload.id);
     },
