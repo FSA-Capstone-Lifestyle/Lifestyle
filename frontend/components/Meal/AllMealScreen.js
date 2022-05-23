@@ -28,6 +28,8 @@ const AllMealScreen = ({ navigation }) => {
   };
 
   const { meals } = useSelector((state) => state.meals);
+  const  mealss  = useSelector((state) => state.meals);
+  console.log(mealss)
   return (
     <SafeAreaView>
       <ScrollView>

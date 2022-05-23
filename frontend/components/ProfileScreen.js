@@ -9,29 +9,29 @@ import { me } from '../store/slices/auth.slice';
 import { fetchUser } from '../store/slices/singleUser.slice';
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 const ProfileScreen = ({navigation}) => {
-  useEffect(()=>{
-    // dispatch(fetchUser(userInfo.user.id))
-    // dispatch(me())
-    console.log('profile effect')
-  },[])
-  const userInfo = useSelector((state)=> state.auth)
-
   const dispatch = useDispatch()
-  const user = userInfo.user
-  console.log('sdfsdf',userInfo)
-  const useradress = ( '@' + user.firstName.slice(0,1) + '_' + user.lastName).toLowerCase()
+
+  const userInfo = useSelector((state)=> state.auth)
+  console.log('profileScreen',userInfo)
+
+  const user = userInfo.user.payload ? userInfo.user.payload : userInfo.user
+
+
+    const useradress = user === undefined ? '' : ( '@' + user.firstName.slice(0,1) + '_' + user.lastName).toLowerCase()
+
+
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.userInfoSection}>
         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
         <View style={{flexDirection:'row',marginTop:15}}>
-          <Avatar.Image source={require('../../assets/profile.jpg')}
+          <Avatar.Image source={{uri : user.image || '../../assets/profile.jpg'}}
           size={75}/>
 
           <View style={{marginLeft:20}}>
             <Title style={styles.title}>{user.firstName || ''}</Title>
-            <Caption style={styles.caption}>{useradress}</Caption>
+            <Caption style={styles.caption}>{useradress || ''}</Caption>
           </View>
         </View>
         <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen',({user : user}))}>

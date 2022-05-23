@@ -17,12 +17,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import SingleDietPlanScreen from "../SingleDietPlanScreen.js";
+import TabNavigator from "./TabNavigator.js";
 
 const ProfileStack = createStackNavigator();
 const WorkoutStack = createStackNavigator();
 const MealStack = createStackNavigator();
 
-function ProfileStackScreen() {
+export const ProfileStackScreen =() => {
   return (
     <ProfileStack.Navigator initialRouteName="ProfileScreen">
       <ProfileStack.Screen
@@ -34,6 +35,7 @@ function ProfileStackScreen() {
         name="EditProfileScreen"
         component={EditProfileScreen}
         options={{
+
           title: " ",
         }}
       />
