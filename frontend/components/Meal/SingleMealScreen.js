@@ -30,6 +30,7 @@ const SingleMealScreen = (props) => {
   const handleEdit = (meal) => {
     props.navigation.navigate("EditMealScreen", { meal: meal });
   };
+
   const handleDelete = async (id) => {
     await dispatch(removeMeal(id));
     props.navigation.goBack();
