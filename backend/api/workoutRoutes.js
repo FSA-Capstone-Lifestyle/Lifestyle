@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Workout, Exercise, User } = require("../db");
+const { Workout, Exercise, User, Workout_Plan } = require("../db");
 
 // GET /api/workouts
 router.get("/", async (req, res, next) => {
@@ -54,6 +54,25 @@ router.put("/:id", async (req, res, next) => {
     res.send(await workout.update(req.body));
   } catch (err) {
     next(err);
+  }
+});
+
+// PUT /api/workouts/:workoutId/:userId/complete
+router.put("/:workoutId/:userId/complete", async (req, res, next) => {
+  try {
+    await Workout_Plan.update(
+      {
+        progress: "Completed",
+      },
+      {
+        where: {
+          userId: req.params.userId,
+          workoutId: req.params.workoutId,
+        },
+      }
+    );
+  } catch (error) {
+    next(error);
   }
 });
 

@@ -6,14 +6,23 @@ import {
   Divider,
   HStack,
   Spinner,
+  Button,
 } from "native-base";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWorkout } from "../../store/slices/singleWorkout.slice";
+import {
+  fetchWorkout,
+  completeWorkout,
+} from "../../store/slices/singleWorkout.slice";
 
 const SingleWorkoutScreen = (props) => {
   const dispatch = useDispatch();
   const { workout } = useSelector((state) => state.workout);
+  const { id } = useSelector((state) => state.auth.user);
+
+  const handleClick = (workoutId) => {
+    dispatch(completeWorkout({ userId: id, workoutId: workoutId }));
+  };
 
   useEffect(() => {
     dispatch(fetchWorkout(props.route.params.id));
@@ -38,6 +47,15 @@ const SingleWorkoutScreen = (props) => {
           ))
         )}
       </Box>
+      <Button
+        width="90%"
+        bg="primary.300"
+        onPress={() => {
+          handleClick(workout.id);
+        }}
+      >
+        Complete Workout!
+      </Button>
     </View>
   );
 };

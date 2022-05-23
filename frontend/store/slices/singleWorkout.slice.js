@@ -23,6 +23,22 @@ export const fetchWorkout = createAsyncThunk(
   }
 );
 
+export const completeWorkout = createAsyncThunk(
+  "workout/completeWorkout",
+  async (data, { rejectWithValue }) => {
+    try {
+      let { userId } = data;
+      let { workoutId } = data;
+      const response = await axios.put(
+        `http://localhost:1337/api/workouts/${workoutId}/${userId}/complete`
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 // Slice reducer - action creators and types are generated here
 const workoutSlice = createSlice({
   name: "workout",
@@ -38,6 +54,17 @@ const workoutSlice = createSlice({
       state.isLoading = false;
     },
     [fetchWorkout.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [completeWorkout.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [completeWorkout.fulfilled]: (state, action) => {
+      state.isSuccess = true;
+      state.isLoading = false;
+    },
+    [completeWorkout.rejected]: (state) => {
       state.isLoading = false;
       state.isError = true;
     },
