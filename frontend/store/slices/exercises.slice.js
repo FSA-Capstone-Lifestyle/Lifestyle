@@ -25,7 +25,6 @@ export const fetchExercises = createAsyncThunk(
 export const createExercise = createAsyncThunk(
   "exercises/createExercise",
   async (formInfo, { rejectWithValue }) => {
-    console.log(formInfo);
     try {
       const res = await axios.post(
         "http://192.168.1.155:1337/api/exercises",
@@ -38,15 +37,48 @@ export const createExercise = createAsyncThunk(
   }
 );
 
-export const updateExercise = createAsyncThunk(
+export const updateReps = createAsyncThunk(
   "exercises/updateExercise",
   async (formInfo, { rejectWithValue }) => {
     try {
-      const { formData, exercise } = formInfo;
-      const { id } = exercise;
+      const { id, reps } = formInfo;
       const res = await axios.put(
-        `http://192.168.1.155:1337/api/exercises/${id}`,
-        formData
+        `http://192.168.1.155:1337/api/exercises/single/${id}`,
+        { reps }
+      );
+      return res.data;
+    } catch (error) {
+      console.log("Can't update exercise", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const updateSets = createAsyncThunk(
+  "exercises/updateExercise",
+  async (formInfo, { rejectWithValue }) => {
+    try {
+      const { id, sets } = formInfo;
+      const res = await axios.put(
+        `http://192.168.1.155:1337/api/exercises/single/${id}`,
+        { sets }
+      );
+      return res.data;
+    } catch (error) {
+      console.log("Can't update exercise", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const updateStatus = createAsyncThunk(
+  "exercises/updateExercise",
+  async (formInfo, { rejectWithValue }) => {
+    try {
+      const { id, isCompleted } = formInfo;
+      const res = await axios.put(
+        `http://192.168.1.155:1337/api/exercises/single/${id}`,
+        { isCompleted }
       );
       return res.data;
     } catch (error) {
@@ -99,10 +131,10 @@ const exercisesSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
-    [updateExercise.pending]: (state) => {
+    [updateReps.pending]: (state) => {
       state.isLoading = true;
     },
-    [updateExercise.fulfilled]: (state, action) => {
+    [updateReps.fulfilled]: (state, action) => {
       const index = state.exercises.findIndex(
         (exercise) => exercise.id === action.payload.id
       );
@@ -111,7 +143,36 @@ const exercisesSlice = createSlice({
         ...action.payload,
       };
     },
-    [updateExercise.rejected]: (state) => {
+    [updateReps.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [updateSets.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateSets.fulfilled]: (state, action) => {
+      const index = state.exercises.findIndex(
+        (exercise) => exercise.id === action.payload.id
+      );
+      state.exercises[index] = {
+        ...state.exercises[index],
+        ...action.payload,
+      };
+    },
+    [updateStatus.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [updateStatus.fulfilled]: (state, action) => {
+      const index = state.exercises.findIndex(
+        (exercise) => exercise.id === action.payload.id
+      );
+      state.exercises[index] = {
+        ...state.exercises[index],
+        ...action.payload,
+      };
+    },
+    [updateStatus.rejected]: (state) => {
       state.isLoading = false;
       state.isError = true;
     },

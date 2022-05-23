@@ -26,7 +26,7 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // POST /api/workouts/:userId
-router.post("/:userId", async (req, res, next) => {
+router.post("/user/:userId", async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {

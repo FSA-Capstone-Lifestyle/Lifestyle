@@ -25,11 +25,11 @@ export const fetchWorkouts = createAsyncThunk(
 export const createWorkout = createAsyncThunk(
   "workouts/createWorkout",
   async (formInfo, { rejectWithValue }) => {
-    const { id, name } = formInfo;
     try {
+      const { id, name } = formInfo;
       const res = await axios.post(
-        `http://192.168.1.155:1337/api/workouts/${id}`,
-        name
+        `http://192.168.1.155:1337/api/workouts/user/${id}`,
+        { name }
       );
       return res.data;
     } catch (err) {
