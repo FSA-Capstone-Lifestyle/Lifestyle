@@ -28,7 +28,7 @@ function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
   useEffect(() => {
     setErrortext("");
-    console.log("login");
+
   }, []);
   console.log(errortext);
   const handleSubmit = async () => {
