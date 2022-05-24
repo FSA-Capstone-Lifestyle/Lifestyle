@@ -26,10 +26,11 @@ const AppStack = () => {
       }}
     >
       <Drawer.Screen
-        name="MainScreen"
+        name="Home"
         component={MainScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
+          headerTitle:'',
           drawerIcon: ({ color }) => {
             return (
               <Icon
@@ -89,7 +90,7 @@ const AppStack = () => {
           },
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Settings"
         component={SettingsScreen}
         options={{
@@ -104,7 +105,7 @@ const AppStack = () => {
             );
           },
         }}
-      />
+      /> */}
     </Drawer.Navigator>
   );
 };

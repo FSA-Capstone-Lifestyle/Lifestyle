@@ -6,14 +6,14 @@ import {
   ImageBackground,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { updateUser } from "../store/slices/singleUser.slice";
-
+import { me } from "../store/slices/auth.slice";
 import Animated from "react-native-reanimated";
-// import BottomSheet from "reanimated-bottom-sheet";
+import BottomSheet from "reanimated-bottom-sheet";
 
 const EditProfileScreen = (props) => {
   const user = props.route.params.user;
@@ -67,7 +67,9 @@ const EditProfileScreen = (props) => {
       return false;
     }
     console.log(firstName, lastName, email);
-    dispatch(updateUser(userData, user.id));
+    dispatch(updateUser(userData));
+    dispatch(me())
+    props.navigation.navigate('ProfileScreen')
   };
   const displayErrors = () => {
     return errortext.map((error, index) => (
@@ -76,7 +78,7 @@ const EditProfileScreen = (props) => {
   };
   return (
     <View style={styles.container}>
-      {/* <BottomSheet
+      <BottomSheet
         ref={this.bs}
         snapPoints={[330, 0]}
         renderContent={this.renderInner}
@@ -84,7 +86,7 @@ const EditProfileScreen = (props) => {
         initialSnap={1}
         callbackNode={this.fall}
         enabledGestureInteraction={true}
-      /> */}
+      />
       <View style={{ margin: 20 }}>
         <View style={{ alignItems: "center" }}>
           <TouchableOpacity onPress={() => this.bs.current.snapTo(0)}>

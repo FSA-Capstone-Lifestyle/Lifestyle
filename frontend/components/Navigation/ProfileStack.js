@@ -16,9 +16,7 @@ function ProfileStackScreen() {
       <ProfileStack.Screen
         name="EditProfileScreen"
         component={EditProfileScreen}
-        options={{
-          title: " ",
-        }}
+        options={{ title : '' }}
       />
     </ProfileStack.Navigator>
   );

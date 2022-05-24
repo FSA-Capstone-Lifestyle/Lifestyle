@@ -9,7 +9,7 @@ import { me  } from '../store/slices/auth.slice';
 const CustomDrawer = (props) => {
   const userInfo2 = useSelector((state) => state.auth)
 
-  console.log('drawer',userInfo2)
+
   const user = userInfo2.user.payload ? userInfo2.user.payload : userInfo2.user
   const dispatch = useDispatch();
 
@@ -19,7 +19,7 @@ const CustomDrawer = (props) => {
       <ImageBackground source={require('../../assets/bg-profile3.jpeg')} style={{padding:20}}>
 
       <Image source={{uri : user.image || '../../assets/profile.jpg' }} style={{height:80,width:80,borderRadius:40,marginBottom:10}}/>
-      <Text style={{color:'#fff', fontSize:19}}>{user.firstName + ' ' + user.lastName}</Text>
+      <Text style={{color:'#fff', fontSize:23, fontWeight:'bold'}}>{user.firstName + ' ' + user.lastName}</Text>
 
       </ImageBackground>
       <View style={{flex : 1,backgroundColor:'#fff',paddingTop:10}}>
