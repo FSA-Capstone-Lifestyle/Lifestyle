@@ -16,8 +16,11 @@ const Calendar = ({ navigation }) => {
   const [hasWorkouts, setHasWorkouts] = useState(false);
   const [alreadySet, setAlreadySet] = useState(false);
   const { user } = useSelector((state) => state.user);
-  const { id } = useSelector((state) => state.auth.user);
 
+  const userInfo = useSelector((state)=> state.auth)
+
+
+  const id = userInfo.user.payload ? userInfo.user.payload.id : userInfo.user.id
   const calendarDates = () => {
     let dates = [];
     for (let i = 0; i < 7; i++) {
@@ -43,6 +46,7 @@ const Calendar = ({ navigation }) => {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log('asdfsadf',id)
     dispatch(fetchUserWorkouts(id));
     calendarDates();
   }, []);
