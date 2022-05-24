@@ -35,6 +35,7 @@ const SingleWorkoutScreen = (props) => {
   const dispatch = useDispatch();
   const { exercises } = useSelector((state) => state.exercises);
   const { workout } = useSelector((state) => state.workout);
+  const { user } = useSelector((state) => state.auth);
   const [toggle, setToggle] = useState(false);
   const [progress, setProgress] = useState({
     progress: "",
@@ -43,12 +44,14 @@ const SingleWorkoutScreen = (props) => {
     name: "",
     workoutId: "",
   });
+  const [isComplete, setIsComplete] = useState(false);
 
   let { workoutId } = input;
 
   const workoutComplete = () => {
     if (exercises.every((exercise) => exercise.isCompleted)) {
       setProgress("Completed");
+      setIsComplete(true);
     } else if (exercises.some((exercise) => exercise.isCompleted)) {
       setProgress("In progress");
     } else {
@@ -72,9 +75,8 @@ const SingleWorkoutScreen = (props) => {
   }, []);
 
   useEffect(() => {
-    workoutComplete();
-    dispatch(updateWorkout({ workoutId, progress }));
-  }, [toggle]);
+    dispatch(updateWorkout({ userId: user.id, workoutId: workout.id }));
+  }, [isComplete]);
 
   const handleReps = (id, reps) => {
     dispatch(updateReps({ id, reps }));
@@ -87,6 +89,7 @@ const SingleWorkoutScreen = (props) => {
   const handleStatusChange = (id, isCompleted) => {
     setToggle(!isCompleted);
     dispatch(updateStatus({ id, isCompleted }));
+    workoutComplete();
   };
 
   const handlePress = (data) => (e) => {
@@ -230,6 +233,11 @@ const SingleWorkoutScreen = (props) => {
                       </Slider>
                     </VStack>
                   </Box>
+                  {isComplete ? (
+                    <Box>Completed!</Box>
+                  ) : (
+                    <Box>Complete this workout fatty</Box>
+                  )}
                 </Box>
               ))
             )}
