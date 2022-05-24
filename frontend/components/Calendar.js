@@ -9,14 +9,18 @@ import {
   setComplete,
   setSkip,
 } from "../store/slices/singleUser.slice";
-const Calendar = () => {
+import { Pressable } from "native-base";
+const Calendar = ({ navigation }) => {
   const [week, setWeek] = useState([]);
   const [date, setDate] = useState(new Date());
   const [hasWorkouts, setHasWorkouts] = useState(false);
   const [alreadySet, setAlreadySet] = useState(false);
   const { user } = useSelector((state) => state.user);
-  const { id } = useSelector((state) => state.auth.user);
 
+  const userInfo = useSelector((state)=> state.auth)
+
+
+  const id = userInfo.user.payload ? userInfo.user.payload.id : userInfo.user.id
   const calendarDates = () => {
     let dates = [];
     for (let i = 0; i < 7; i++) {
@@ -30,11 +34,19 @@ const Calendar = () => {
     }
     setWeek(dates);
   };
+  const handleClick = (id) => {
+    navigation.navigate("Single Workout", { id: id });
+  };
+
+  const handlePress = (day) => {
+    setDate(day);
+  };
 
   const { workouts } = user;
 
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log('asdfsadf',id)
     dispatch(fetchUserWorkouts(id));
     calendarDates();
   }, []);
@@ -44,15 +56,15 @@ const Calendar = () => {
       dispatch(fetchUserWorkouts(id));
     } else {
       workouts.map((workout) => {
-        if (workout.Workout_Plan.currentDay !== date) {
+        let newDate = new Date();
+        if (workout.Workout_Plan.currentDay !== newDate) {
           if (workout.Workout_Plan.progress === "To do") {
-
             dispatch(
               setSkip({
                 userId: workout.Workout_Plan.userId,
                 skips: workout.Workout_Plan.skips,
                 workoutId: workout.id,
-                currentDay: date,
+                currentDay: newDate,
               })
             );
           } else {
@@ -61,7 +73,7 @@ const Calendar = () => {
                 userId: workout.Workout_Plan.userId,
                 completions: workout.Workout_Plan.completions,
                 workoutId: workout.id,
-                currentDay: date,
+                currentDay: newDate,
               })
             );
           }
@@ -88,21 +100,25 @@ const Calendar = () => {
   return (
     <View style={styles.container}>
       {week.map((weekDay) => {
-        let date = new Date();
+        // let date = new Date();
         const textStyles = [styles.label];
         const touchable = [styles.touchable];
         const sameDay = isSameDay(weekDay.currentDay, date);
         let dayWorkout = [];
 
+        console.log("week", week);
+
+        workouts.map((workout) => {
+          if (workout.daysOfWeek === "All") {
+            dayWorkout.push(workout);
+          } else if (workout.daysOfWeek.includes(weekDay.formatted)) {
+            dayWorkout.push(workout);
+          }
+        });
+
+        weekDay.workouts = dayWorkout;
+
         if (sameDay) {
-          dayWorkout = [];
-          workouts.map((workout) => {
-            if (workout.daysOfWeek === "All") {
-              dayWorkout.push(workout);
-            } else if (workout.daysOfWeek.includes(weekDay.formatted)) {
-              dayWorkout.push(workout);
-            }
-          });
           textStyles.push(styles.selectedLabel);
           touchable.push(styles.selectedTouchable);
         }
@@ -110,23 +126,37 @@ const Calendar = () => {
           <View key={weekDay.formatted}>
             <View style={styles.weekDayItem}>
               <Text style={styles.weekDayText}>{weekDay.formatted}</Text>
-              <TouchableOpacity style={touchable}>
+              <Pressable
+                style={touchable}
+                onPress={() => {
+                  handlePress(weekDay.currentDay);
+                }}
+              >
                 <Text style={textStyles}>{weekDay.day}</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
-            {dayWorkout.map((workout) => {
-              let compPercentage =
-                workout.Workout_Plan.completions /
-                (workout.Workout_Plan.completions + workout.Workout_Plan.skips);
-              return (
-                <View style={styles.box} key={workout.id}>
-                  <Text style={textStyles}>{workout.name}:</Text>
-                  <Text style={textStyles}>
-                    Completion Percentage: {compPercentage * 100}%
-                  </Text>
-                </View>
-              );
-            })}
+            {sameDay
+              ? weekDay.workouts.map((workout) => {
+                  let compPercentage =
+                    workout.Workout_Plan.completions /
+                    (workout.Workout_Plan.completions +
+                      workout.Workout_Plan.skips);
+                  return (
+                    <TouchableOpacity
+                      style={styles.box}
+                      key={workout.id}
+                      onPress={() => {
+                        handleClick(workout.id);
+                      }}
+                    >
+                      <Text style={textStyles}>{workout.name}:</Text>
+                      <Text style={textStyles}>
+                        Completion Percentage: {compPercentage * 100}%
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })
+              : null}
           </View>
         );
       })}
