@@ -38,7 +38,7 @@ const SingleWorkoutScreen = (props) => {
   const { user } = useSelector((state) => state.auth);
   const [toggle, setToggle] = useState(false);
   const [progress, setProgress] = useState({
-    progress: "",
+    progress: "To do",
   });
   const [input, setInput] = useState({
     name: "",
@@ -54,6 +54,7 @@ const SingleWorkoutScreen = (props) => {
       setIsComplete(true);
     } else if (exercises.some((exercise) => exercise.isCompleted)) {
       setProgress("In progress");
+      setIsComplete(false);
     } else {
       setProgress("To do");
     }
@@ -75,7 +76,13 @@ const SingleWorkoutScreen = (props) => {
   }, []);
 
   useEffect(() => {
-    dispatch(updateWorkout({ userId: user.id, workoutId: workout.id }));
+    dispatch(
+      updateWorkout({
+        userId: user.id,
+        workoutId: workout.id,
+        progress: progress.progress,
+      })
+    );
   }, [isComplete]);
 
   const handleReps = (id, reps) => {
@@ -233,13 +240,13 @@ const SingleWorkoutScreen = (props) => {
                       </Slider>
                     </VStack>
                   </Box>
-                  {isComplete ? (
-                    <Box>Completed!</Box>
-                  ) : (
-                    <Box>Complete this workout fatty</Box>
-                  )}
                 </Box>
               ))
+            )}
+            {isComplete ? (
+              <Box>Completed!</Box>
+            ) : (
+              <Box>Complete this workout fatty</Box>
             )}
           </VStack>
         </VStack>

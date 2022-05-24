@@ -46,7 +46,7 @@ router.put("/:workoutId/:userId", async (req, res, next) => {
   try {
     await Workout_Plan.update(
       {
-        progress: "Completed",
+        progress: req.body.progress,
       },
       {
         where: {

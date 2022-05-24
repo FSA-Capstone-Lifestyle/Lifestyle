@@ -223,9 +223,9 @@ const seed = async () => {
       })
     );
 
-    const miguelDiaz = await User.create(userWithDiets);
-    const miguelsDiet = await Diet.create(usersDiet);
-    await miguelsDiet.setUser(miguelDiaz);
+    // const miguelDiaz = await User.create(userWithDiets);
+    // const miguelsDiet = await Diet.create(usersDiet);
+    // await miguelsDiet.setUser(miguelDiaz);
 
     await Promise.all(
       diets.map((diet) => {

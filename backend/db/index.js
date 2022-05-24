@@ -13,11 +13,11 @@ Workout.belongsToMany(User, { through: Workout_Plan, as: "athlete" });
 Workout.hasMany(Exercise);
 Exercise.belongsTo(Workout);
 
-User.belongsToMany(Diet, { through: "Diet_Plan" });
-Diet.belongsToMany(User, { through: "Diet_Plan", as: "user" });
+User.belongsToMany(Meal, { through: "Diet_Plan" });
+Meal.belongsToMany(User, { through: "Diet_Plan", as: "user" });
 
-Diet.hasMany(Meal);
-Meal.belongsTo(Diet);
+//Diet.hasMany(Meal);
+//Meal.belongsTo(Diet);
 
 module.exports = {
   db,

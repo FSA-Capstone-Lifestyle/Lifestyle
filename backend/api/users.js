@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Workout, User, Workout_Plan } = require("../db");
+const { Workout, User, Workout_Plan, Meal } = require("../db");
 
 const requireToken = async (req, res, next) => {
   try {
@@ -28,20 +28,16 @@ router.get("/", requireToken, async (req, res, next) => {
   }
 });
 
-router.get("/:id", requireToken, async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try {
-    console.log(req.user.id); // see if you can get id from req.user
-    if (req.user.id == req.params.id || req.user.dataValues.isAdmin) {
-      const singleUser = await User.findOne({
-        where: {
-          id: req.params.id,
-        },
-        attributes: ["firstName", "lastName", "email", "image"],
-      });
-      res.json(singleUser);
-    } else {
-      res.sendStatus(403);
-    }
+    // console.log(req.user.id);  see if you can get id from req.user
+    const singleUser = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+      include: [{ model: Meal }],
+    });
+    res.json(singleUser);
   } catch (error) {
     next(error);
   }
@@ -174,6 +170,54 @@ router.post("/:id/plan", async (req, res, next) => {
     res.status(201).json(plan);
   } catch (err) {
     next(err);
+  }
+});
+
+// Set meal to user
+router.post("/:id/addMeal", async (req, res, next) => {
+  try {
+    console.log("this is user id", req.params.id);
+    console.log("this is meal id", req.body);
+    const user = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    const meal = await Meal.findOne({
+      where: {
+        id: req.body.mealId,
+      },
+    });
+
+    await meal.setUser(user);
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Set meal to user
+router.post("/:id/removeMeal", async (req, res, next) => {
+  try {
+    console.log("this is user id", req.params.id);
+    console.log("this is meal id", req.body);
+    const user = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    const meal = await Meal.findOne({
+      where: {
+        id: req.body.mealId,
+      },
+    });
+
+    await meal.removeUser(user);
+    res.json(user);
+  } catch (error) {
+    next(error);
   }
 });
 

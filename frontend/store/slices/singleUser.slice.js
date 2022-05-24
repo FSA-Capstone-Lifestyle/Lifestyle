@@ -23,6 +23,40 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+export const setMealToUser = createAsyncThunk(
+  "user/setMealToUser",
+  async (sentInfo, { rejectWithValue }) => {
+    try {
+      const { mealId, userId } = sentInfo;
+      const res = await axios.post(
+        `http://localhost:1337/api/users/${userId}/addMeal`,
+        { mealId: mealId }
+      );
+      return res.data;
+    } catch (error) {
+      console.log("Can't set meal to user", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const removeMealFromUser = createAsyncThunk(
+  "user/removeMealFromUser",
+  async (sentInfo, { rejectWithValue }) => {
+    try {
+      const { mealId, userId } = sentInfo;
+      const res = await axios.post(
+        `http://localhost:1337/api/users/${userId}/removeMeal`,
+        { mealId: mealId }
+      );
+      return res.data;
+    } catch (error) {
+      console.log("Can't set meal to user", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const updateUser = createAsyncThunk(
   "user/updateUser",
   async (userData, { rejectWithValue }) => {
@@ -45,7 +79,7 @@ export const fetchUserWorkouts = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `http://192.168.1.155:1337/api/users/${id}/workouts`
+        `http://localhost:1337/api/users/${id}/workouts`
         // `http://localhost:1337/api/users/${id}/workouts`
       );
       return res.data;
@@ -143,7 +177,28 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
-
+    [setMealToUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [setMealToUser.fulfilled]: (state, action) => {
+      state.user = action.payload;
+      state.isSuccess = true;
+    },
+    [setMealToUser.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [removeMealFromUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [removeMealFromUser.fulfilled]: (state, action) => {
+      state.user = action.payload;
+      state.isSuccess = true;
+    },
+    [removeMealFromUser.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
     [fetchUserWorkouts.pending]: (state) => {
       state.isLoading = true;
     },

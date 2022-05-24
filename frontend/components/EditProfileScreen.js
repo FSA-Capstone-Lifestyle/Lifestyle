@@ -6,12 +6,12 @@ import {
   ImageBackground,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { updateUser } from "../store/slices/singleUser.slice";
-
+import { me } from "../store/slices/auth.slice";
 import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 
@@ -65,7 +65,10 @@ const EditProfileScreen = (props) => {
       ]);
       return false;
     }
-    dispatch(updateUser(userData, user.id));
+    console.log(firstName, lastName, email);
+    dispatch(updateUser(userData));
+    dispatch(me());
+    props.navigation.navigate("ProfileScreen");
   };
   const displayErrors = () => {
     return errortext.map((error, index) => (
