@@ -46,7 +46,7 @@ const Calendar = () => {
       workouts.map((workout) => {
         if (workout.Workout_Plan.currentDay !== date) {
           if (workout.Workout_Plan.progress === "To do") {
-            console.log("setSkip");
+
             dispatch(
               setSkip({
                 userId: workout.Workout_Plan.userId,

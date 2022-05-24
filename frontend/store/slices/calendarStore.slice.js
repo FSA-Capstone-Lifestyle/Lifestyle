@@ -95,7 +95,7 @@ const calendarSlice = createSlice({
             date,
             day: getDate(date),
           });
-          console.log(final);
+
           return { payload: final };
         }
       },

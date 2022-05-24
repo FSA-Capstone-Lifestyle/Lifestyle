@@ -45,7 +45,7 @@ export const fetchUserWorkouts = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `http://192.168.1.155:1337/api/users/${id}/workouts`
+        `http://localhost:1337/api/users/${id}/workouts`
         // `http://localhost:1337/api/users/${id}/workouts`
       );
       return res.data;
@@ -149,7 +149,6 @@ const userSlice = createSlice({
     },
     [fetchUserWorkouts.fulfilled]: (state, action) => {
       state.user = action.payload[0];
-      console.log("fetchUserWorkouts", state.user);
       state.isSuccess = true;
     },
     [fetchUserWorkouts.rejected]: (state) => {
