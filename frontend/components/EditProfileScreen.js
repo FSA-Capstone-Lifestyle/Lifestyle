@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { updateUser } from "../store/slices/singleUser.slice";
-
+import { me } from "../store/slices/auth.slice";
 import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 
@@ -57,7 +57,7 @@ const EditProfileScreen = (props) => {
     </View>
   );
 
-  const handleSubmit = ({ firstName, lastName, email }) => {
+  const handleSubmit = ({ email }) => {
     setErrortext([]);
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       setErrortext([
@@ -65,7 +65,9 @@ const EditProfileScreen = (props) => {
       ]);
       return false;
     }
-    dispatch(updateUser(userData, user.id));
+    dispatch(updateUser(userData));
+    dispatch(me());
+    props.navigation.navigate("ProfileScreen");
   };
   const displayErrors = () => {
     return errortext.map((error, index) => (
@@ -152,17 +154,6 @@ const EditProfileScreen = (props) => {
             style={styles.textInput}
           />
         </View>
-        {/* <View style={styles.action}>
-        <Feather name="phone" size={20} color="black" />
-            <TextInput
-            onChangeText={(e) => setuserData(prevState => ({...prevState , phoneNumber : e}))}
-            placeholder='Phone'
-            textContentType='telephoneNumber'
-            placeholderTextColor='#666666'
-            keyboardType='number-pad'
-            autoCorrect={false}
-            style={styles.textInput}/>
-        </View> */}
         <View style={styles.action}>
           <FontAwesome name="envelope-o" size={20} />
           <TextInput
@@ -208,12 +199,6 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#FFFFFF",
     paddingTop: 20,
-    // borderTopLeftRadius: 20,
-    // borderTopRightRadius: 20,
-    // shadowColor: '#000000',
-    // shadowOffset: {width: 0, height: 0},
-    // shadowRadius: 5,
-    // shadowOpacity: 0.4,
   },
   header: {
     backgroundColor: "#FFFFFF",
@@ -221,7 +206,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -1, height: -3 },
     shadowRadius: 2,
     shadowOpacity: 0.4,
-    // elevation: 5,
     paddingTop: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

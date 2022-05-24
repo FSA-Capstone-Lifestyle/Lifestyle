@@ -15,10 +15,10 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { authenticate, me } from "../store/slices/auth.slice";
+import { authenticate } from "../store/slices/auth.slice";
 
 function LoginScreen({ navigation }) {
-  const [show, setShow] = React.useState(false);
+  const [show, setShow] = useState(false);
   const [userData, setUserData] = useState({
     email: "",
     password: "",

@@ -145,7 +145,9 @@ const SingleWorkoutScreen = (props) => {
                     <Checkbox
                       aria-label="checkbox"
                       isChecked={exercise.isCompleted}
-                      onChange={() => handleStatusChange(exercise.id, toggle)}
+                      onChangeEnd={() =>
+                        handleStatusChange(exercise.id, toggle)
+                      }
                       value={exercise.name}
                     />
                     <Text

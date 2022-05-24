@@ -1,13 +1,13 @@
-import { View, Text } from "react-native";
+import { View, Text } from "native-base";
 import Calendar from "./Calendar";
 import React from "react";
 
-const MainScreen = () => {
+const MainScreen = ({ navigation }) => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View flex={1} justifyContent="center" alignItems="center">
       <Text>Home</Text>
       <View>
-        <Calendar />
+        <Calendar navigation={navigation} />
       </View>
     </View>
   );
