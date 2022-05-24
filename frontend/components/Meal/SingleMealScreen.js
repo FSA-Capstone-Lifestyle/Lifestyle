@@ -14,6 +14,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMeal } from "../../store/slices/singleMeal.slice";
 import { removeMeal } from "../../store/slices/meals.slice";
+import { setMealToUser } from "../../store/slices/singleUser.slice";
 
 const SingleMealScreen = (props) => {
   const dispatch = useDispatch();
@@ -24,8 +25,12 @@ const SingleMealScreen = (props) => {
 
   const handleAdd = async (meal) => {
     const user = props.route.params.user;
-    const set = await meal.setUser(user);
-    console.log("set to user diet", set);
+    await dispatch(
+      setMealToUser({
+        userId: props.route.params.user.id,
+        mealId: props.route.params.id,
+      })
+    );
     props.navigation.goBack();
   };
 

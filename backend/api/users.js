@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Workout, User, Workout_Plan } = require("../db");
+const { Workout, User, Workout_Plan, Meal } = require("../db");
 
 const requireToken = async (req, res, next) => {
   try {
@@ -50,7 +50,7 @@ router.get("/:id", requireToken, async (req, res, next) => {
 //Update User
 router.put("/:id", async (req, res, next) => {
   try {
-    console.log(req)
+    console.log(req);
     if (req.body.id == req.params.id) {
       await User.update(req.body, {
         where: {
@@ -174,6 +174,30 @@ router.post("/:id/plan", async (req, res, next) => {
     res.status(201).json(plan);
   } catch (err) {
     next(err);
+  }
+});
+
+// Set meal to user
+router.post("/:id/addMeal", async (req, res, next) => {
+  try {
+    console.log("this is user id", req.params.id);
+    console.log("this is meal id", req.body);
+    const user = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    const meal = await Meal.findOne({
+      where: {
+        id: req.body.mealId,
+      },
+    });
+
+    await meal.setUser(user);
+    res.json(user);
+  } catch (error) {
+    next(error);
   }
 });
 
