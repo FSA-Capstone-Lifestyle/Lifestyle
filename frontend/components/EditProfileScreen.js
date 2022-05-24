@@ -6,7 +6,7 @@ import {
   ImageBackground,
   TextInput,
 } from "react-native";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -63,13 +63,12 @@ const EditProfileScreen = (props) => {
       setErrortext([
         { message: "You have entered an invalid email address! \n" },
       ]);
-      console.log(errortext);
       return false;
     }
     console.log(firstName, lastName, email);
     dispatch(updateUser(userData));
-    dispatch(me())
-    props.navigation.navigate('ProfileScreen')
+    dispatch(me());
+    props.navigation.navigate("ProfileScreen");
   };
   const displayErrors = () => {
     return errortext.map((error, index) => (

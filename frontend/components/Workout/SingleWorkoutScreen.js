@@ -29,16 +29,36 @@ import {
   updateSets,
   updateStatus,
 } from "../../store/slices/exercises.slice";
+import { updateWorkout } from "../../store/slices/workouts.slice";
 
 const SingleWorkoutScreen = (props) => {
   const dispatch = useDispatch();
   const { exercises } = useSelector((state) => state.exercises);
   const { workout } = useSelector((state) => state.workout);
+  const { user } = useSelector((state) => state.auth);
   const [toggle, setToggle] = useState(false);
+  const [progress, setProgress] = useState({
+    progress: "To do",
+  });
   const [input, setInput] = useState({
     name: "",
     workoutId: "",
   });
+  const [isComplete, setIsComplete] = useState(false);
+
+  let { workoutId } = input;
+
+  const workoutComplete = () => {
+    if (exercises.every((exercise) => exercise.isCompleted)) {
+      setProgress("Completed");
+      setIsComplete(true);
+    } else if (exercises.some((exercise) => exercise.isCompleted)) {
+      setProgress("In progress");
+      setIsComplete(false);
+    } else {
+      setProgress("To do");
+    }
+  };
 
   useEffect(() => {
     dispatch(fetchWorkout(props.route.params.id));
@@ -55,6 +75,16 @@ const SingleWorkoutScreen = (props) => {
     }));
   }, []);
 
+  useEffect(() => {
+    dispatch(
+      updateWorkout({
+        userId: user.id,
+        workoutId: workout.id,
+        progress: progress.progress,
+      })
+    );
+  }, [isComplete]);
+
   const handleReps = (id, reps) => {
     dispatch(updateReps({ id, reps }));
   };
@@ -66,6 +96,7 @@ const SingleWorkoutScreen = (props) => {
   const handleStatusChange = (id, isCompleted) => {
     setToggle(!isCompleted);
     dispatch(updateStatus({ id, isCompleted }));
+    workoutComplete();
   };
 
   const handlePress = (data) => (e) => {
@@ -211,6 +242,11 @@ const SingleWorkoutScreen = (props) => {
                   </Box>
                 </Box>
               ))
+            )}
+            {isComplete ? (
+              <Box>Completed!</Box>
+            ) : (
+              <Box>Complete this workout fatty</Box>
             )}
           </VStack>
         </VStack>

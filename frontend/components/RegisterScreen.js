@@ -1,31 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
-  Text,
   Heading,
   VStack,
-  WarningOutlineIcon,
   FormControl,
   Input,
-  Link,
   Button,
-  HStack,
   Center,
-  Image,
-  View,
   Icon,
-  Form,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FontAwesome } from "@expo/vector-icons";
-import { register, me } from "../store/slices/auth.slice";
+import { register } from "../store/slices/auth.slice";
+
 function RegisterScreen({ navigation }) {
   const [show, setShow] = React.useState(false);
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const [formData, setData] = React.useState({});
-  const userInfo = useSelector((state) => state.auth);
 
   const validate = () => {
     setErrors({});

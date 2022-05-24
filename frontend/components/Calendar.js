@@ -17,10 +17,11 @@ const Calendar = ({ navigation }) => {
   const [alreadySet, setAlreadySet] = useState(false);
   const { user } = useSelector((state) => state.user);
 
-  const userInfo = useSelector((state)=> state.auth)
+  const userInfo = useSelector((state) => state.auth);
 
-
-  const id = userInfo.user.payload ? userInfo.user.payload.id : userInfo.user.id
+  const id = userInfo.user.payload
+    ? userInfo.user.payload.id
+    : userInfo.user.id;
   const calendarDates = () => {
     let dates = [];
     for (let i = 0; i < 7; i++) {
@@ -46,7 +47,7 @@ const Calendar = ({ navigation }) => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('asdfsadf',id)
+    console.log("asdfsadf", id);
     dispatch(fetchUserWorkouts(id));
     calendarDates();
   }, []);
@@ -151,7 +152,8 @@ const Calendar = ({ navigation }) => {
                     >
                       <Text style={textStyles}>{workout.name}:</Text>
                       <Text style={textStyles}>
-                        Completion Percentage: {compPercentage * 100}%
+                        Completion Percentage:{" "}
+                        {Math.floor(compPercentage * 100)}%
                       </Text>
                     </TouchableOpacity>
                   );
