@@ -22,8 +22,10 @@ const SingleMealScreen = (props) => {
     dispatch(fetchMeal(props.route.params.id));
   }, []);
 
-  const handleAdd = () => {
-    console.log("add to user diet");
+  const handleAdd = async (meal) => {
+    const user = props.route.params.user;
+    const set = await meal.setUser(user);
+    console.log("set to user diet", set);
     props.navigation.goBack();
   };
 
@@ -129,7 +131,7 @@ const SingleMealScreen = (props) => {
             transform: [{ scale: 0.92 }],
           }}
           onPress={() => {
-            handleAdd();
+            handleAdd(meal);
           }}
         >
           <Text fontWeight="bold" color="#ffffff">
