@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   Text,
-  Heading,
   VStack,
-  WarningOutlineIcon,
   FormControl,
   Input,
   Link,
@@ -29,27 +27,24 @@ function LoginScreen({ navigation }) {
   const [errortext, setErrortext] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
-    setErrortext('');
-    dispatch(me());
+    setErrortext("");
+    console.log("login");
   }, []);
-  console.log(errortext)
+  console.log(errortext);
   const handleSubmit = async () => {
-
     const data = await dispatch(
       authenticate({ email: userData.email, password: userData.password })
     );
-
-    if(data.payload === 'Invalid username or password'){
-      displayErrors('! Invalid username or password')
-    }else{
-      navigation.replace('AppStack')
+    console.log("sadfasdfsadf", data);
+    if (data.payload === "Invalid username or password") {
+      displayErrors("! Invalid username or password");
+    } else {
+      navigation.replace("AppStack");
     }
-
   };
   const displayErrors = (error) => {
     //return errortext.map((error,index) =><p key={index}>{error.message}</p>)
     setErrortext(error);
-
   };
 
   return (
@@ -60,11 +55,10 @@ function LoginScreen({ navigation }) {
             alt="description of image"
             source={require("../../assets/logo.png")}
             style={{
-              marginLeft:15,
+              marginLeft: 15,
               width: "80%",
               height: 200,
               resizeMode: "cover",
-
             }}
           />
         </View>
@@ -123,19 +117,16 @@ function LoginScreen({ navigation }) {
               Forget Password?
             </Link>
             {errortext !== "" ? (
-              <Text style={{color:'red'}}>
-                {errortext}
-              </Text>
+              <Text style={{ color: "red" }}>{errortext}</Text>
             ) : null}
           </FormControl>
-
 
           <Button
             onPress={() => {
               handleSubmit();
             }}
             mt="2"
-            colorScheme="indigo"
+            colorScheme="purple"
           >
             Sign in
           </Button>

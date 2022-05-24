@@ -12,7 +12,9 @@ export const fetchWorkouts = createAsyncThunk(
   "workouts/fetchWorkouts",
   async (id = null, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:1337/api/workouts");
+      const response = await axios.get(
+        "http://localhost:1337/api/workouts"
+      );
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -23,10 +25,12 @@ export const fetchWorkouts = createAsyncThunk(
 export const createWorkout = createAsyncThunk(
   "workouts/createWorkout",
   async (formInfo, { rejectWithValue }) => {
+
     try {
+      const { id, name } = formInfo;
       const res = await axios.post(
-        "http://localhost:1337/api/workouts",
-        formInfo
+        `http://localhost:1337/api/workouts/user/${id}`,
+        { name }
       );
       return res.data;
     } catch (err) {

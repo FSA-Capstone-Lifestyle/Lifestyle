@@ -1,38 +1,28 @@
 import {
-  Heading,
-  View,
-  Text,
-  VStack,
-  HStack,
-  Icon,
-  Divider,
-  SimpleGrid,
   Box,
-  Input,
+  Heading,
+  Flex,
+  Pressable,
+  Text,
+  ScrollView,
   Button,
 } from "native-base";
-import React, { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createWorkout,
-  fetchWorkouts,
-} from "../../store/slices/workouts.slice";
+import { fetchWorkouts } from "../../store/slices/workouts.slice";
 
 const WorkoutsScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+
   const { workouts } = useSelector((state) => state.workouts);
 
-  const [name, setName] = useState("");
-
-  const handleChange = (text) => setName(text);
-
   const handleClick = (id) => {
-    navigation.navigate("SingleWorkoutScreen", { id: id });
+    navigation.navigate("Single Workout", { id: id });
   };
 
-  const handlePress = (data) => (e) => {
-    e.preventDefault();
-    dispatch(createWorkout(data));
+  const handleCreate = () => {
+    navigation.navigate("Create Workout");
   };
 
   useEffect(() => {
@@ -40,44 +30,86 @@ const WorkoutsScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <View alignItems="center" m={20}>
-      <Heading>Workouts</Heading>
-      <Text>Choose a workout!</Text>
-      <Divider my={4} />
-      <SimpleGrid columns={2} spacingY={8} spacingX={8}>
-        {workouts.map((workout) => (
-          <VStack key={workout.id} space={3} divider={<Divider />} w="90%">
-            <HStack justifyContent="space-between">
-              <Button
-                width="60%"
-                bg="primary.300"
+    <SafeAreaView>
+      <ScrollView>
+        <Box>
+          <Heading
+            textAlign="center"
+            fontSize={30}
+            marginTop={10}
+            marginBottom={5}
+          >
+            Select Workout
+          </Heading>
+          <Button
+            alignSelf="center"
+            borderRadius={10}
+            width={130}
+            backgroundColor="#20B2AA"
+            _pressed={{
+              backgroundColor: "#008b8b",
+              transform: [{ scale: 0.92 }],
+            }}
+            marginBottom={5}
+            onPress={() => {
+              handleCreate();
+            }}
+          >
+            <Text fontWeight="bold" color="#ffffff">
+              Create A Workout
+            </Text>
+          </Button>
+        </Box>
+        <Flex
+          marginBottom={4}
+          justifyContent="center"
+          flexDirection="row"
+          flexWrap="wrap"
+        >
+          {workouts.map((workout) => {
+            return (
+              <Pressable
+                key={workout.id}
                 onPress={() => {
                   handleClick(workout.id);
                 }}
               >
-                {workout.name}
-              </Button>
-              <Icon name="arrow-forward" />
-            </HStack>
-          </VStack>
-        ))}
-      </SimpleGrid>
-      <Box m={4}>
-        <Heading size="sm">Create your own workout:</Heading>
-        <Box alignItems="center">
-          <Input
-            mx="3"
-            placeholder="Workout name"
-            w="100%"
-            value={name}
-            onChangeText={handleChange}
-          />
-          <Button mt="2" colorScheme="indigo" onPress={handlePress({ name })}>
-            Submit
-          </Button>
-        </Box>
-      </Box>
-    </View>
+                {({ isPressed }) => {
+                  return (
+                    <Box
+                      shadow={3}
+                      margin={2}
+                      boxSize="150"
+                      backgroundColor={isPressed ? "#203535" : "#2F4F4F"}
+                      rounded="8"
+                      style={{
+                        transform: [
+                          {
+                            scale: isPressed ? 0.94 : 1,
+                          },
+                        ],
+                      }}
+                    >
+                      <Text
+                        maxWidth={120}
+                        paddingTop={25}
+                        textAlign="center"
+                        alignSelf="center"
+                        color="#ffffff"
+                        fontWeight="bold"
+                        fontSize="18"
+                      >
+                        {workout.name}
+                      </Text>
+                    </Box>
+                  );
+                }}
+              </Pressable>
+            );
+          })}
+        </Flex>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

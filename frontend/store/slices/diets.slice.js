@@ -41,7 +41,9 @@ export const removeDiet = createAsyncThunk(
   "diets/removeDiet",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.delete(`http://localhost:1337/api/diets/${id}`);
+      const res = await axios.delete(
+        `http://localhost:1337/api/diets/${id}`
+      );
       return res.data;
     } catch (error) {
       console.log("Can't delete diet", error);
