@@ -13,7 +13,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { updateUser } from "../store/slices/singleUser.slice";
 
 import Animated from "react-native-reanimated";
-// import BottomSheet from "reanimated-bottom-sheet";
+import BottomSheet from "reanimated-bottom-sheet";
 
 const EditProfileScreen = (props) => {
   const user = props.route.params.user;
@@ -63,10 +63,8 @@ const EditProfileScreen = (props) => {
       setErrortext([
         { message: "You have entered an invalid email address! \n" },
       ]);
-      console.log(errortext);
       return false;
     }
-    console.log(firstName, lastName, email);
     dispatch(updateUser(userData, user.id));
   };
   const displayErrors = () => {
@@ -76,7 +74,7 @@ const EditProfileScreen = (props) => {
   };
   return (
     <View style={styles.container}>
-      {/* <BottomSheet
+      <BottomSheet
         ref={this.bs}
         snapPoints={[330, 0]}
         renderContent={this.renderInner}
@@ -84,7 +82,7 @@ const EditProfileScreen = (props) => {
         initialSnap={1}
         callbackNode={this.fall}
         enabledGestureInteraction={true}
-      /> */}
+      />
       <View style={{ margin: 20 }}>
         <View style={{ alignItems: "center" }}>
           <TouchableOpacity onPress={() => this.bs.current.snapTo(0)}>

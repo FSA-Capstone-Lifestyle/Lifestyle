@@ -4,7 +4,6 @@ import { authReducer } from "./slices/auth.slice";
 import { userReducer } from "./slices/singleUser.slice";
 import { workoutReducer } from "./slices/singleWorkout.slice";
 import { workoutsReducer } from "./slices/workouts.slice";
-import { calendarReducer } from "./slices/calendarStore.slice";
 import { dietsReducer } from "./slices/diets.slice";
 import { dietReducer } from "./slices/singleDiet.slice";
 import { mealsReducer } from "./slices/meals.slice";
@@ -12,7 +11,6 @@ import { mealReducer } from "./slices/singleMeal.slice";
 import { exercisesReducer } from "./slices/exercises.slice";
 
 const reducer = {
-  calendar: calendarReducer,
   user: userReducer,
   workouts: workoutsReducer,
   workout: workoutReducer,
@@ -26,7 +24,8 @@ const reducer = {
 
 const store = configureStore({
   reducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(logger),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ logger, serializableCheck: false }),
 });
 
 export default store;

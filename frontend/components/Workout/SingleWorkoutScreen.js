@@ -29,16 +29,32 @@ import {
   updateSets,
   updateStatus,
 } from "../../store/slices/exercises.slice";
+import { updateWorkout } from "../../store/slices/workouts.slice";
 
 const SingleWorkoutScreen = (props) => {
   const dispatch = useDispatch();
   const { exercises } = useSelector((state) => state.exercises);
   const { workout } = useSelector((state) => state.workout);
   const [toggle, setToggle] = useState(false);
+  const [progress, setProgress] = useState({
+    progress: "",
+  });
   const [input, setInput] = useState({
     name: "",
     workoutId: "",
   });
+
+  let { workoutId } = input;
+
+  const workoutComplete = () => {
+    if (exercises.every((exercise) => exercise.isCompleted)) {
+      setProgress("Completed");
+    } else if (exercises.some((exercise) => exercise.isCompleted)) {
+      setProgress("In progress");
+    } else {
+      setProgress("To do");
+    }
+  };
 
   useEffect(() => {
     dispatch(fetchWorkout(props.route.params.id));
@@ -54,6 +70,11 @@ const SingleWorkoutScreen = (props) => {
       workoutId: props.route.params.id,
     }));
   }, []);
+
+  useEffect(() => {
+    workoutComplete();
+    dispatch(updateWorkout({ workoutId, progress }));
+  }, [toggle]);
 
   const handleReps = (id, reps) => {
     dispatch(updateReps({ id, reps }));

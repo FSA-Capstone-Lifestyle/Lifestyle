@@ -50,7 +50,7 @@ router.get("/:id", requireToken, async (req, res, next) => {
 //Update User
 router.put("/:id", async (req, res, next) => {
   try {
-    console.log(req)
+    console.log(req);
     if (req.body.id == req.params.id) {
       await User.update(req.body, {
         where: {
@@ -149,7 +149,7 @@ router.put("/:id/:workoutId/skipped", async (req, res, next) => {
   }
 });
 
-// PUT /api/users/:id/plan
+// POST /api/users/:id/plan
 router.post("/:id/plan", async (req, res, next) => {
   try {
     const user = await User.findOne({
@@ -164,7 +164,7 @@ router.post("/:id/plan", async (req, res, next) => {
       },
     });
 
-    const plan = await WorkoutPlan.create({
+    const plan = await Workout_Plan.create({
       where: {
         userId: user.userId,
         workoutId: workout.workoutId,

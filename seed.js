@@ -35,14 +35,23 @@ const userWithWorkouts = {
 
 const workouts = [
   {
-    name: "Legs",
+    name: "Abdominal",
   },
   {
     name: "Back",
   },
+  {
+    name: "Chest",
+  },
+  {
+    name: "Arms",
+  },
+  {
+    name: "Legs",
+  },
 ];
 
-const usersWorkout = { name: "johns leg day" };
+const usersWorkout = { name: "John's Workout" };
 
 const exercises = [
   { name: "squats", sets: 4, reps: 10, workoutId: 1 },

@@ -55,8 +55,8 @@ const WorkoutsScreen = ({ navigation }) => {
               handleCreate();
             }}
           >
-            <Text fontWeight="bold" color="#ffffff">
-              Create A Workout
+            <Text fontWeight="bold" color="#ffffff" textAlign="center">
+              Create Workout
             </Text>
           </Button>
         </Box>
@@ -79,7 +79,7 @@ const WorkoutsScreen = ({ navigation }) => {
                     <Box
                       shadow={3}
                       margin={2}
-                      boxSize="150"
+                      boxSize="100"
                       backgroundColor={isPressed ? "#203535" : "#2F4F4F"}
                       rounded="8"
                       style={{

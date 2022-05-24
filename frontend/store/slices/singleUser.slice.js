@@ -149,7 +149,6 @@ const userSlice = createSlice({
     },
     [fetchUserWorkouts.fulfilled]: (state, action) => {
       state.user = action.payload[0];
-      console.log("fetchUserWorkouts", state.user);
       state.isSuccess = true;
     },
     [fetchUserWorkouts.rejected]: (state) => {
@@ -171,7 +170,6 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [setSkip.fulfilled]: (state, action) => {
-      console.log("setSkip reducer", action.payload[0]);
       state.user = action.payload[0];
       state.isSuccess = true;
     },

@@ -2,10 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 
-// const TOKEN = async function save(key, value) {
-//   await SecureStore.setItemAsync(key, value);
-// };
-
 const TOKEN = "token";
 
 const initialState = {
@@ -82,7 +78,6 @@ export const me = createAsyncThunk("auth/me", async (rejectWithValue) => {
 
 export const logout = createAsyncThunk("auth/logout", async () => {
   const token = await SecureStore.deleteItemAsync(TOKEN);
-  console.log("this is the token deleted", token);
 });
 
 const authSlice = createSlice({
