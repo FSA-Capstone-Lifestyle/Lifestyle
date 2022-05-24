@@ -17,6 +17,7 @@ import { removeMeal } from "../../store/slices/meals.slice";
 import {
   setMealToUser,
   removeMealFromUser,
+  fetchUser,
 } from "../../store/slices/singleUser.slice";
 
 const SingleMealScreen = (props) => {
@@ -45,6 +46,7 @@ const SingleMealScreen = (props) => {
         mealId: props.route.params.id,
       })
     );
+    await dispatch(fetchUser(user.id));
     props.navigation.goBack();
   };
 
