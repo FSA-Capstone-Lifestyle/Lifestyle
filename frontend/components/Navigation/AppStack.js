@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon } from "native-base";
-import { Image} from 'react-native'
+import { Image } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MainScreen from "../MainScreen.js";
@@ -11,6 +11,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import ProfileStackScreen from "./ProfileStack.js";
 import WorkoutStackScreen from "./WorkoutStack";
 import MealStackScreen from "./MealStack.js";
+import CalendarStackScreen from "./CalendarStack.js";
 
 const Drawer = createDrawerNavigator();
 
@@ -28,13 +29,16 @@ const AppStack = () => {
     >
       <Drawer.Screen
         name="Home"
-        component={MainScreen}
+        component={CalendarStackScreen}
         options={{
           headerShown: true,
           headerTitle: () => (
-            <Image style={{ width: 100, height: 50 }} source={require("../../../assets/logo.png")} />
+            <Image
+              style={{ width: 100, height: 50 }}
+              source={require("../../../assets/logo.png")}
+            />
           ),
-          headerTitleAlign:'center',
+          headerTitleAlign: "center",
           drawerIcon: ({ color }) => {
             return (
               <Icon
