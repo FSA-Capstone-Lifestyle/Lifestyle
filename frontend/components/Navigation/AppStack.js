@@ -10,6 +10,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import ProfileStackScreen from "./ProfileStack.js";
 import WorkoutStackScreen from "./WorkoutStack";
 import MealStackScreen from "./MealStack.js";
+import CalendarStackScreen from "./CalendarStack.js";
 
 const Drawer = createDrawerNavigator();
 
@@ -27,10 +28,10 @@ const AppStack = () => {
     >
       <Drawer.Screen
         name="Home"
-        component={MainScreen}
+        component={CalendarStackScreen}
         options={{
           headerShown: true,
-          headerTitle:'',
+          headerTitle: "",
           drawerIcon: ({ color }) => {
             return (
               <Icon
