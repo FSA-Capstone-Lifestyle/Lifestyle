@@ -17,7 +17,7 @@ const ProfileScreen = ({navigation}) => {
   const user = userInfo.user.payload ? userInfo.user.payload : userInfo.user
 
 
-  const useradress = user === undefined ? '' : ('@' +user.email.split('@')[0]).toLowerCase()
+  const useradress = Object.keys(user).length === 0 ? '' : ('@' +user.email.split('@')[0]).toLowerCase()
 
 
 
