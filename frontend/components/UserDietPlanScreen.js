@@ -7,6 +7,7 @@ import {
   ScrollView,
   Button,
   Image,
+  Divider,
 } from "native-base";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +23,7 @@ const UserDietPlanScreen = (props) => {
 
   const handleClick = (id) => {
     console.log("hello singe user diet page", id);
+    props.navigation.navigate("SingleMealScreen", { id: id, user: user });
   };
 
   const { user } = useSelector((state) => state.user);
@@ -29,9 +31,17 @@ const UserDietPlanScreen = (props) => {
   const userMeal = user.meals;
   return (
     <ScrollView>
-      <Heading textAlign="center" fontSize={30} marginTop={10} marginBottom={5}>
+      <Heading textAlign="center" fontSize={30} marginTop={10}>
         {`${user.firstName}'s Meals`}
       </Heading>
+
+      <Divider
+        thickness={2}
+        maxWidth="325"
+        alignSelf="center"
+        marginTop={5}
+        marginBottom={5}
+      />
 
       <Flex justifyContent="flex-start">
         {userMeal ? (
@@ -76,7 +86,9 @@ const UserDietPlanScreen = (props) => {
             }
           })
         ) : (
-          <Text>No Meals Available</Text>
+          <Text alignSelf="center" fontSize={18}>
+            No Meals Available
+          </Text>
         )}
       </Flex>
     </ScrollView>

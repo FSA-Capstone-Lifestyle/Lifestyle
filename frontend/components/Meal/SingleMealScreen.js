@@ -14,7 +14,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMeal } from "../../store/slices/singleMeal.slice";
 import { removeMeal } from "../../store/slices/meals.slice";
-import { setMealToUser } from "../../store/slices/singleUser.slice";
+import {
+  setMealToUser,
+  removeMealFromUser,
+} from "../../store/slices/singleUser.slice";
 
 const SingleMealScreen = (props) => {
   const dispatch = useDispatch();
@@ -22,12 +25,23 @@ const SingleMealScreen = (props) => {
   useEffect(() => {
     dispatch(fetchMeal(props.route.params.id));
   }, []);
+  const user = props.route.params.user;
 
+  console.log("if user has meal on plan", user);
   const handleAdd = async (meal) => {
-    const user = props.route.params.user;
     await dispatch(
       setMealToUser({
-        userId: props.route.params.user.id,
+        userId: user.id,
+        mealId: props.route.params.id,
+      })
+    );
+    props.navigation.goBack();
+  };
+
+  const handleRemove = async (meal) => {
+    await dispatch(
+      removeMealFromUser({
+        userId: user.id,
         mealId: props.route.params.id,
       })
     );
@@ -41,6 +55,87 @@ const SingleMealScreen = (props) => {
   const handleDelete = async (id) => {
     await dispatch(removeMeal(id));
     props.navigation.goBack();
+  };
+
+  const displayButtons = () => {
+    let isTrue;
+    if (user.meals) {
+      isTrue = user.meals.map((meal) => {
+        if (meal.Diet_Plan.userId == user.id) {
+          return true;
+        }
+      });
+    }
+
+    if (isTrue) {
+      return (
+        <Flex marginBottom={4} direction="row" justifyContent="center">
+          <Button
+            backgroundColor="#696969"
+            minWidth="90"
+            shadow={1}
+            minHeight="10"
+            rounded={8}
+            marginX={3}
+            _pressed={{
+              backgroundColor: "#584aa5",
+              transform: [{ scale: 0.92 }],
+            }}
+            onPress={() => {
+              handleRemove(meal);
+            }}
+          >
+            <Text fontWeight="bold" color="#ffffff">
+              Remove from Diet Plan
+            </Text>
+          </Button>
+        </Flex>
+      );
+    } else {
+      return (
+        <Flex marginBottom={4} direction="row" justifyContent="center">
+          <Button
+            backgroundColor="#7B68EE"
+            minWidth="90"
+            shadow={1}
+            minHeight="10"
+            rounded={8}
+            marginX={3}
+            _pressed={{
+              backgroundColor: "#584aa5",
+              transform: [{ scale: 0.92 }],
+            }}
+            onPress={() => {
+              handleAdd(meal);
+            }}
+          >
+            <Text fontWeight="bold" color="#ffffff">
+              Add to Diet Plan
+            </Text>
+          </Button>
+
+          <Button
+            backgroundColor="#e80000"
+            shadow={1}
+            minWidth="90"
+            minHeight="10"
+            marginX={3}
+            rounded={8}
+            _pressed={{
+              backgroundColor: "#9b0000",
+              transform: [{ scale: 0.92 }],
+            }}
+            onPress={() => {
+              handleDelete(meal.id);
+            }}
+          >
+            <Text fontWeight="bold" color="#ffffff">
+              Delete Meal
+            </Text>
+          </Button>
+        </Flex>
+      );
+    }
   };
 
   const { meal } = useSelector((state) => state.meal);
@@ -123,47 +218,7 @@ const SingleMealScreen = (props) => {
         </Text>
       </Container>
 
-      <Flex marginBottom={4} direction="row" justifyContent="center">
-        <Button
-          backgroundColor="#7B68EE"
-          minWidth="90"
-          shadow={1}
-          minHeight="10"
-          rounded={8}
-          marginX={3}
-          _pressed={{
-            backgroundColor: "#584aa5",
-            transform: [{ scale: 0.92 }],
-          }}
-          onPress={() => {
-            handleAdd(meal);
-          }}
-        >
-          <Text fontWeight="bold" color="#ffffff">
-            Add to Diet Plan
-          </Text>
-        </Button>
-
-        <Button
-          backgroundColor="#e80000"
-          shadow={1}
-          minWidth="90"
-          minHeight="10"
-          marginX={3}
-          rounded={8}
-          _pressed={{
-            backgroundColor: "#9b0000",
-            transform: [{ scale: 0.92 }],
-          }}
-          onPress={() => {
-            handleDelete(meal.id);
-          }}
-        >
-          <Text fontWeight="bold" color="#ffffff">
-            Delete Meal
-          </Text>
-        </Button>
-      </Flex>
+      {displayButtons()}
     </ScrollView>
   );
 };

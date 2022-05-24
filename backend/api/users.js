@@ -197,6 +197,30 @@ router.post("/:id/addMeal", async (req, res, next) => {
   }
 });
 
+// Set meal to user
+router.post("/:id/removeMeal", async (req, res, next) => {
+  try {
+    console.log("this is user id", req.params.id);
+    console.log("this is meal id", req.body);
+    const user = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    const meal = await Meal.findOne({
+      where: {
+        id: req.body.mealId,
+      },
+    });
+
+    await meal.removeUser(user);
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.delete("/:id", requireToken, async (req, res, next) => {
   try {
     if (req.user.id == req.params.id || req.user.dataValues.isAdmin) {

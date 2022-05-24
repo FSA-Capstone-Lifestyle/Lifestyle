@@ -2,6 +2,7 @@ import React from "react";
 import ProfileScreen from "../ProfileScreen.js";
 import EditProfileScreen from "../EditProfileScreen";
 import UserDietPlanScreen from "../UserDietPlanScreen";
+import SingleMealScreen from "../Meal/SingleMealScreen.js";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const ProfileStack = createStackNavigator();
@@ -22,6 +23,11 @@ function ProfileStackScreen() {
       <ProfileStack.Screen
         name="UserDietPlanScreen"
         component={UserDietPlanScreen}
+        options={{ title: "" }}
+      />
+      <ProfileStack.Screen
+        name="SingleMealScreen"
+        component={SingleMealScreen}
         options={{ title: "" }}
       />
     </ProfileStack.Navigator>

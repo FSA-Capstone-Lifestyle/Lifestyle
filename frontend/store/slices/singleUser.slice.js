@@ -40,6 +40,23 @@ export const setMealToUser = createAsyncThunk(
   }
 );
 
+export const removeMealFromUser = createAsyncThunk(
+  "user/removeMealFromUser",
+  async (sentInfo, { rejectWithValue }) => {
+    try {
+      const { mealId, userId } = sentInfo;
+      const res = await axios.post(
+        `http://localhost:1337/api/users/${userId}/removeMeal`,
+        { mealId: mealId }
+      );
+      return res.data;
+    } catch (error) {
+      console.log("Can't set meal to user", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const updateUser = createAsyncThunk(
   "user/updateUser",
   async (userData, { rejectWithValue }) => {
@@ -168,6 +185,17 @@ const userSlice = createSlice({
       state.isSuccess = true;
     },
     [setMealToUser.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [removeMealFromUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [removeMealFromUser.fulfilled]: (state, action) => {
+      state.user = action.payload;
+      state.isSuccess = true;
+    },
+    [removeMealFromUser.rejected]: (state) => {
       state.isLoading = false;
       state.isError = true;
     },
