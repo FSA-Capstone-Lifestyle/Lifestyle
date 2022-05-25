@@ -25,7 +25,7 @@ const UserDietPlanScreen = (props) => {
   };
 
   const { user } = useSelector((state) => state.user);
-  console.log(user);
+
   const userMeal = user.meals;
   return (
     <ScrollView>
