@@ -40,6 +40,7 @@ export const updateWorkout = createAsyncThunk(
   "workouts/updateWorkout",
   async (formInfo, { rejectWithValue }) => {
     try {
+      console.log("forminfo", formInfo);
       const { userId, workoutId, progress } = formInfo;
       const res = await axios.put(
         `http://localhost:1337/api/workouts/${workoutId}/${userId}`,
