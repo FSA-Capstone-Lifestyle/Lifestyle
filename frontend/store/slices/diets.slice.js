@@ -12,7 +12,7 @@ export const fetchDiets = createAsyncThunk(
   "diets/fetchDiets",
   async (id = null, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://192.168.1.155:1337/api/diets");
+      const response = await axios.get("http://localhost:1337/api/diets");
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -25,7 +25,7 @@ export const createDiet = createAsyncThunk(
   async (formInfo, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://192.168.1.155:1337/api/diets",
+        "http://localhost:1337/api/diets",
         formInfo
       );
       return response.data;
@@ -41,9 +41,7 @@ export const removeDiet = createAsyncThunk(
   "diets/removeDiet",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.delete(
-        `http://192.168.1.155:1337/api/diets/${id}`
-      );
+      const res = await axios.delete(`http://localhost:1337/api/diets/${id}`);
       return res.data;
     } catch (error) {
       console.log("Can't delete diet", error);
