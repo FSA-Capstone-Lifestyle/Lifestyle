@@ -14,7 +14,7 @@ import { updateUser } from "../store/slices/singleUser.slice";
 import { me } from "../store/slices/auth.slice";
 import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
-
+import { TouchableOpacity as RNGHTouchableOpacity } from 'react-native-gesture-handler';
 const EditProfileScreen = (props) => {
   const user = props.route.params.user;
   const [userData, setuserData] = useState({
@@ -25,8 +25,7 @@ const EditProfileScreen = (props) => {
   });
   const [errortext, setErrortext] = useState([]);
   const dispatch = useDispatch();
-  bs = React.createRef();
-  fall = new Animated.Value(1);
+
 
   renderInner = () => (
     <View style={styles.panel}>
@@ -37,15 +36,16 @@ const EditProfileScreen = (props) => {
       <TouchableOpacity style={styles.panelButton}>
         <Text style={styles.panelButtonTitle}>Take a Photo</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.panelButton}>
+      <RNGHTouchableOpacity  style={styles.panelButton}>
         <Text style={styles.panelButtonTitle}>Choose From Library</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
+      </RNGHTouchableOpacity>
+      {/* onPress not working in the bottomsheet */}
+      <RNGHTouchableOpacity
         style={styles.panelButton}
         onPress={() => this.bs.current.snapTo(1)}
       >
         <Text style={styles.panelButtonTitle}>Cancel</Text>
-      </TouchableOpacity>
+      </RNGHTouchableOpacity>
     </View>
   );
 
@@ -75,6 +75,9 @@ const EditProfileScreen = (props) => {
       <Text key={index}>{error.message}</Text>
     ));
   };
+
+  bs = React.createRef();
+  fall = new Animated.Value(1);
   return (
     <View style={styles.container}>
       <BottomSheet
