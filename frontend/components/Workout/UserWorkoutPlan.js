@@ -9,9 +9,9 @@ import {
 } from "native-base";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser } from "../store/slices/singleUser.slice";
+import { fetchUser } from "../../store/slices/singleUser.slice";
 
-const UserDietPlanScreen = (props) => {
+const UserWorkoutPlanScreen = (props) => {
   const userId = props.route.params.user.id;
   const dispatch = useDispatch();
 
@@ -20,17 +20,18 @@ const UserDietPlanScreen = (props) => {
   }, []);
 
   const handleClick = (id) => {
-    console.log("hello singe user diet page", id);
-    props.navigation.navigate("SingleMealScreen", { id: id, user: user });
+    props.navigation.navigate("Single Workout", { id: id, user: user });
   };
 
   const { user } = useSelector((state) => state.user);
 
-  const userMeal = user.meals;
+  const userWorkout = user.workouts;
+
+  console.log(user);
   return (
     <ScrollView>
       <Heading textAlign="center" fontSize={30} marginTop={10}>
-        {`${user.firstName}'s Meals`}
+        {`${user.firstName}'s Workouts`}
       </Heading>
 
       <Divider
@@ -42,14 +43,14 @@ const UserDietPlanScreen = (props) => {
       />
 
       <Flex justifyContent="flex-start">
-        {userMeal ? (
-          userMeal.map((meal) => {
-            if (userId == meal.Diet_Plan.userId) {
+        {userWorkout ? (
+          userWorkout.map((workout) => {
+            if (userId == workout.Workout_Plan.userId) {
               return (
                 <Pressable
-                  key={meal.id}
+                  key={workout.id}
                   onPress={() => {
-                    handleClick(meal.id);
+                    handleClick(workout.id);
                   }}
                 >
                   {({ isPressed }) => {
@@ -64,17 +65,14 @@ const UserDietPlanScreen = (props) => {
                         <Image
                           size={100}
                           src={
-                            meal.imageUrl
-                              ? meal.imageUrl
-                              : "http://www.fremontgurdwara.org/wp-content/uploads/2020/06/no-image-icon-2.png"
+                            "http://www.fremontgurdwara.org/wp-content/uploads/2020/06/no-image-icon-2.png"
                           }
-                          alt={meal.name}
+                          alt={workout.name}
                         />
                         <Flex>
                           <Text marginX={3} fontSize={16} fontWeight="bold">
-                            {meal.name}
+                            {workout.name}
                           </Text>
-                          <Text marginX={3}>Calories: {meal.calories}</Text>
                         </Flex>
                       </Flex>
                     );
@@ -85,7 +83,7 @@ const UserDietPlanScreen = (props) => {
           })
         ) : (
           <Text alignSelf="center" fontSize={18}>
-            No Meals Available
+            No Workouts Available
           </Text>
         )}
       </Flex>
@@ -93,4 +91,4 @@ const UserDietPlanScreen = (props) => {
   );
 };
 
-export default UserDietPlanScreen;
+export default UserWorkoutPlanScreen;

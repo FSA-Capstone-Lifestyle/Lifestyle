@@ -37,16 +37,17 @@ const SingleWorkoutScreen = (props) => {
   const { workout } = useSelector((state) => state.workout);
   const { user } = useSelector((state) => state.auth);
   const [toggle, setToggle] = useState(false);
+
   const [progress, setProgress] = useState({
     progress: "To do",
   });
+
   const [input, setInput] = useState({
     name: "",
     workoutId: "",
   });
-  const [isComplete, setIsComplete] = useState(false);
 
-  let { workoutId } = input;
+  const [isComplete, setIsComplete] = useState(false);
 
   const workoutComplete = () => {
     if (exercises.every((exercise) => exercise.isCompleted)) {
@@ -107,8 +108,13 @@ const SingleWorkoutScreen = (props) => {
   };
 
   if (isComplete === true) {
-    return <Heading>Completed!</Heading>;
+    return (
+      <View alignSelf="center">
+        <Heading>Completed!</Heading>
+      </View>
+    );
   }
+
   if (isComplete === false) {
     return (
       <Center w="100%">
@@ -255,9 +261,13 @@ const SingleWorkoutScreen = (props) => {
                 ))
               )}
               {isComplete ? (
-                <Box>Completed!</Box>
+                <Box>
+                  <Text textAlign="center">Completed!</Text>
+                </Box>
               ) : (
-                <Box>Complete this workout</Box>
+                <Box>
+                  <Text textAlign="center">Complete this workout</Text>
+                </Box>
               )}
             </VStack>
           </VStack>

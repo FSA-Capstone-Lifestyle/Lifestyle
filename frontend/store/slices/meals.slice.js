@@ -12,7 +12,7 @@ export const fetchMeals = createAsyncThunk(
   "meals/fetchMeals",
   async (id = null, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:1337/api/meals");
+      const response = await axios.get("http://192.168.1.155:1337/api/meals");
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -43,7 +43,7 @@ export const createMeal = createAsyncThunk(
         calories,
       } = formInfo;
 
-      const response = await axios.post("http://localhost:1337/api/meals", {
+      const response = await axios.post("http://192.168.1.155:1337/api/meals", {
         name,
         imageUrl,
         ingredients,
@@ -65,7 +65,7 @@ export const updateMeal = createAsyncThunk(
     try {
       const { id, mealData } = formInfo;
       const res = await axios.put(
-        `http://localhost:1337/api/meals/${id}`,
+        `http://192.168.1.155:1337/api/meals/${id}`,
         mealData
       );
       return res.data;
@@ -80,7 +80,7 @@ export const removeMeal = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await axios.delete(
-        `http://localhost:1337/api/meals/${id}`
+        `http://192.168.1.155:1337/api/meals/${id}`
       );
       return res.data;
     } catch (error) {

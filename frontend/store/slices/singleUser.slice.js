@@ -14,7 +14,7 @@ export const fetchUser = createAsyncThunk(
   "user/fetchUser",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`http://localhost:1337/api/users/${id}`);
+      const res = await axios.get(`http://192.168.1.155:1337/api/users/${id}`);
       return res.data;
     } catch (error) {
       console.log("Can't find this user", error);
@@ -29,7 +29,7 @@ export const setMealToUser = createAsyncThunk(
     try {
       const { mealId, userId } = sentInfo;
       const res = await axios.post(
-        `http://localhost:1337/api/users/${userId}/addMeal`,
+        `http://192.168.1.155:1337/api/users/${userId}/addMeal`,
         { mealId: mealId }
       );
       return res.data;
@@ -46,7 +46,7 @@ export const removeMealFromUser = createAsyncThunk(
     try {
       const { mealId, userId } = sentInfo;
       const res = await axios.post(
-        `http://localhost:1337/api/users/${userId}/removeMeal`,
+        `http://192.168.1.155:1337/api/users/${userId}/removeMeal`,
         { mealId: mealId }
       );
       return res.data;
@@ -63,7 +63,7 @@ export const updateUser = createAsyncThunk(
     try {
       console.log("edit", userData);
       const res = await axios.put(
-        `http://localhost:1337/api/users/${userData.id}`,
+        `http://192.168.1.155:1337/api/users/${userData.id}`,
         userData
       );
       return res.data;
@@ -79,7 +79,7 @@ export const fetchUserWorkouts = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `http://localhost:1337/api/users/${id}/workouts`
+        `http://192.168.1.155:1337/api/users/${id}/workouts`
         // `http://localhost:1337/api/users/${id}/workouts`
       );
       return res.data;
@@ -101,7 +101,7 @@ export const setComplete = createAsyncThunk(
       const completions = data.completions;
 
       await axios.put(
-        `http://localhost:1337/api/users/${userId}/${workoutId}/completed`,
+        `http://192.168.1.155:1337/api/users/${userId}/${workoutId}/completed`,
         {
           completions: completions,
           currentDay: currentDay,
@@ -109,7 +109,7 @@ export const setComplete = createAsyncThunk(
       );
 
       const res = await axios.get(
-        `http://localhost:1337/api/users/${userId}/workouts`
+        `http://192.168.1.155:1337/api/users/${userId}/workouts`
       );
       return res.data;
     } catch (error) {
@@ -131,14 +131,14 @@ export const setSkip = createAsyncThunk(
       console.log("this is the data", data);
 
       await axios.put(
-        `http://localhost:1337/api/users/${userId}/${workoutId}/skipped`,
+        `http://192.168.1.155:1337/api/users/${userId}/${workoutId}/skipped`,
         {
           skips: skips,
           currentDay: currentDay,
         }
       );
       const res = await axios.get(
-        `http://localhost:1337/api/users/${userId}/workouts`
+        `http://192.168.1.155:1337/api/users/${userId}/workouts`
       );
       return res.data;
     } catch (error) {

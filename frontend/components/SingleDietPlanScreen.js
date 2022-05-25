@@ -1,15 +1,5 @@
-import {
-  Box,
-  Heading,
-  Flex,
-  Pressable,
-  Text,
-  ScrollView,
-  Link,
-  Button,
-} from "native-base";
+import { Text, Button } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Dimensions } from "react-native";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDiet } from "../store/slices/singleDiet.slice";

@@ -3,10 +3,7 @@ import { Icon } from "native-base";
 import { Image } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import MainScreen from "../MainScreen.js";
-import SettingsScreen from "../SettingsScreen.js";
 import CustomDrawer from "../CustomDrawer.js";
-import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import ProfileStackScreen from "./ProfileStack.js";
 import WorkoutStackScreen from "./WorkoutStack";
@@ -98,22 +95,6 @@ const AppStack = () => {
           },
         }}
       />
-      {/* <Drawer.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{
-          headerShown: false,
-          drawerIcon: ({ color }) => {
-            return (
-              <Icon
-                color={color}
-                size="5"
-                as={<Ionicons name="settings" size={5} />}
-              />
-            );
-          },
-        }}
-      /> */}
     </Drawer.Navigator>
   );
 };

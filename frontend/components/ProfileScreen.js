@@ -2,11 +2,10 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Image,
   ImageBackground,
 } from "react-native";
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Avatar,
@@ -15,14 +14,11 @@ import {
   Text,
   TouchableRipple,
 } from "react-native-paper";
-import { FontAwesome } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { me } from "../store/slices/auth.slice";
 import { fetchUser } from "../store/slices/singleUser.slice";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
-const ProfileScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
 
+const ProfileScreen = ({ navigation }) => {
   const userInfo = useSelector((state) => state.auth);
 
   const user = userInfo.user.payload ? userInfo.user.payload : userInfo.user;
@@ -81,7 +77,11 @@ const ProfileScreen = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.menuWrapper}>
-        <TouchableRipple onPress={() => {}}>
+        <TouchableRipple
+          onPress={() => {
+            navigation.navigate("User Workout", { user: user });
+          }}
+        >
           <View style={styles.menuItem}>
             <ImageBackground
               style={{ width: 350, height: 200 }}

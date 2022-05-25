@@ -13,7 +13,7 @@ export const fetchMeal = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:1337/api/meals/${id}`
+        `http://192.168.1.155:1337/api/meals/${id}`
       );
       return response.data;
     } catch (err) {

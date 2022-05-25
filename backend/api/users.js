@@ -35,7 +35,7 @@ router.get("/:id", async (req, res, next) => {
       where: {
         id: req.params.id,
       },
-      include: [{ model: Meal }],
+      include: [{ model: Meal }, { model: Workout }],
     });
     res.json(singleUser);
   } catch (error) {

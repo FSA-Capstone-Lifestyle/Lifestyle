@@ -4,6 +4,8 @@ import EditProfileScreen from "../EditProfileScreen";
 import UserDietPlanScreen from "../UserDietPlanScreen";
 import SingleMealScreen from "../Meal/SingleMealScreen.js";
 import { createStackNavigator } from "@react-navigation/stack";
+import UserWorkoutPlanScreen from "../Workout/UserWorkoutPlan.js";
+import SingleWorkoutScreen from "../Workout/SingleWorkoutScreen.js";
 
 const ProfileStack = createStackNavigator();
 
@@ -18,6 +20,16 @@ function ProfileStackScreen() {
       <ProfileStack.Screen
         name="EditProfileScreen"
         component={EditProfileScreen}
+        options={{ title: "" }}
+      />
+      <ProfileStack.Screen
+        name="User Workout"
+        component={UserWorkoutPlanScreen}
+        options={{ title: "" }}
+      />
+      <ProfileStack.Screen
+        name="SingleWorkoutScreen"
+        component={SingleWorkoutScreen}
         options={{ title: "" }}
       />
       <ProfileStack.Screen
