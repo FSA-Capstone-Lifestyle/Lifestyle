@@ -15,6 +15,7 @@ export const fetchWorkouts = createAsyncThunk(
       const response = await axios.get(
         "http://192.168.1.155:1337/api/workouts"
       );
+      // const response = await axios.get("http://localhost:1337/api/workouts");
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -42,10 +43,15 @@ export const updateWorkout = createAsyncThunk(
   "workouts/updateWorkout",
   async (formInfo, { rejectWithValue }) => {
     try {
-      const { progress, workoutId } = formInfo;
+      console.log("forminfo", formInfo);
+      const { userId, workoutId, progress } = formInfo;
       const res = await axios.put(
         `http://192.168.1.155:1337/api/workouts/${workoutId}`,
         { progress }
+        // `http://localhost:1337/api/workouts/${workoutId}/${userId}`,
+        // {
+        //   progress: progress,
+        // }
       );
       return res.data;
     } catch (error) {
@@ -102,13 +108,8 @@ const workoutsSlice = createSlice({
       state.isLoading = true;
     },
     [updateWorkout.fulfilled]: (state, action) => {
-      const index = state.workouts.findIndex(
-        (workout) => workout.id === action.payload.id
-      );
-      state.workouts[index] = {
-        ...state.workouts[index],
-        ...action.payload,
-      };
+      state.isLoading = false;
+      state.isSuccess = true;
     },
     [updateWorkout.rejected]: (state) => {
       state.isLoading = false;

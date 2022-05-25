@@ -65,9 +65,7 @@ const UserWorkoutPlanScreen = (props) => {
                         <Image
                           size={100}
                           src={
-                            workout.imageUrl
-                              ? workout.imageUrl
-                              : "http://www.fremontgurdwara.org/wp-content/uploads/2020/06/no-image-icon-2.png"
+                            "http://www.fremontgurdwara.org/wp-content/uploads/2020/06/no-image-icon-2.png"
                           }
                           alt={workout.name}
                         />

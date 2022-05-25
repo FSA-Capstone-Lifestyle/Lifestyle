@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Workout, Exercise, User } = require("../db");
+const { Workout, Exercise, User, Workout_Plan } = require("../db");
 
 // GET /api/workouts
 router.get("/", async (req, res, next) => {
@@ -41,16 +41,20 @@ router.post("/user/:userId", async (req, res, next) => {
   }
 });
 
-// PUT /api/workouts/:id
-router.put("/:id", async (req, res, next) => {
+// PUT /api/workouts/:workoutId/:userId
+router.put("/:workoutId/:userId", async (req, res, next) => {
   try {
-    const workout = await Workout.findOne({
-      where: {
-        id: req.params.id,
+    await Workout_Plan.update(
+      {
+        progress: req.body.progress,
       },
-      include: Exercise,
-    });
-    res.send(await workout.update(req.body));
+      {
+        where: {
+          workoutId: req.params.workoutId,
+          userId: req.params.userId,
+        },
+      }
+    );
   } catch (err) {
     next(err);
   }

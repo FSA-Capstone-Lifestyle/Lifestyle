@@ -13,7 +13,7 @@ export const fetchExercises = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:1337/api/exercises/${id}`
+        `http://192.168.1.155:1337/api/exercises/${id}`
       );
       return response.data;
     } catch (err) {
@@ -27,7 +27,7 @@ export const createExercise = createAsyncThunk(
   async (formInfo, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "http://localhost:1337/api/exercises",
+        "http://192.168.1.155:1337/api/exercises",
         formInfo
       );
       return res.data;
@@ -43,7 +43,7 @@ export const updateReps = createAsyncThunk(
     try {
       const { id, reps } = formInfo;
       const res = await axios.put(
-        `http://localhost:1337/api/exercises/single/${id}`,
+        `http://192.168.1.155:1337/api/exercises/single/${id}`,
         { reps }
       );
       return res.data;
@@ -60,7 +60,7 @@ export const updateSets = createAsyncThunk(
     try {
       const { id, sets } = formInfo;
       const res = await axios.put(
-        `http://localhost:1337/api/exercises/single/${id}`,
+        `http://192.168.1.155:1337/api/exercises/single/${id}`,
         { sets }
       );
       return res.data;
@@ -77,7 +77,7 @@ export const updateStatus = createAsyncThunk(
     try {
       const { id, isCompleted } = formInfo;
       const res = await axios.put(
-        `http://localhost:1337/api/exercises/single/${id}`,
+        `http://192.168.1.155:1337/api/exercises/single/${id}`,
         { isCompleted }
       );
       return res.data;
@@ -93,7 +93,7 @@ export const removeExercise = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await axios.delete(
-        `http://localhost:1337/api/exercises/${id}`
+        `http://192.168.1.155:1337/api/exercises/${id}`
       );
       return res.data;
     } catch (error) {

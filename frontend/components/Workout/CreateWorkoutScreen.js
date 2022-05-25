@@ -23,13 +23,18 @@ const CreateWorkoutScreen = (props) => {
         Create New Workout
       </Text>
 
-      <FormControl marginY={5} isRequired>
-        <Box paddingBottom={4}>
+      <FormControl alignSelf="center" isRequired>
+        <Box alignSelf="center" paddingBottom={4}>
           <Text>Name:</Text>
-          <Input value={name} onChangeText={handleText} />
+          <Input width={40} value={name} onChangeText={handleText} />
         </Box>
 
-        <Button type="submit" onPress={handlePress({ id, name })}>
+        <Button
+          alignSelf="center"
+          width={40}
+          type="submit"
+          onPress={handlePress({ id, name })}
+        >
           Submit
         </Button>
       </FormControl>
