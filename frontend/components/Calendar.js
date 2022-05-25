@@ -98,7 +98,9 @@ const Calendar = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1, justifyContent: "flex-start", alignItems: "center" }}>
+      <View>
+      <View style={styles.container} >
       {week.map((weekDay) => {
         // let date = new Date();
         const textStyles = [styles.label];
@@ -123,8 +125,10 @@ const Calendar = ({ navigation }) => {
           touchable.push(styles.selectedTouchable);
         }
         return (
-          <View key={weekDay.formatted}>
+          <View  key={weekDay.formatted} style={{flexDirection: "row"}}>
+          <View style={{marginLeft:2}} >
             <View style={styles.weekDayItem}>
+
               <Text style={styles.weekDayText}>{weekDay.formatted}</Text>
               <Pressable
                 style={touchable}
@@ -135,45 +139,76 @@ const Calendar = ({ navigation }) => {
                 <Text style={textStyles}>{weekDay.day}</Text>
               </Pressable>
             </View>
-            {sameDay
+
+
+          </View>
+          {sameDay
               ? weekDay.workouts.map((workout) => {
                   let compPercentage =
                     workout.Workout_Plan.completions /
                     (workout.Workout_Plan.completions +
                       workout.Workout_Plan.skips);
                   return (
-                    <TouchableOpacity
-                      style={styles.box}
-                      key={workout.id}
-                      onPress={() => {
-                        handleClick(workout.id);
-                      }}
-                    >
-                      <Text style={textStyles}>{workout.name}:</Text>
-                      <Text style={textStyles}>
-                        Completion Percentage: {compPercentage * 100}%
-                      </Text>
-                    </TouchableOpacity>
+                    <View key={workout.id} style={{marginLeft:70}}>
+
+                      <TouchableOpacity
+                        style={{borderWidth:0,borderRadius:20,paddingHorizontal:12,paddingVertical:4,borderColor:'gray',backgroundColor:'#44bd60',marginTop:10}}
+
+                        onPress={() => {
+                          handleClick(workout.id);
+                        }}
+                      >
+                        <View style={{justifyContent:'center'}}>
+
+                        <Text style={{color:'#fff',textAlign:'center'}}>{workout.name}:</Text>
+                          <Text style={{color:'#fff',textAlign:'center'}}>
+                            Completion Percentage: {compPercentage * 100}%
+                          </Text>
+                      </View>
+
+                      </TouchableOpacity>
+
+
+
+                      </View>
+
                   );
                 })
               : null}
+
           </View>
+
         );
       })}
+      </View>
+      </View>
+      <TouchableOpacity style={{padding: 13,
+    borderRadius: 10,
+    backgroundColor: "#20B2AA",
+    alignItems: "center",
+    marginTop:25}}
+    onPress={() => navigation.navigate('Workouts', { screen: 'Create Workout' })}>
+        <Text style={{fontSize: 17,
+    fontWeight: "bold",
+    color: "white",}}>Create a New Workout</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    justifyContent: "center",
-    paddingVertical: 10,
+    marginTop:20,
+    marginHorizontal:10,
+    flexDirection: "column",
   },
   box: {
     flexDirection: "column",
     justifyContent: "flex-end",
-    paddingVertical: 20,
+    marginRight: 20,
+    borderRadius:1,
+    borderColor:'blue'
+
   },
   boxAdd: {
     flexDirection: "column",
@@ -190,7 +225,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   selectedLabel: {
-    color: "green",
+    color: "white",
   },
   touchable: {
     borderRadius: 20,
@@ -199,7 +234,7 @@ const styles = StyleSheet.create({
     width: 35,
   },
   selectedTouchable: {
-    backgroundColor: "yellow",
+    backgroundColor: "#44bd60",
   },
   weekDayItem: {
     justifyContent: "center",
