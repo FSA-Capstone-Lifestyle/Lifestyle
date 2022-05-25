@@ -13,6 +13,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMeals } from "../../store/slices/meals.slice";
 
 const AllMealScreen = ({ navigation }) => {
+  // Grab user info
+  const userInfo = useSelector((state) => state.auth);
+  const user = userInfo.user.payload ? userInfo.user.payload : userInfo.user;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,7 +24,7 @@ const AllMealScreen = ({ navigation }) => {
   }, []);
 
   const handleClick = (id) => {
-    navigation.navigate("SingleMealScreen", { id: id });
+    navigation.navigate("SingleMealScreen", { id: id, user: user });
   };
 
   const handleCreate = () => {
@@ -28,8 +32,6 @@ const AllMealScreen = ({ navigation }) => {
   };
 
   const { meals } = useSelector((state) => state.meals);
-  const  mealss  = useSelector((state) => state.meals);
-  console.log(mealss)
   return (
     <SafeAreaView>
       <ScrollView>

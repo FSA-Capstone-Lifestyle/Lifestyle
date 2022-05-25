@@ -35,14 +35,23 @@ const userWithWorkouts = {
 
 const workouts = [
   {
-    name: "Legs",
+    name: "Abdominal",
   },
   {
     name: "Back",
   },
+  {
+    name: "Chest",
+  },
+  {
+    name: "Arms",
+  },
+  {
+    name: "Legs",
+  },
 ];
 
-const usersWorkout = { name: "johns leg day" };
+const usersWorkout = { name: "John's Workout" };
 
 const exercises = [
   { name: "squats", sets: 4, reps: 10, workoutId: 1 },
@@ -214,9 +223,9 @@ const seed = async () => {
       })
     );
 
-    const miguelDiaz = await User.create(userWithDiets);
-    const miguelsDiet = await Diet.create(usersDiet);
-    await miguelsDiet.setUser(miguelDiaz);
+    // const miguelDiaz = await User.create(userWithDiets);
+    // const miguelsDiet = await Diet.create(usersDiet);
+    // await miguelsDiet.setUser(miguelDiaz);
 
     await Promise.all(
       diets.map((diet) => {

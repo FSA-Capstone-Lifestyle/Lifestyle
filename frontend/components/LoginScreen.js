@@ -13,10 +13,10 @@ import {
   View,
   Icon,
 } from "native-base";
-
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { authenticate, me } from "../store/slices/auth.slice";
+
 function LoginScreen({ navigation }) {
   const [show, setShow] = React.useState(false);
   const [userData, setUserData] = useState({
@@ -28,14 +28,11 @@ function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
   useEffect(() => {
     setErrortext("");
-
   }, []);
-  console.log(errortext);
   const handleSubmit = async () => {
     const data = await dispatch(
       authenticate({ email: userData.email, password: userData.password })
     );
-    console.log("sadfasdfsadf", data);
     if (data.payload === "Invalid username or password") {
       displayErrors("! Invalid username or password");
     } else {

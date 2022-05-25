@@ -12,9 +12,7 @@ export const fetchWorkouts = createAsyncThunk(
   "workouts/fetchWorkouts",
   async (id = null, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        "http://localhost:1337/api/workouts"
-      );
+      const response = await axios.get("http://localhost:1337/api/workouts");
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -25,7 +23,6 @@ export const fetchWorkouts = createAsyncThunk(
 export const createWorkout = createAsyncThunk(
   "workouts/createWorkout",
   async (formInfo, { rejectWithValue }) => {
-
     try {
       const { id, name } = formInfo;
       const res = await axios.post(
@@ -43,11 +40,12 @@ export const updateWorkout = createAsyncThunk(
   "workouts/updateWorkout",
   async (formInfo, { rejectWithValue }) => {
     try {
-      const { formData, workout } = formInfo;
-      const { id } = workout;
+      const { userId, workoutId, progress } = formInfo;
       const res = await axios.put(
-        `http://localhost:1337/api/workouts/${id}`,
-        formData
+        `http://localhost:1337/api/workouts/${workoutId}/${userId}`,
+        {
+          progress: progress,
+        }
       );
       return res.data;
     } catch (error) {
@@ -104,13 +102,8 @@ const workoutsSlice = createSlice({
       state.isLoading = true;
     },
     [updateWorkout.fulfilled]: (state, action) => {
-      const index = state.workouts.findIndex(
-        (workout) => workout.id === action.payload.id
-      );
-      state.workouts[index] = {
-        ...state.workouts[index],
-        ...action.payload,
-      };
+      state.isLoading = false;
+      state.isSuccess = true;
     },
     [updateWorkout.rejected]: (state) => {
       state.isLoading = false;
