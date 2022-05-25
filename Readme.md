@@ -18,5 +18,5 @@ Lifestyle is a mobile app that tracks your workout and diet plans. We promote a 
 - [Sequlize](https://sequelize.org/)
 
 ## Screenshots
-
+![welcome page](https://github.com/FSA-Capstone-Lifestyle/Lifestyle/blob/main/lifestyle.jpg)
 
