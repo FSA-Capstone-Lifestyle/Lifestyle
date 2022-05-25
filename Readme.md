@@ -1,6 +1,6 @@
 # Lifestyle
 
-A fitness tracker app
+Lifestyle is a mobile app that tracks your workout and diet plans. We promote a healthy lifetyle by making it easy to keep track of your progress.
 
 ## Tech Stack
 
@@ -16,3 +16,7 @@ A fitness tracker app
 - [Express](https://expressjs.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Sequlize](https://sequelize.org/)
+
+#### Screenshots
+
+
