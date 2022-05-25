@@ -17,6 +17,6 @@ Lifestyle is a mobile app that tracks your workout and diet plans. We promote a 
 - [PostgreSQL](https://www.postgresql.org/)
 - [Sequlize](https://sequelize.org/)
 
-#### Screenshots
+## Screenshots
 
 
