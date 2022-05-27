@@ -71,22 +71,22 @@ export const updateSets = createAsyncThunk(
   }
 );
 
-export const updateStatus = createAsyncThunk(
-  "exercises/updateExercise",
-  async (formInfo, { rejectWithValue }) => {
-    try {
-      const { id, isCompleted } = formInfo;
-      const res = await axios.put(
-        `http://192.168.1.155:1337/api/exercises/single/${id}`,
-        { isCompleted }
-      );
-      return res.data;
-    } catch (error) {
-      console.log("Can't update exercise", error);
-      return rejectWithValue(error);
-    }
-  }
-);
+// export const updateStatus = createAsyncThunk(
+//   "exercises/updateExercise",
+//   async (formInfo, { rejectWithValue }) => {
+//     try {
+//       const { id, isCompleted } = formInfo;
+//       const res = await axios.put(
+//         `http://192.168.1.155:1337/api/exercises/single/${id}`,
+//         { isCompleted }
+//       );
+//       return res.data;
+//     } catch (error) {
+//       console.log("Can't update exercise", error);
+//       return rejectWithValue(error);
+//     }
+//   }
+// );
 
 export const removeExercise = createAsyncThunk(
   "exercises/removeExercise",
@@ -106,7 +106,16 @@ export const removeExercise = createAsyncThunk(
 const exercisesSlice = createSlice({
   name: "exercises",
   initialState,
-  reducers: {},
+  reducers: {
+    updateStatus: (state, action) => {
+      const itemExists = state.exercises.find(
+        (status) => status.id === action.payload.id
+      );
+      if (itemExists) {
+        itemExists.isCompleted = action.payload.isCompleted;
+      }
+    },
+  },
   // only handle action types
   extraReducers: {
     [fetchExercises.pending]: (state) => {
@@ -159,23 +168,23 @@ const exercisesSlice = createSlice({
         ...action.payload,
       };
     },
-    [updateStatus.rejected]: (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    },
-    [updateStatus.fulfilled]: (state, action) => {
-      const index = state.exercises.findIndex(
-        (exercise) => exercise.id === action.payload.id
-      );
-      state.exercises[index] = {
-        ...state.exercises[index],
-        ...action.payload,
-      };
-    },
-    [updateStatus.rejected]: (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    },
+    // [updateStatus.rejected]: (state) => {
+    //   state.isLoading = false;
+    //   state.isError = true;
+    // },
+    // [updateStatus.fulfilled]: (state, action) => {
+    //   const index = state.exercises.findIndex(
+    //     (exercise) => exercise.id === action.payload.id
+    //   );
+    //   state.exercises[index] = {
+    //     ...state.exercises[index],
+    //     ...action.payload,
+    //   };
+    // },
+    // [updateStatus.rejected]: (state) => {
+    //   state.isLoading = false;
+    //   state.isError = true;
+    // },
     [removeExercise.fulfilled]: (state, action) => {
       state.exercises = state.exercises.filter(
         (exercise) => exercise.id !== action.payload.id
@@ -184,4 +193,5 @@ const exercisesSlice = createSlice({
   },
 });
 
+export const { updateStatus } = exercisesSlice.actions;
 export const exercisesReducer = exercisesSlice.reducer;

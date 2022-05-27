@@ -20,7 +20,6 @@ const UserDietPlanScreen = (props) => {
   }, []);
 
   const handleClick = (id) => {
-    console.log("hello singe user diet page", id);
     props.navigation.navigate("SingleMealScreen", { id: id, user: user });
   };
 

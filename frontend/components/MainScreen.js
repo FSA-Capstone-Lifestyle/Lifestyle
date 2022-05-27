@@ -4,22 +4,18 @@ import React from "react";
 
 const MainScreen = ({ navigation }) => {
   return (
-    <View
-      style={{ flex: 1, justifyContent: "flex-start", alignItems: "center" }}
-    >
+    <View flex={1} justifyContent="flex-start" alignItems="center">
       <Text
-        style={{
-          fontSize: 27,
-          height: 35,
-          fontWeight: "bold",
-          color: "#44bd60",
-          marginTop: 10,
-        }}
+        fontSize={27}
+        height={35}
+        fontWeight="bold"
+        color="green.600"
+        marginTop={10}
       >
         Welcome to LifeStyle
       </Text>
-      <Text style={{ fontSize: 15, color: "gray", height: 30, marginTop: 10 }}>
-        Keep Track of Your Work !
+      <Text fontSize={15} color="gray.800" height={30} marginTop={10}>
+        Let's workout and stay healthy. It's a Lifestyle!
       </Text>
       <View>
         <Calendar navigation={navigation} />

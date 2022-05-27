@@ -23,15 +23,6 @@ export const fetchMeals = createAsyncThunk(
 export const createMeal = createAsyncThunk(
   "meals/createMeal",
   async (formInfo, { rejectWithValue }) => {
-    const {
-      calories,
-      imageUrl,
-      ingredients,
-      instructions,
-      name,
-      prepTime,
-      mealType,
-    } = formInfo;
     try {
       const {
         name,
