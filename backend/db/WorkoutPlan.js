@@ -9,7 +9,7 @@ const Workout_Plan = db.define("Workout_Plan", {
   },
   completions: {
     type: Sequelize.INTEGER,
-    defaultValue: 0,
+    defaultValue: 1,
   },
   skips: {
     type: Sequelize.INTEGER,
