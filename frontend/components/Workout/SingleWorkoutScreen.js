@@ -31,14 +31,14 @@ import {
   updateStatus,
 } from "../../store/slices/exercises.slice";
 import { updateWorkout } from "../../store/slices/workouts.slice";
+import { setComplete } from "../../store/slices/singleUser.slice";
 
 const SingleWorkoutScreen = (props) => {
   const dispatch = useDispatch();
   const { exercises } = useSelector((state) => state.exercises);
   const { workout } = useSelector((state) => state.workout);
-  const { user } = useSelector((state) => state.auth);
   const [toggle, setToggle] = useState(false);
-
+  const userInfo = useSelector((state) => state.auth);
   const [progress, setProgress] = useState({
     progress: "To do",
   });
@@ -49,6 +49,8 @@ const SingleWorkoutScreen = (props) => {
   });
 
   const [isComplete, setIsComplete] = useState(false);
+
+  const user = userInfo.user.payload ? userInfo.user.payload : userInfo.user;
 
   const workoutComplete = () => {
     if (exercises.every((exercise) => exercise.isCompleted)) {
@@ -80,10 +82,11 @@ const SingleWorkoutScreen = (props) => {
   useEffect(() => {
     if (isComplete === true) {
       dispatch(
-        updateWorkout({
+        setComplete({
           userId: user.id,
           workoutId: workout.id,
-          progress: progress.progress,
+          currentDay: new Date(),
+          completions: 2,
         })
       );
     }

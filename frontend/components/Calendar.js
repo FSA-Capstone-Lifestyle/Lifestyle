@@ -22,6 +22,7 @@ const Calendar = ({ navigation }) => {
   const id = userInfo.user.payload
     ? userInfo.user.payload.id
     : userInfo.user.id;
+
   const calendarDates = () => {
     let dates = [];
     for (let i = 0; i < 7; i++) {
@@ -170,7 +171,8 @@ const Calendar = ({ navigation }) => {
                               <Text
                                 style={{ color: "#fff", textAlign: "center" }}
                               >
-                                Completion Percentage: {compPercentage * 100}%
+                                Completion Percentage:{" "}
+                                {Math.floor(compPercentage * 100)}%
                               </Text>
                             </View>
                           </TouchableOpacity>

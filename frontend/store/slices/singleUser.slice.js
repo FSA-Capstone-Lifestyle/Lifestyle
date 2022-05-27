@@ -61,7 +61,6 @@ export const updateUser = createAsyncThunk(
   "user/updateUser",
   async (userData, { rejectWithValue }) => {
     try {
-      console.log("edit", userData);
       const res = await axios.put(
         `http://192.168.1.155:1337/api/users/${userData.id}`,
         userData
@@ -95,21 +94,13 @@ export const setComplete = createAsyncThunk(
   "user/setComplete",
   async (data, { rejectWithValue }) => {
     try {
-      const userId = data.userId;
-      const workoutId = data.workoutId;
-      const currentDay = data.currentDay;
-      const completions = data.completions;
-
-      await axios.put(
+      const { userId, workoutId, currentDay, completions } = data;
+      const res = await axios.put(
         `http://192.168.1.155:1337/api/users/${userId}/${workoutId}/completed`,
         {
           completions: completions,
           currentDay: currentDay,
         }
-      );
-
-      const res = await axios.get(
-        `http://192.168.1.155:1337/api/users/${userId}/workouts`
       );
       return res.data;
     } catch (error) {
@@ -128,7 +119,6 @@ export const setSkip = createAsyncThunk(
       const { workoutId } = data;
       const { currentDay } = data;
       const { skips } = data;
-      console.log("this is the data", data);
 
       await axios.put(
         `http://192.168.1.155:1337/api/users/${userId}/${workoutId}/skipped`,
