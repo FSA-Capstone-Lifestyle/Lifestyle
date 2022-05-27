@@ -14,7 +14,7 @@ export const fetchUser = createAsyncThunk(
   "user/fetchUser",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`http://192.168.1.155:1337/api/users/${id}`);
+      const res = await axios.get(`http://localhost:1337/api/users/${id}`);
       return res.data;
     } catch (error) {
       console.log("Can't find this user", error);
@@ -79,10 +79,31 @@ export const fetchUserWorkouts = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `http://192.168.1.155:1337/api/users/${id}/workouts`
-        // `http://localhost:1337/api/users/${id}/workouts`
+        // `http://192.168.1.155:1337/api/users/${id}/workouts`
+        `http://localhost:1337/api/users/${id}/workouts`
       );
       return res.data;
+    } catch (error) {
+      console.log("Cant find this workout", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+// Get User Workout
+export const fetchSingleUserWorkout = createAsyncThunk(
+  "user/fetchSingleUserWorkout",
+  async (data, { rejectWithValue }) => {
+    try {
+      let { userId, workoutId } = data;
+      const res = await axios.get(
+        // `http://192.168.1.155:1337/api/users/${id}/workouts`
+        `http://localhost:1337/api/users/${userId}/workouts`
+      );
+      let userWorkout = res.data[0].workouts.filter(
+        (workout) => workout.Workout_Plan.workoutId === workoutId
+      );
+      return userWorkout;
     } catch (error) {
       console.log("Cant find this workout", error);
       return rejectWithValue(error);
@@ -207,6 +228,17 @@ const userSlice = createSlice({
       state.isSuccess = true;
     },
     [fetchUserWorkouts.rejected]: (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [fetchSingleUserWorkout.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchSingleUserWorkout.fulfilled]: (state, action) => {
+      state.user = action.payload;
+      state.isSuccess = true;
+    },
+    [fetchSingleUserWorkout.rejected]: (state) => {
       state.isLoading = false;
       state.isError = true;
     },

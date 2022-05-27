@@ -1,6 +1,6 @@
 import React from "react";
 import Calendar from "../Calendar.js";
-import SingleWorkoutScreen from "../Workout/SingleWorkoutScreen";
+import SingleUserWorkoutScreen from "../Workout/SingleUserWorkoutScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 import MainScreen from "../MainScreen.js";
 
@@ -16,7 +16,7 @@ function CalendarStackScreen() {
       />
       <CalendarStack.Screen
         name="Single Workout"
-        component={SingleWorkoutScreen}
+        component={SingleUserWorkoutScreen}
         options={{ title: "" }}
       />
     </CalendarStack.Navigator>
